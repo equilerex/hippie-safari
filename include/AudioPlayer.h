@@ -4,7 +4,7 @@
 #include "Config.h"
 #include "ContentTypes.h"
 
-class AudioPlayer {
+class IAudioPlayer {
 public:
   virtual ~AudioPlayer() = default;
 

@@ -31,7 +31,7 @@ public:
   virtual ContentManager* getContentManager() = 0;
   virtual ConfigLoader* getConfigLoader() = 0;
   virtual PlaybackController* getPlaybackController() = 0;
-  virtual AudioPlayer* getAudioPlayer() = 0;
+  virtual IAudioPlayer* getAudioPlayer() = 0;
   virtual ButtonManager* getButtonManager() = 0;
   virtual PlaybackLogger* getPlaybackLogger() = 0;
 

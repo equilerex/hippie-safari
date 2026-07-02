@@ -151,7 +151,7 @@ PlaybackController* SystemManagerImpl::getPlaybackController() {
   return playbackCtrl.get();
 }
 
-AudioPlayer* SystemManagerImpl::getAudioPlayer() {
+IAudioPlayer* SystemManagerImpl::getAudioPlayer() {
   return audioPlayer.get();
 }
 

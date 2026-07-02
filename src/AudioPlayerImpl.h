@@ -6,7 +6,7 @@
 
 using namespace audio_tools;
 
-class AudioPlayerImpl : public AudioPlayer {
+class AudioPlayerImpl : public IAudioPlayer {
 private:
   audio_tools::AudioBoardStream* audioKit = nullptr;
   File currentFile;

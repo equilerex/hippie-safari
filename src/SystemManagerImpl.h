@@ -33,7 +33,7 @@ public:
   ContentManager* getContentManager() override;
   ConfigLoader* getConfigLoader() override;
   PlaybackController* getPlaybackController() override;
-  AudioPlayer* getAudioPlayer() override;
+  IAudioPlayer* getAudioPlayer() override;
   ButtonManager* getButtonManager() override;
   PlaybackLogger* getPlaybackLogger() override;
   const char* getLastError() const override;
