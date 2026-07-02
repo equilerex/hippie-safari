@@ -1,6 +1,6 @@
 # Hippy Safari — Implementation Progress
 
-**Last updated:** 2026-07-02
+**Last updated:** 2026-07-03
 
 ---
 
@@ -31,7 +31,7 @@
 ## Pending Implementation Tasks
 
 ### Core Infrastructure (Tasks 1–3)
-- [ ] **Task 1: Core Data Structures** — Types.h, Config.h (TypeContent, ModeContent, PlaybackState, ConfigData, LogEntry)
+- [x] **Task 1: Core Data Structures** — Config.h (GPIO pins, paths, time windows, constants); ContentTypes.h (discovery, mode selection, events); module interfaces (ContentManager, ConfigLoader, PlaybackController, AudioPlayer, ButtonManager, PlaybackLogger, SystemManager)
 - [ ] **Task 2: ContentManager** — SD discovery, recursive scan, variant caching
 - [ ] **Task 3: ConfigLoader** — Mode-level JSON parsing, ArduinoJson integration
 
