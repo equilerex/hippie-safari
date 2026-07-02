@@ -6,7 +6,7 @@
 
 class IAudioPlayer {
 public:
-  virtual ~AudioPlayer() = default;
+  virtual ~IAudioPlayer() = default;
 
   // Initialize I2S, codec, and amplifier
   virtual bool initialize() = 0;

@@ -67,7 +67,9 @@ bool ContentManagerImpl::discoverContent() {
 
   // Sort alphabetically
   std::sort(typeFolders.begin(), typeFolders.end(),
-    [](const auto& a, const auto& b) { return a.first < b.first; });
+    [](const std::pair<std::string, File>& a, const std::pair<std::string, File>& b) {
+      return a.first < b.first;
+    });
 
   // Scan each type folder (limit to NUM_BUTTON_TYPES)
   for (size_t i = 0; i < typeFolders.size() && i < NUM_BUTTON_TYPES; i++) {

@@ -43,7 +43,7 @@ bool ConfigLoaderImpl::loadTypeConfig(uint8_t typeIndex, const char* folderPath,
   configFile.close();
 
   // Parse JSON
-  JsonDocument doc;
+  DynamicJsonDocument doc(8192);
   DeserializationError error = deserializeJson(doc, jsonBuffer);
   delete[] jsonBuffer;
 
@@ -61,7 +61,8 @@ bool ConfigLoaderImpl::loadTypeConfig(uint8_t typeIndex, const char* folderPath,
   JsonArray modesArray = doc["modes"].as<JsonArray>();
   for (JsonObject modeObj : modesArray) {
     ModeConfig mode;
-    mode.modeName = modeObj["name"].as<const char*>("unnamed");
+    const char* modeName = modeObj["name"] | "unnamed";
+    mode.modeName = modeName;
 
     // Parse time windows
     if (modeObj.containsKey("timeWindows")) {
@@ -90,19 +91,19 @@ bool ConfigLoaderImpl::loadTypeConfig(uint8_t typeIndex, const char* folderPath,
             else if (strcmp(dayStr, "sunday") == 0) window.dayMask |= (1 << 6);
           }
           // Parse startTime and endTime (HH:MM format)
-          const char* startStr = windowObj["startTime"].as<const char*>("00:00");
-          const char* endStr = windowObj["endTime"].as<const char*>("00:00");
+          const char* startStr = windowObj["startTime"] | "00:00";
+          const char* endStr = windowObj["endTime"] | "00:00";
           sscanf(startStr, "%hhu:%hhu", &window.startHour, &window.startMin);
           sscanf(endStr, "%hhu:%hhu", &window.endHour, &window.endMin);
         } else {
           window.type = TimeWindowType::DAILY_RECURRING;
-          const char* startStr = windowObj["startTime"].as<const char*>("00:00");
-          const char* endStr = windowObj["endTime"].as<const char*>("00:00");
+          const char* startStr = windowObj["startTime"] | "00:00";
+          const char* endStr = windowObj["endTime"] | "00:00";
           sscanf(startStr, "%hhu:%hhu", &window.startHour, &window.startMin);
           sscanf(endStr, "%hhu:%hhu", &window.endHour, &window.endMin);
         }
 
-        window.priority = windowObj["priority"].as<int>(0);
+        window.priority = windowObj["priority"] | 0;
         mode.timeWindows.push_back(window);
       }
     }
