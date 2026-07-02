@@ -3,7 +3,10 @@
 
 
 #include <cstdint>
+#include <SD.h>
 #include "AudioTools.h"
+#include "AudioTools/AudioLibs/AudioBoardStream.h"
+#include "AudioTools/AudioCodecs/CodecWAV.h"
 #include "../include/AudioPlayer.h"
 
 using namespace audio_tools;
