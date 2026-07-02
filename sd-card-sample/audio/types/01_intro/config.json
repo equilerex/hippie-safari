@@ -1,0 +1,14 @@
+{
+  "modes": [
+    {
+      "name": "default",
+      "timeWindows": [
+        {
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "priority": 0
+        }
+      ]
+    }
+  ]
+}

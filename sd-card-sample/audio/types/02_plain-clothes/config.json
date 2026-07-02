@@ -1,0 +1,25 @@
+{
+  "modes": [
+    {
+      "name": "weekday_morning",
+      "timeWindows": [
+        {
+          "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "startTime": "07:00",
+          "endTime": "12:00",
+          "priority": 10
+        }
+      ]
+    },
+    {
+      "name": "default",
+      "timeWindows": [
+        {
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "priority": 0
+        }
+      ]
+    }
+  ]
+}
