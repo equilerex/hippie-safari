@@ -100,17 +100,38 @@ bool ContentManagerImpl::discoverContent() {
 bool ContentManagerImpl::scanTypeFolder(uint8_t typeIndex, File& typeFolder, TypeContent& outContent) {
   outContent.typeIndex = typeIndex;
 
-  // Try to load mode config
-  char configPath[256];
-  snprintf(configPath, sizeof(configPath), "%s/%s/%s", PATH_TYPES_ROOT, outContent.folderName.c_str(), CONFIG_FILENAME);
-  loadModeConfig(typeIndex, typeFolder.path(), outContent);
+  // Scan for mode folders within this type
+  typeFolder.rewindDirectory();
+  File modeFolder = typeFolder.openNextFile();
+  bool foundVariants = false;
 
-  // Collect variant files
-  if (!collectVariants(typeFolder, outContent.variants)) {
-    return false;  // No variants found
+  while (modeFolder) {
+    if (modeFolder.isDirectory()) {
+      const char* modeName = modeFolder.name();
+
+      // Always-active "default" mode (no config needed)
+      if (strcmp(modeName, "default") == 0) {
+        if (collectVariants(modeFolder, outContent.variants)) {
+          foundVariants = true;
+        }
+      } else {
+        // Optional mode - try to load its config
+        ModeConfig modeConfig;
+        if (loadModeFolderConfig(typeIndex, outContent.folderName.c_str(), modeName, modeConfig)) {
+          outContent.modes.push_back(modeConfig);
+
+          // Also collect variants from this mode folder
+          std::vector<std::string> modeVariants;
+          if (collectVariants(modeFolder, modeVariants)) {
+            foundVariants = true;
+          }
+        }
+      }
+    }
+    modeFolder = typeFolder.openNextFile();
   }
 
-  return outContent.variants.size() > 0;
+  return foundVariants;
 }
 
 bool ContentManagerImpl::collectVariants(File& folder, std::vector<std::string>& outVariants) {
@@ -139,9 +160,26 @@ bool ContentManagerImpl::collectVariants(File& folder, std::vector<std::string>&
   return outVariants.size() > 0;
 }
 
+bool ContentManagerImpl::loadModeFolderConfig(uint8_t typeIndex, const char* typeFolderName, const char* modeFolderName, ModeConfig& outConfig) {
+  // Build path: /audio/types/{typeFolderName}/{modeFolderName}/config.json
+  char configPath[256];
+  snprintf(configPath, sizeof(configPath), "%s/%s/%s/%s", PATH_TYPES_ROOT, typeFolderName, modeFolderName, CONFIG_FILENAME);
+
+  File configFile = SD.open(configPath);
+  if (!configFile) {
+    // No config in this mode folder - skip it
+    return false;
+  }
+
+  // TODO: Parse JSON and populate outConfig
+  // For now, just set mode name and close file
+  outConfig.modeName = modeFolderName;
+  configFile.close();
+  return true;
+}
+
 bool ContentManagerImpl::loadModeConfig(uint8_t typeIndex, const char* folderPath, TypeContent& outContent) {
-  // TODO: Implemented in Task 3 (ConfigLoader)
-  // For now, set up default mode only (always active, no time window)
+  // Deprecated: configs now per-mode-folder, not per-type
   outContent.defaultMode.modeName = "default";
   return true;
 }

@@ -1,0 +1,11 @@
+{
+  "name": "weekends",
+  "timeWindows": [
+    {
+      "days": ["saturday", "sunday"],
+      "startTime": "10:00",
+      "endTime": "22:00",
+      "priority": 5
+    }
+  ]
+}

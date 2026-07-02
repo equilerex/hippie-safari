@@ -12,13 +12,16 @@ private:
   ContentState state;
   char lastError[256] = {0};
 
-  // Helper: scan single type folder
+  // Helper: scan single type folder for mode folders
   bool scanTypeFolder(uint8_t typeIndex, File& typeFolder, TypeContent& outContent);
 
   // Helper: collect .wav files from folder
   bool collectVariants(File& folder, std::vector<std::string>& outVariants);
 
-  // Helper: load mode config for type if exists
+  // Helper: load config from a mode folder
+  bool loadModeFolderConfig(uint8_t typeIndex, const char* typeFolderName, const char* modeFolderName, ModeConfig& outConfig);
+
+  // Helper: deprecated - kept for reference only
   bool loadModeConfig(uint8_t typeIndex, const char* folderPath, TypeContent& outContent);
 
 public:
