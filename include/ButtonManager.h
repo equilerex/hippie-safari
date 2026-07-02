@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUTTONMANAGER_H
+#define BUTTONMANAGER_H
+
 
 #include <cstdint>
 #include <functional>
@@ -32,4 +34,5 @@ public:
   virtual const char* getLastError() const = 0;
 };
 
-#endif // BUTTON_MANAGER_H
+
+#endif // BUTTONMANAGER_H

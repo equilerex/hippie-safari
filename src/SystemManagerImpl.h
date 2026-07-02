@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SYSTEMMANAGERIMPL_H
+#define SYSTEMMANAGERIMPL_H
+
 
 #include <memory>
 #include "../include/SystemManager.h"
@@ -44,4 +46,5 @@ private:
   void processRecovery();
 };
 
-#endif // SYSTEM_MANAGER_IMPL_H
+
+#endif // SYSTEMMANAGERIMPL_H

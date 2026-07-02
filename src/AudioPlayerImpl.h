@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AUDIOPLAYERIMPL_H
+#define AUDIOPLAYERIMPL_H
+
 
 #include <cstdint>
 #include "AudioTools.h"
@@ -34,4 +36,5 @@ public:
   const char* getLastError() const override;
 };
 
-#endif // AUDIO_PLAYER_IMPL_H
+
+#endif // AUDIOPLAYERIMPL_H

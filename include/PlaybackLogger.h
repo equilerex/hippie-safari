@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYBACKLOGGER_H
+#define PLAYBACKLOGGER_H
+
 
 #include <cstdint>
 #include <ctime>
@@ -44,4 +46,5 @@ public:
   virtual const char* getLastError() const = 0;
 };
 
-#endif // PLAYBACK_LOGGER_H
+
+#endif // PLAYBACKLOGGER_H

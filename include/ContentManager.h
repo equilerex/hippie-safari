@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONTENTMANAGER_H
+#define CONTENTMANAGER_H
+
 
 #include <vector>
 #include <map>
@@ -43,4 +45,5 @@ public:
   virtual const char* getLastError() const = 0;
 };
 
-#endif // CONTENT_MANAGER_H
+
+#endif // CONTENTMANAGER_H

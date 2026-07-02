@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SYSTEMMANAGER_H
+#define SYSTEMMANAGER_H
+
 
 #include <memory>
 #include "Config.h"
@@ -39,4 +41,5 @@ public:
   virtual const char* getLastError() const = 0;
 };
 
-#endif // SYSTEM_MANAGER_H
+
+#endif // SYSTEMMANAGER_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONTENTTYPES_H
+#define CONTENTTYPES_H
+
 
 #include <vector>
 #include <string>
@@ -91,4 +93,5 @@ struct AudioStreamState {
   std::string currentFilePath;
 };
 
-#endif // CONTENT_TYPES_H
+
+#endif // CONTENTTYPES_H

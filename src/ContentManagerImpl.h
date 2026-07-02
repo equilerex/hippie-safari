@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONTENTMANAGERIMPL_H
+#define CONTENTMANAGERIMPL_H
+
 
 #include <vector>
 #include <SD.h>
@@ -36,4 +38,5 @@ public:
   const char* getLastError() const override;
 };
 
-#endif // CONTENT_MANAGER_IMPL_H
+
+#endif // CONTENTMANAGERIMPL_H

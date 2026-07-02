@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUTTONMANAGERIMPL_H
+#define BUTTONMANAGERIMPL_H
+
 
 #include <cstdint>
 #include <cstring>
@@ -40,4 +42,5 @@ public:
   const char* getLastError() const override;
 };
 
-#endif // BUTTON_MANAGER_IMPL_H
+
+#endif // BUTTONMANAGERIMPL_H

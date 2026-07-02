@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYBACKLOGGERIMPL_H
+#define PLAYBACKLOGGERIMPL_H
+
 
 #include <vector>
 #include <queue>
@@ -52,4 +54,5 @@ public:
   const char* getLastError() const override;
 };
 
-#endif // PLAYBACK_LOGGER_IMPL_H
+
+#endif // PLAYBACKLOGGERIMPL_H

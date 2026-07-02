@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONFIGLOADERIMPL_H
+#define CONFIGLOADERIMPL_H
+
 
 #include <ctime>
 #include "../include/ConfigLoader.h"
@@ -29,4 +31,5 @@ public:
   const char* getLastError() const override;
 };
 
-#endif // CONFIG_LOADER_IMPL_H
+
+#endif // CONFIGLOADERIMPL_H

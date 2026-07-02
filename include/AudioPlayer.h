@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AUDIOPLAYER_H
+#define AUDIOPLAYER_H
+
 
 #include <cstdint>
 #include "Config.h"
@@ -40,4 +42,5 @@ public:
   virtual const char* getLastError() const = 0;
 };
 
-#endif // AUDIO_PLAYER_H
+
+#endif // AUDIOPLAYER_H

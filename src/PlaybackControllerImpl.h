@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYBACKCONTROLLERIMPL_H
+#define PLAYBACKCONTROLLERIMPL_H
+
 
 #include <vector>
 #include <cstdint>
@@ -43,4 +45,5 @@ private:
   uint8_t getNextVariantIndex(uint8_t typeIndex);
 };
 
-#endif // PLAYBACK_CONTROLLER_IMPL_H
+
+#endif // PLAYBACKCONTROLLERIMPL_H

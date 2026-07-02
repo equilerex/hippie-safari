@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONFIG_H
+#define CONFIG_H
+
 
 #include <cstdint>
 #include <ctime>
@@ -170,5 +172,6 @@ enum class SystemState : uint8_t {
   PLAYING = 3,
   RECOVERING = 4      // Periodic retry in progress
 };
+
 
 #endif // CONFIG_H

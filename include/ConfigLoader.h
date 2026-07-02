@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CONFIGLOADER_H
+#define CONFIGLOADER_H
+
 
 #include <ctime>
 #include "Config.h"
@@ -24,4 +26,5 @@ public:
   virtual const char* getLastError() const = 0;
 };
 
-#endif // CONFIG_LOADER_H
+
+#endif // CONFIGLOADER_H

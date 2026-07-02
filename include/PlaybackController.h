@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PLAYBACKCONTROLLER_H
+#define PLAYBACKCONTROLLER_H
+
 
 #include <cstdint>
 #include <ctime>
@@ -40,4 +42,5 @@ public:
   virtual bool isInStandby() const = 0;
 };
 
-#endif // PLAYBACK_CONTROLLER_H
+
+#endif // PLAYBACKCONTROLLER_H

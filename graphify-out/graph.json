@@ -1,0 +1,548 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "docs_technical_project_descriptio_contentmechanism",
+        "label": "Content Management System",
+        "nodes": [
+          "docs_technical_project_descriptio_species",
+          "docs_technical_project_descriptio_intro",
+          "docs_technical_project_descriptio_eastereggs",
+          "docs_technical_project_descriptio_contentvariants"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "docs/technical-project-descriptio.md"
+      },
+      {
+        "id": "docs_technical_project_descriptio_audiostack",
+        "label": "Audio Processing Stack",
+        "nodes": [
+          "docs_physical_project_description_esp32a1s",
+          "docs_technical_project_descriptio_audiopath",
+          "docs_physical_project_description_speakerconfiguration",
+          "docs_physical_project_description_audiocodec"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "docs/physical-project-description.md and docs/technical-project-descriptio.md"
+      },
+      {
+        "id": "docs_technical_project_descriptio_timekeeping",
+        "label": "Time Management System",
+        "nodes": [
+          "docs_technical_project_descriptio_rtc",
+          "docs_technical_project_descriptio_networktime",
+          "docs_technical_project_descriptio_utctimestamp"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "docs/technical-project-descriptio.md"
+      },
+      {
+        "id": "docs_physical_project_description_physicalintegration",
+        "label": "Physical Installation",
+        "nodes": [
+          "docs_physical_project_description_observationstation",
+          "docs_physical_project_description_buttonled",
+          "docs_physical_project_description_speakerconfiguration",
+          "docs_physical_project_description_weatherprotection"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "docs/physical-project-description.md"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "Hippy Safari",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Section 1: Project Overview",
+      "rationale": "Interactive festival installation where content drives the entire system; adding, removing or changing content should require as little firmware work as possible",
+      "id": "docs_technical_project_descriptio_hippysafari",
+      "community": 2,
+      "norm_label": "hippy safari"
+    },
+    {
+      "label": "Observation Station",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Physical Installation section",
+      "rationale": "Integrated into coffee shop or similar structure, designed for unattended operation throughout event with electronics protected from weather and visitor access",
+      "id": "docs_physical_project_description_observationstation",
+      "community": 0,
+      "norm_label": "observation station"
+    },
+    {
+      "label": "Species",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Visitor Interaction section",
+      "rationale": "Primary narration buttons representing the main content category",
+      "id": "docs_technical_project_descriptio_species",
+      "community": 2,
+      "norm_label": "species"
+    },
+    {
+      "label": "Intro",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Visitor Interaction section",
+      "rationale": "Dedicated start button treated internally as normal species to avoid unnecessary special-case firmware",
+      "id": "docs_technical_project_descriptio_intro",
+      "community": 2,
+      "norm_label": "intro"
+    },
+    {
+      "label": "Easter Eggs",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Visitor Interaction section",
+      "rationale": "Hidden or alternative interactions outside normal species selection, triggered by special conditions like simultaneous button presses",
+      "id": "docs_technical_project_descriptio_eastereggs",
+      "community": 2,
+      "norm_label": "easter eggs"
+    },
+    {
+      "label": "Content Variants",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Content Variants section",
+      "rationale": "Multiple variants per content item (default, friday, night, halloween, christmas) selected via configuration rather than hardcoded names",
+      "id": "docs_technical_project_descriptio_contentvariants",
+      "community": 2,
+      "norm_label": "content variants"
+    },
+    {
+      "label": "ESP32-A1S Audio Kit",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Hardware section",
+      "rationale": "Planned controller subject to prototype verification; exact board revision and audio codec (AC101/ES8388) must be verified before development",
+      "id": "docs_physical_project_description_esp32a1s",
+      "community": 0,
+      "norm_label": "esp32-a1s audio kit"
+    },
+    {
+      "label": "Audio Signal Path",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Audio section",
+      "rationale": "Preferred signal path: ESP32-A1S \u2192 3.5mm audio output \u2192 Bluetooth transmitter \u2192 Bluetooth speaker(s); local wired speaker retained as backup; additional amplification only if testing demonstrates need",
+      "id": "docs_technical_project_descriptio_audiopath",
+      "community": 0,
+      "norm_label": "audio signal path"
+    },
+    {
+      "label": "RTC (Real Time Clock)",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Time section",
+      "rationale": "Preferred source of persistent local time; network time is optional and should improve accuracy rather than enable core functionality",
+      "id": "docs_technical_project_descriptio_rtc",
+      "community": 3,
+      "norm_label": "rtc (real time clock)"
+    },
+    {
+      "label": "Network Time",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Time section",
+      "rationale": "Optional enhancement to improve RTC accuracy; should not be required for core functionality",
+      "id": "docs_technical_project_descriptio_networktime",
+      "community": 3,
+      "norm_label": "network time"
+    },
+    {
+      "label": "Content Discovery",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Content Structure section",
+      "rationale": "Firmware discovers folders automatically rather than containing hardcoded list of species or modes; enables adding new content without firmware changes",
+      "id": "docs_technical_project_descriptio_contentdiscovery",
+      "community": 1,
+      "norm_label": "content discovery"
+    },
+    {
+      "label": "Graceful Fallback Behavior",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Graceful Behaviour section",
+      "rationale": "Installation should continue operating when optional features unavailable: missing variant uses default, missing mode continues normal playback, network time unavailable uses RTC, index outside range restarts from first recording",
+      "id": "docs_technical_project_descriptio_gracefulfallback",
+      "community": 1,
+      "norm_label": "graceful fallback behavior"
+    },
+    {
+      "label": "Design Principles",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Design Principles section",
+      "rationale": "Minimize special-case firmware; keep firmware independent of individual species/modes; new content addable without firmware changes; prefer graceful fallbacks over visible failures; prioritize stability over features",
+      "id": "docs_technical_project_descriptio_designprinciples",
+      "community": 1,
+      "norm_label": "design principles"
+    },
+    {
+      "label": "Engineering Philosophy",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Engineering Philosophy section",
+      "rationale": "One-off art installation preferring simple robust solutions over reusable architectures or premature optimization; prototype first, optimize only when testing demonstrates need; use established libraries",
+      "id": "docs_technical_project_descriptio_engineeringphilosophy",
+      "community": 1,
+      "norm_label": "engineering philosophy"
+    },
+    {
+      "label": "Button LEDs",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Hardware section",
+      "rationale": "Hardware-driven and not controlled by firmware; final button count and physical layout are construction decisions",
+      "id": "docs_physical_project_description_buttonled",
+      "community": 0,
+      "norm_label": "button leds"
+    },
+    {
+      "label": "Speaker Configuration",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Hardware section",
+      "rationale": "Speaker placement and quantity should be determined through real-world testing",
+      "id": "docs_physical_project_description_speakerconfiguration",
+      "community": 0,
+      "norm_label": "speaker configuration"
+    },
+    {
+      "label": "SD-Card Content Storage",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Storage section",
+      "rationale": "Prototype SD-card content loading before building higher-level logic; keep content structure flexible so new species and variants can be added without firmware changes",
+      "id": "docs_physical_project_description_sdcardcontent",
+      "community": 1,
+      "norm_label": "sd-card content storage"
+    },
+    {
+      "label": "Configuration Approach",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Configuration section",
+      "rationale": "Species-level configuration recommended over variant-level for simplicity, single source of truth, easier validation, and shared settings across variants",
+      "id": "docs_technical_project_descriptio_configurationapproach",
+      "community": 2,
+      "norm_label": "configuration approach"
+    },
+    {
+      "label": "Audio Codec",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Engineering Notes - Hardware section",
+      "rationale": "Must verify which codec (AC101/ES8388 or equivalent) the ESP32-A1S board contains before selecting software support",
+      "id": "docs_physical_project_description_audiocodec",
+      "community": 0,
+      "norm_label": "audio codec"
+    },
+    {
+      "label": "UTC Timestamp Format",
+      "file_type": "concept",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Time section",
+      "rationale": "Store timestamps using standard UTC formats for consistency and reliability",
+      "id": "docs_technical_project_descriptio_utctimestamp",
+      "community": 3,
+      "norm_label": "utc timestamp format"
+    },
+    {
+      "label": "Deployment Checklist",
+      "file_type": "rationale",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Deployment section",
+      "rationale": "Maintain separate from requirements; keep backup copies of firmware, configuration and audio content; record operational lessons learned after event for future iterations",
+      "id": "docs_physical_project_description_deploymentchecklist",
+      "community": 4,
+      "norm_label": "deployment checklist"
+    },
+    {
+      "label": "Content Flexibility",
+      "file_type": "rationale",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Content section",
+      "rationale": "Species, easter eggs, names, button labels and narration are content decisions; new content should be organized so it can be added without firmware changes",
+      "id": "docs_physical_project_description_contentflexibility",
+      "community": 1,
+      "norm_label": "content flexibility"
+    },
+    {
+      "label": "Content Directory Structure",
+      "file_type": "rationale",
+      "source_file": "docs/technical-project-descriptio.md",
+      "source_location": "Content Structure section",
+      "rationale": "Hierarchical folder structure with audio/species/ and audio/easter-egg/ containing individual content folders with mode subfolders; _intro sorts first alphabetically",
+      "id": "docs_technical_project_descriptio_contentstructure",
+      "community": 1,
+      "norm_label": "content directory structure"
+    },
+    {
+      "label": "Weather Protection",
+      "file_type": "concept",
+      "source_file": "docs/physical-project-description.md",
+      "source_location": "Physical Installation section",
+      "rationale": "Electronics protected from weather and visitor access; maintenance access limited to operators",
+      "id": "docs_physical_project_description_weatherprotection",
+      "community": 0,
+      "norm_label": "weather protection"
+    }
+  ],
+  "links": [
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md and docs/physical-project-description.md",
+      "source": "docs_technical_project_descriptio_hippysafari",
+      "target": "docs_physical_project_description_observationstation"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_hippysafari",
+      "target": "docs_technical_project_descriptio_eastereggs"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_hippysafari",
+      "target": "docs_technical_project_descriptio_engineeringphilosophy"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_hippysafari",
+      "target": "docs_technical_project_descriptio_intro"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_hippysafari",
+      "target": "docs_technical_project_descriptio_species"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md",
+      "source": "docs_physical_project_description_buttonled",
+      "target": "docs_physical_project_description_observationstation"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md",
+      "source": "docs_physical_project_description_observationstation",
+      "target": "docs_physical_project_description_esp32a1s"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md",
+      "source": "docs_physical_project_description_weatherprotection",
+      "target": "docs_physical_project_description_observationstation"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_species",
+      "target": "docs_technical_project_descriptio_contentvariants"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_intro",
+      "target": "docs_technical_project_descriptio_contentvariants"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_eastereggs",
+      "target": "docs_technical_project_descriptio_contentvariants"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_configurationapproach",
+      "target": "docs_technical_project_descriptio_contentvariants"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md",
+      "source": "docs_physical_project_description_audiocodec",
+      "target": "docs_physical_project_description_esp32a1s"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md and docs/technical-project-descriptio.md",
+      "source": "docs_physical_project_description_esp32a1s",
+      "target": "docs_technical_project_descriptio_audiopath"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "docs/technical-project-descriptio.md and docs/physical-project-description.md",
+      "source": "docs_technical_project_descriptio_audiopath",
+      "target": "docs_physical_project_description_speakerconfiguration"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_rtc",
+      "target": "docs_technical_project_descriptio_networktime"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_utctimestamp",
+      "target": "docs_technical_project_descriptio_rtc"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docs/physical-project-description.md and docs/technical-project-descriptio.md",
+      "source": "docs_physical_project_description_contentflexibility",
+      "target": "docs_technical_project_descriptio_contentdiscovery"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docs/physical-project-description.md and docs/technical-project-descriptio.md",
+      "source": "docs_physical_project_description_sdcardcontent",
+      "target": "docs_technical_project_descriptio_contentdiscovery"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_contentdiscovery",
+      "target": "docs_technical_project_descriptio_designprinciples"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_contentstructure",
+      "target": "docs_technical_project_descriptio_contentdiscovery"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_designprinciples",
+      "target": "docs_technical_project_descriptio_gracefulfallback"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md",
+      "source": "docs_technical_project_descriptio_engineeringphilosophy",
+      "target": "docs_technical_project_descriptio_designprinciples"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "docs_technical_project_descriptio_contentmechanism",
+      "label": "Content Management System",
+      "nodes": [
+        "docs_technical_project_descriptio_species",
+        "docs_technical_project_descriptio_intro",
+        "docs_technical_project_descriptio_eastereggs",
+        "docs_technical_project_descriptio_contentvariants"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md"
+    },
+    {
+      "id": "docs_technical_project_descriptio_audiostack",
+      "label": "Audio Processing Stack",
+      "nodes": [
+        "docs_physical_project_description_esp32a1s",
+        "docs_technical_project_descriptio_audiopath",
+        "docs_physical_project_description_speakerconfiguration",
+        "docs_physical_project_description_audiocodec"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md and docs/technical-project-descriptio.md"
+    },
+    {
+      "id": "docs_technical_project_descriptio_timekeeping",
+      "label": "Time Management System",
+      "nodes": [
+        "docs_technical_project_descriptio_rtc",
+        "docs_technical_project_descriptio_networktime",
+        "docs_technical_project_descriptio_utctimestamp"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/technical-project-descriptio.md"
+    },
+    {
+      "id": "docs_physical_project_description_physicalintegration",
+      "label": "Physical Installation",
+      "nodes": [
+        "docs_physical_project_description_observationstation",
+        "docs_physical_project_description_buttonled",
+        "docs_physical_project_description_speakerconfiguration",
+        "docs_physical_project_description_weatherprotection"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/physical-project-description.md"
+    }
+  ]
+}

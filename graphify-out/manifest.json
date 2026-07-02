@@ -1,0 +1,87 @@
+{
+  "D:\\ESP32 projects\\hippie safari\\.claude\\settings.json": {
+    "mtime": 1783023341.3205562,
+    "ast_hash": "7bf81dca0376bde3a32244b82bc7cbc0",
+    "semantic_hash": "7bf81dca0376bde3a32244b82bc7cbc0"
+  },
+  "D:\\ESP32 projects\\hippie safari\\src\\main.cpp": {
+    "mtime": 1783023602.8287835,
+    "ast_hash": "ce18bff0820fc264e8923e42d5545883",
+    "semantic_hash": "ce18bff0820fc264e8923e42d5545883"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\CLAUDE.md": {
+    "mtime": 1783023341.3105593,
+    "ast_hash": "817fe671013b35ae0bc9301dfe449a87",
+    "semantic_hash": "817fe671013b35ae0bc9301dfe449a87"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\SKILL.md": {
+    "mtime": 1783023341.308565,
+    "ast_hash": "fa829f5e9eb1b4168afa1fd208949fe3",
+    "semantic_hash": "fa829f5e9eb1b4168afa1fd208949fe3"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\add-watch.md": {
+    "mtime": 1781739927.752615,
+    "ast_hash": "0df0589623217ca38a12bdcabfb42f4c",
+    "semantic_hash": "0df0589623217ca38a12bdcabfb42f4c"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\exports.md": {
+    "mtime": 1781739927.7546155,
+    "ast_hash": "c04ddf8f1f5ef5e262ebec491a523c74",
+    "semantic_hash": "c04ddf8f1f5ef5e262ebec491a523c74"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\extraction-spec.md": {
+    "mtime": 1781739927.756614,
+    "ast_hash": "24808b03abfeaf5f6435bb69c0125b2c",
+    "semantic_hash": "24808b03abfeaf5f6435bb69c0125b2c"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\github-and-merge.md": {
+    "mtime": 1781739927.7586155,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": "cde13df085e4c492aeb7ba298a996d0d"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\hooks.md": {
+    "mtime": 1781739927.760615,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": "3f545db6ce646650bb9de588f5512a27"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\query.md": {
+    "mtime": 1781739927.7626147,
+    "ast_hash": "7d1ff295a0e0aa1cc9a14e52c3a19202",
+    "semantic_hash": "7d1ff295a0e0aa1cc9a14e52c3a19202"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\transcribe.md": {
+    "mtime": 1781739927.7636154,
+    "ast_hash": "70f6aa30d6211f3a2c7e9fc45479f50c",
+    "semantic_hash": "70f6aa30d6211f3a2c7e9fc45479f50c"
+  },
+  "D:\\ESP32 projects\\hippie safari\\.claude\\skills\\graphify\\references\\update.md": {
+    "mtime": 1781739927.7646146,
+    "ast_hash": "0662e1a77b21d670132cd5855954bfff",
+    "semantic_hash": "0662e1a77b21d670132cd5855954bfff"
+  },
+  "D:\\ESP32 projects\\hippie safari\\CLAUDE.md": {
+    "mtime": 1783023341.319558,
+    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
+    "semantic_hash": "8a6643a420fdad6bfb583523bc6cef16"
+  },
+  "D:\\ESP32 projects\\hippie safari\\docs\\a1s-board.md": {
+    "mtime": 1783020992.7591076,
+    "ast_hash": "43e7c8769a7c1b26e7dab9e569b21c7a",
+    "semantic_hash": "43e7c8769a7c1b26e7dab9e569b21c7a"
+  },
+  "D:\\ESP32 projects\\hippie safari\\docs\\physical-project-description.md": {
+    "mtime": 1783019797.551435,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "D:\\ESP32 projects\\hippie safari\\docs\\project-plan.md": {
+    "mtime": 1783019797.551435,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "D:\\ESP32 projects\\hippie safari\\docs\\technical-project-descriptio.md": {
+    "mtime": 1783020675.7876024,
+    "ast_hash": "3882471bd9bc11df98a5ae9bd49d2f4e",
+    "semantic_hash": "3882471bd9bc11df98a5ae9bd49d2f4e"
+  }
+}
