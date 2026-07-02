@@ -24,15 +24,25 @@ Optional hidden interactions, such as simultaneous button presses, may trigger a
 
 ### Content modes
 
-Each content item may provide multiple variants.
+Each content item may provide multiple variants and modes.
 
 Examples include:
 
-* `default`
-* `friday`
-* `night` 
+* `default` — always available fallback
+* `friday` — 07:00 Friday → 06:00 Saturday
+* `night` — 22:00 → 06:00 (time-range based)
 
-Variant selection is configuration-driven rather than hardcoded to specific names.
+Mode selection is time-range based, defined in mode-level `config.json`:
+
+```json
+{
+  "startTime": "07:00",
+  "endTime": "06:00",
+  "priority": 1
+}
+```
+
+Multiple modes may be active simultaneously; highest-priority matching mode is selected. Variant selection is configuration-driven rather than hardcoded to specific names.
 
 ### Graceful Behaviour
 
@@ -113,29 +123,48 @@ Every content folder may contain any number of optional mode folders.
 
 The firmware discovers folders automatically rather than containing a hardcoded list of types or modes.
 
-###  Variant-Level Configuration
+###  Mode-Level Configuration
 
 ```text
 types/
     plain-clothes/
         default/
-           //none (default)
+           // no config.json (always active)
         friday/
             config.json
+               {
+                 "startTime": "07:00",
+                 "endTime": "06:00",
+                 "priority": 1
+               }
+            hippie.wav
+            raver.wav
         night/
             config.json
+               {
+                 "startTime": "22:00",
+                 "endTime": "06:00",
+                 "priority": 2
+               }
+            hippie.wav
+            raver.wav
 ```
+
+**Mode Config Fields:**
+- `startTime`, `endTime` — HH:MM format (24-hour); ranges wrap midnight
+- `priority` — integer; higher wins when multiple modes overlap
+- Other fields — generic key-value for effects, volume, or effects settings
 
 **Pros**
 
-* Fully self-contained variants.
+* Fully self-contained time ranges.
 * Easy to copy, remove or distribute individual modes.
-* Greater flexibility.
+* Greater flexibility for time-based variant selection.
 
 **Cons**
 
 * More duplicated configuration.
-* Requires precedence rules when both common and variant settings exist.
+* Requires precedence rules (priority field) when ranges overlap.
 
 ### Playback Behavior
 

@@ -49,99 +49,183 @@ Build content-driven interactive installation that discovers audio types/modes/v
 1. **Content Discovery:** Recursive folder scan at boot; no hardcoded lists
 2. **Per-Type Index Persistence:** Each type maintains its own variant index (not per-mode)
 3. **Mode-Level Config:** `config.json` optional at `/audio/types/{type}/{mode}/`
-4. **Graceful Fallbacks:** Every failure point has recovery (missing file → next variant → silence; index out of bounds → reset to 0)
-5. **Logging:** All user interactions + system events logged to SPIFFS for post-event analysis
-6. **Library-First:** Use ArduinoJson, FreeRTOS, LittleFS; no custom JSON parsing, file systems, or debouncing
+4. **Mode Prioritization:** Time-based modes (e.g., "friday", "night") ranked by specificity; RTC provides hour/day; precedence chain: requested → fallback list → default
+5. **Graceful Fallbacks:** Every failure point has recovery (missing file → next variant → silence; index out of bounds → reset to 0)
+6. **Playback Resilience:** Mid-play mode switches handled gracefully; AudioPlayer::stop() → next press uses new mode
+7. **Logging to SD:** All interactions + system events logged to SD card (rotating daily); avoids SPIFFS capacity/perf limits
+8. **Button Pattern Detection:** Hold detection (>2s), chord detection (simultaneous presses), rapid-fire (click counting); candidates for Easter eggs
+9. **Library-First:** Use ArduinoTools (AudioBoardStream), ArduinoJson, FreeRTOS; no custom codec, JSON, or debouncing
+
+## Mode Selection & Time-Based Ranges
+
+**Problem:** Modes are time-range based (e.g., "friday" = 07:00 Fri → 06:00 Sat). Multiple modes may be active; need deterministic selection.
+
+**Solution:**
+
+1. Each mode defines time range in config (startTime, endTime in HH:MM format)
+   - Example: `"friday": { "startTime": "07:00", "endTime": "06:00", "priority": 1 }`
+   - Ranges wrap midnight (endTime < startTime = next-day end)
+2. RTC provides current time (hour, minute, day of week)
+3. ContentManager::getModeForTime(type) checks all modes in type's folder:
+   - Match current time against all modes' ranges
+   - Return highest-priority matching mode
+   - Fallback to "default" if none match
+4. Precedence: priority field (user-configured) > specificity (day-specific > generic)
+5. Log mode selection: `logSystemEvent("mode_selected", {type, mode, reason})`
+
+**Playback during mode switch:**
+- RTC tick updates current time
+- PlaybackController polls getModeForTime() at regular intervals (e.g., every 10s)
+- If mode changes mid-play, call AudioPlayer::stop()
+- Current track stops cleanly, no glitch
+- Next button press uses new mode
+- Logged as `logModeSwitch(oldMode, newMode, "time-range-transition")`
+
+---
 
 ## Core Components
 
 ### 1. ContentManager
-**Responsibility:** Discover and cache type/mode/variant structure from SD card.
+**Responsibility:** Discover and cache type/mode/variant structure from SD card; select mode based on time ranges.
 
 **Interface concepts:**
-- `discover()` → scans `/audio/types/` and `/audio/easter-egg/`, populates cache
-- `getTypes()` → returns list of TypeContent (name, modes[], modes[].variants[])
+- `discover()` → scans `/audio/types/` and `/audio/easter-egg/`, populates cache, parses mode time-ranges from config.json
+- `getTypes()` → returns list of TypeContent (name, modes[], modes[].variants[], modes[].timeRange)
 - `getEasterEggs()` → returns easter egg types
+- `getModeForTime(type, currentTime)` → checks all modes' time ranges, returns best-fit mode (or "default")
 - `hasMode(type, mode)` → fast query
 - `getVariants(type, mode)` → list of variant filenames
 - `getVariantPath(type, mode, index)` → full `/audio/types/...` path for variant (with bounds checking, fallback)
 
-**Failure modes:** Missing folders → empty list; corrupt structure → skip and continue
+**Time-range parsing (from mode config.json):**
+```json
+{
+  "startTime": "07:00",
+  "endTime": "06:00",
+  "priority": 1
+}
+```
+- startTime, endTime in HH:MM (24-hour)
+- Ranges wrap midnight if endTime < startTime
+- Priority breaks ties (higher = preferred)
+
+**Failure modes:** Missing folders → empty list; corrupt structure → skip and continue; invalid time range → use "default"
 
 ### 2. ConfigLoader
-**Responsibility:** Load and cache mode-level JSON configuration from SD card.
+**Responsibility:** Load and cache mode-level JSON configuration from SD card, including time ranges.
 
 **Interface concepts:**
 - `loadConfig(type, mode)` → reads `/audio/types/{type}/{mode}/config.json`
 - Returns config object with loaded flag (true if file exists and valid)
-- Generic key-value map (no hardcoded fields) for flexibility
+- Parses time-range fields: startTime (HH:MM), endTime (HH:MM), priority (int)
+- Generic key-value map for other settings (volume, effects, etc.)
 - Falls back to empty config if file missing
 
-**Failure modes:** Missing file → return empty config with `loaded=false`; invalid JSON → parse error, return empty config; continue normally
+**Example config.json for mode "friday":**
+```json
+{
+  "startTime": "07:00",
+  "endTime": "06:00",
+  "priority": 1,
+  "volume": 0.8,
+  "effects": "reverb"
+}
+```
+
+**Failure modes:** Missing file → return empty config with `loaded=false`, time range assumes "default" (always active); invalid JSON → parse error, return empty config; continue normally
 
 ### 3. PlaybackController
-**Responsibility:** State machine for button presses, index management per type, playback decisions.
+**Responsibility:** State machine for button presses, index management per type, time-based mode selection, playback decisions.
 
 **State tracked per type:**
 - Current variant index (0-N)
-- Last played mode
+- Current mode (selected by time range)
 - Play count
 - Last press timestamp
+- Last mode check timestamp
 
 **Behaviors:**
-- Button press → identify type → if same type as current, increment index (wrap); if different type, reset index to 0
+- Button press → identify type → check current time, select mode via ContentManager::getModeForTime()
+- Same type as current → increment index (wrap); different type → reset index to 0
+- Mode changed mid-play (time-range transition) → call AudioPlayer::stop(), log switch
 - Index out of bounds → reset to 0
-- Mode unavailable → fall back to `default` mode
 - Variant unavailable at index → try next index; if none available, silence
 - Track end → log completion, reset index to 0, return to idle
+- Periodic mode check (e.g., every 10s) → detect time-range transitions
 
 **Interface concepts:**
-- `onButtonPress(buttonPin)` → ISR entry point
-- `play(type, mode?)` → start playback at current index
+- `onButtonPress(buttonPin)` → ISR entry point, triggers time-based mode check
+- `play(type)` → query current time, select mode, start playback at current index
 - `stop()` → stop current playback, don't reset index
+- `checkModeChange()` → periodic poll, detect time-range transitions, stop playback if mode changed
 - `getCurrentState()` → returns {type, mode, index, isPlaying}
 
 ### 4. AudioPlayer
 **Responsibility:** I2S codec management, audio file playback, interrupt handling.
 
-**Use real library:** Audio codecs typically need drivers; ESP32-A1S boards have ES8388 codec with available libraries.
+**Use real library:** AudioTools (`arduino-audio-tools v1.1.3`, `arduino-audio-driver v0.1.4`) with `AudioBoardStream(AudioKitEs8388V1)` + `WAVDecoder`.
+
+**Hardware:** ESP32-A1S AudioKit v2.2, ES8388 codec @ 0x10, I2S pins confirmed, SPI SD pins confirmed.
 
 **Interface concepts:**
-- `init()` → setup I2S, codec
-- `playFile(filepath, onComplete=nullptr)` → start playback; callback fires when done
-- `stop()` → stop immediately, pause codec
-- `setVolume(0-255)` → adjust master volume
-- `isPlaying()` → query current state
+- `init()` → setup I2S, codec via AudioBoardStream, enable amp (GPIO21 LOW)
+- `playFile(filepath, onComplete=nullptr)` → open File from SD, pipe through EncodedAudioStream, callback fires when stream ends
+- `stop()` → close file, end stream
+- `setVolume(0-255)` → AudioBoardStream::setVolume()
+- `isPlaying()` → query stream state
+- `holdDuration()` → (optional) return ms since play start for button hold logic
 
-**Failure modes:** Missing file → callback fires with error; codec error → log, return to idle; I2S buffer underrun → log, graceful recovery
+**Failure modes:** Missing file → callback fires with error; codec error → log, return to idle; I2S buffer underrun → log, graceful recovery; SD read latency → log read time for perf analysis
 
 ### 5. ButtonManager
-**Responsibility:** Debounce GPIO button presses, map to type names, dispatch to PlaybackController.
+**Responsibility:** Debounce GPIO button presses, detect patterns (clicks, holds, chords), map to type names, dispatch to PlaybackController.
 
-**Use real library:** FreeRTOS task-based debouncing (not home-rolled delays).
+**Use real library:** FreeRTOS task-based debouncing (not ISR spin-loops); button pins active-low (HIGH=released, LOW=pressed).
+
+**Button patterns detected:**
+- **Click:** Press → release → within 50ms debounce window
+- **Hold:** Pin LOW > 2s = long press (Easter egg trigger candidate)
+- **Rapid-fire:** Multiple clicks < 200ms apart (already handled by PlaybackController index cycling)
+- **Chord:** Multiple buttons pressed simultaneously within 100ms window (Easter egg candidate)
 
 **Interface concepts:**
-- `init()` → register GPIO pins, setup ISR
+- `init()` → register GPIO pins (5, 18, 19, 23 confirmed), setup ISR to FreeRTOS task
 - `setTypeMap(buttonPin → typeName)` → configure button-to-type mapping
-- `onPress(callback)` → register callback for debounced press events
+- `onPress(button, holdMs, callback)` → register callback with hold duration for pattern detection
+- `getChord()` → return set of currently pressed buttons (for simultaneous detection)
 
-**Failure modes:** Button stuck → ISR spam ignored by debounce; GPIO read error → skip press
+**Failure modes:** Button stuck → debounce ignores repeated fire; GPIO read error → skip press
 
 ### 6. PlaybackLogger
-**Responsibility:** Log all usage data to SPIFFS for post-event analysis.
+**Responsibility:** Log all usage data to SD card for post-event analysis.
+
+**Events logged:**
+- **Track played:** type, mode, variant, duration, completion flag
+- **Type switch:** button press from type A → type B
+- **Variant cycle:** same type pressed again (index increment)
+- **Mode switch:** automatic (time-based) or manual override
+- **Recovery events:** missing file, index reset, mode fallback, silent fallback
+- **Button patterns:** hold duration, chord composition (multi-button), rapid-fire sequence
+- **System events:** boot, SD mount, config load, RTC sync, content discovery
+- **Audio events:** codec state, volume changes, audio latency metrics
+- **Errors:** SD read failure, JSON parse error, I2S underrun (with recovery flag)
+- **Memory snapshots:** heap free, SPIFFS usage (per N minutes)
 
 **Interface concepts:**
-- `logTrackPlayed(type, mode, variant)` → when track finishes
-- `logTypeSwitch(fromType, toType)` → when user presses different button
-- `logVariantCycle(type)` → when user presses same button again
-- `logRecovery(event, details)` → graceful fallback (missing file, index reset, etc.)
-- `logSystemEvent(event, details)` → boot, config load, etc.
-- `logError(component, error, recovered)` → I2S error, JSON parse error, etc.
+- `logTrackPlayed(type, mode, variant, durationMs, completed)` → track completion
+- `logTypeSwitch(fromType, toType)` → type change
+- `logVariantCycle(type, fromIndex, toIndex)` → index increment
+- `logModeSwitch(fromMode, toMode, reason)` → time-based or manual
+- `logRecovery(event, details)` → fallback (missing file, index reset, etc.)
+- `logButtonPattern(buttons[], holdMs, isChord)` → pattern detection
+- `logSystemEvent(event, details)` → boot, config, discovery, RTC
+- `logAudioEvent(codec, event, details)` → codec state, latency
+- `logError(component, error, recovered)` → any failure with recovery flag
 - `exportLogs()` → return JSON blob for retrieval
 
-**Storage:** SPIFFS with rotating logs (current + archived)
+**Storage:** SD card (`/logs/YYYY-MM-DD.json` rotating by date; SPIFFS avoids for perf + capacity)
 
-**Failure modes:** SPIFFS full → drop oldest entries; write failure → skip log, continue; retrieval error → return empty logs
+**Failure modes:** SD full → rotate out oldest day; write failure → skip log, continue; retrieval error → return empty logs
 
 ## File Structure (To Be Created/Modified)
 
