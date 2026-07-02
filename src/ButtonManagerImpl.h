@@ -17,7 +17,7 @@ private:
 
   ContentManager* contentMgr = nullptr;
   ButtonState buttons[NUM_BUTTON_TYPES];
-  ButtonEvent lastEvent = {0xFF, 0, false};
+  ButtonEvent lastEvent;
   bool eventDetected = false;
   char lastError[256] = {0};
 
@@ -25,7 +25,11 @@ private:
   bool isDebounced(uint32_t now, uint32_t lastChangeMs);
 
 public:
-  ButtonManagerImpl(ContentManager* contentMgr) : contentMgr(contentMgr) {}
+  ButtonManagerImpl(ContentManager* contentMgr) : contentMgr(contentMgr) {
+    lastEvent.typeIndex = 0xFF;
+    lastEvent.pressTimeMs = 0;
+    lastEvent.isPress = false;
+  }
   ~ButtonManagerImpl() override = default;
 
   bool initialize() override;

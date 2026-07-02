@@ -8,12 +8,12 @@ bool SystemManagerImpl::initialize() {
   systemState = SystemState::INITIALIZING;
 
   // Create all subsystems
-  contentMgr = std::make_unique<ContentManagerImpl>();
-  configLoader = std::make_unique<ConfigLoaderImpl>();
-  logger = std::make_unique<PlaybackLoggerImpl>();
-  playbackCtrl = std::make_unique<PlaybackControllerImpl>(contentMgr.get(), configLoader.get(), logger.get());
-  audioPlayer = std::make_unique<AudioPlayerImpl>();
-  buttonMgr = std::make_unique<ButtonManagerImpl>(contentMgr.get());
+  contentMgr.reset(new ContentManagerImpl());
+  configLoader.reset(new ConfigLoaderImpl());
+  logger.reset(new PlaybackLoggerImpl());
+  playbackCtrl.reset(new PlaybackControllerImpl(contentMgr.get(), configLoader.get(), logger.get()));
+  audioPlayer.reset(new AudioPlayerImpl());
+  buttonMgr.reset(new ButtonManagerImpl(contentMgr.get()));
 
   if (!initializeSubsystems()) {
     systemState = SystemState::STANDBY;

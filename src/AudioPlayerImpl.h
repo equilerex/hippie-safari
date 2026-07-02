@@ -8,11 +8,11 @@ using namespace audio_tools;
 
 class AudioPlayerImpl : public AudioPlayer {
 private:
-  AudioBoardStream* audioKit = nullptr;
+  audio_tools::AudioBoardStream* audioKit = nullptr;
   File currentFile;
-  WAVDecoder wav;
-  EncodedAudioStream* decoded = nullptr;
-  StreamCopy* copier = nullptr;
+  audio_tools::WAVDecoder wav;
+  audio_tools::EncodedAudioStream* decoded = nullptr;
+  audio_tools::StreamCopy* copier = nullptr;
   bool playing = false;
   float currentVolume = 0.8f;
   char lastError[256] = {0};
@@ -32,9 +32,6 @@ public:
   const AudioStreamState& getStreamState() const override;
   bool isHealthy() const override;
   const char* getLastError() const override;
-
-private:
-  bool isPlaying() const;
 };
 
 #endif // AUDIO_PLAYER_IMPL_H
