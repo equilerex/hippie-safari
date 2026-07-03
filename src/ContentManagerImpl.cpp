@@ -109,22 +109,23 @@ bool ContentManagerImpl::scanTypeFolder(uint8_t typeIndex, File& typeFolder, Typ
     if (modeFolder.isDirectory()) {
       const char* modeName = modeFolder.name();
 
-      // Always-active "default" mode (no config needed)
-      if (strcmp(modeName, "default") == 0) {
-        if (collectVariants(modeFolder, outContent.variants)) {
-          foundVariants = true;
+      // Collect variants with mode folder prefix
+      std::vector<std::string> modeVariants;
+      if (collectVariants(modeFolder, modeVariants)) {
+        foundVariants = true;
+
+        // Prepend mode folder name to each variant (e.g., "default/variant.wav")
+        for (const auto& variant : modeVariants) {
+          std::string prefixed = std::string(modeName) + "/" + variant;
+          outContent.variants.push_back(prefixed);
         }
-      } else {
-        // Optional mode - try to load its config
+      }
+
+      // Only process optional mode configs for non-default folders
+      if (strcmp(modeName, "default") != 0) {
         ModeConfig modeConfig;
         if (loadModeFolderConfig(typeIndex, outContent.folderName.c_str(), modeName, modeConfig)) {
           outContent.modes.push_back(modeConfig);
-
-          // Also collect variants from this mode folder
-          std::vector<std::string> modeVariants;
-          if (collectVariants(modeFolder, modeVariants)) {
-            foundVariants = true;
-          }
         }
       }
     }

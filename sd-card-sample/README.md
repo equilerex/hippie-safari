@@ -41,12 +41,9 @@ logs/
 ## Button Mapping
 
 Buttons map to type folders in alphabetical order:
-- **Button 1 (GPIO 36)** → `01_intro/`
-- **Button 2 (GPIO 13)** → `02_plain-clothes/`
-- **Button 3 (GPIO 19)** → `03_groups/`
-- **Button 4 (GPIO 23)** → (add `04_*` folder)
-- **Button 5 (GPIO 18)** → (add `05_*` folder)
-- **Button 6 (GPIO 5)** → (add `06_*` folder)
+- **Button 1 (GPIO 5)** → `01_intro/`
+- **Button 2 (GPIO 18)** → `02_plain-clothes/`
+- **Button 3 (GPIO 23)** → `03_groups/` 
 
 ## Config.json Format
 
