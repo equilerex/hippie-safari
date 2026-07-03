@@ -33,21 +33,21 @@ constexpr uint8_t PIN_SD_SCK  = 14;
 constexpr uint8_t PIN_AMP_ENABLE = 21;
 constexpr bool    AMP_ENABLED_STATE = LOW;
 
-// Button types (onboard keys, up to 6 available)
-constexpr uint8_t PIN_BTN_KEY1 = 36;  // Type 0
-constexpr uint8_t PIN_BTN_KEY2 = 13;  // Type 1 (Note: shares CS line; SD not on button)
-constexpr uint8_t PIN_BTN_KEY3 = 19;  // Type 2
-constexpr uint8_t PIN_BTN_KEY4 = 23;  // Type 3
-constexpr uint8_t PIN_BTN_KEY5 = 18;  // Type 4
-constexpr uint8_t PIN_BTN_KEY6 = 5;   // Type 5
+// Button types (reliable pins only on ESP32-A1S AudioKit v2.2)
+// GPIO 36: unreliable with Wi-Fi
+// GPIO 13: disabled by SD card SPI
+// GPIO 19: conflicts with onboard LED
+// Working pins: 5, 18, 23 (3 buttons)
+constexpr uint8_t PIN_BTN_TYPE0 = 5;   // Button 0 (Key 6)
+constexpr uint8_t PIN_BTN_TYPE1 = 18;  // Button 1 (Key 5)
+constexpr uint8_t PIN_BTN_TYPE2 = 23;  // Button 2 (Key 4)
 
 // Number of button types enabled
-constexpr uint8_t NUM_BUTTON_TYPES = 6;
+constexpr uint8_t NUM_BUTTON_TYPES = 3;
 
 // Array of button GPIO pins (in type order)
 constexpr uint8_t BUTTON_PINS[NUM_BUTTON_TYPES] = {
-  PIN_BTN_KEY1, PIN_BTN_KEY2, PIN_BTN_KEY3,
-  PIN_BTN_KEY4, PIN_BTN_KEY5, PIN_BTN_KEY6
+  PIN_BTN_TYPE0, PIN_BTN_TYPE1, PIN_BTN_TYPE2
 };
 
 // ============================================================================
