@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hippy Safari — Event Dashboard</title>
+  <title>Hippy Safari — User Analytics</title>
   <style>
     * {
       margin: 0;
@@ -152,6 +152,12 @@
       background: rgba(129, 201, 149, 0.1);
       border: 1px solid var(--success);
       color: var(--success);
+    }
+
+    .status.info {
+      background: rgba(138, 180, 248, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
     }
 
     .timeline {
@@ -318,9 +324,9 @@
 </head>
 <body>
   <header>
-    <h1>🌴 Hippy Safari — Event Dashboard</h1>
+    <h1>🌴 Hippy Safari — User Analytics</h1>
     <div class="header-meta">
-      <span id="file-status">Loading...</span>
+      <span id="file-status">No logs loaded</span>
     </div>
   </header>
 
@@ -329,56 +335,77 @@
 
     <div class="controls">
       <div class="control-group">
-        <label for="date-filter">Filter by Date</label>
-        <input type="date" id="date-filter">
+        <label for="file-input">📂 Load Log Files</label>
+        <input type="file" id="file-input" multiple accept=".json" style="padding: 0.5rem;">
       </div>
-      <div class="control-group">
-        <label for="type-filter">Filter by Event Type</label>
-        <select id="type-filter">
-          <option value="">All Types</option>
-        </select>
-      </div>
-      <button id="refresh-btn">↻ Refresh</button>
-      <button id="export-btn">⬇ Export JSON</button>
+      <button id="export-btn">⬇ Export CSV</button>
     </div>
 
+    <div id="status" class="status info" style="margin-bottom: 2rem;">Select log files to begin</div>
+
+    <!-- KEY METRICS -->
     <div class="stats">
       <div class="stat-card">
-        <div class="stat-value" id="stat-total">0</div>
-        <div class="stat-label">Total Events</div>
+        <div class="stat-value" id="stat-clicks">0</div>
+        <div class="stat-label">Total Clicks</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="stat-played">0</div>
-        <div class="stat-label">Clips Played</div>
+        <div class="stat-value" id="stat-completions">0</div>
+        <div class="stat-label">Audio Completions</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="stat-errors">0</div>
-        <div class="stat-label">Errors</div>
+        <div class="stat-value" id="stat-sessions">0</div>
+        <div class="stat-label">Sessions</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="stat-files">0</div>
-        <div class="stat-label">Log Files</div>
+        <div class="stat-value" id="stat-easteregggs">0</div>
+        <div class="stat-label">Easter Eggs Found</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-completion-rate">0%</div>
+        <div class="stat-label">Completion Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-avg-listen">0s</div>
+        <div class="stat-label">Avg Listen Time</div>
       </div>
     </div>
 
+    <!-- CONTENT POPULARITY -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
       <div>
-        <h3 style="margin-bottom: 1rem; color: var(--accent);">Usage by Content Type</h3>
-        <div id="type-breakdown" style="font-size: 0.875rem;"></div>
+        <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">🔥 Top Content Types</h3>
+        <div id="type-ranking" style="font-size: 0.875rem;"></div>
       </div>
       <div>
-        <h3 style="margin-bottom: 1rem; color: var(--accent);">Mode Distribution</h3>
-        <div id="mode-breakdown" style="font-size: 0.875rem;"></div>
+        <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">⭐ Top Variants</h3>
+        <div id="variant-ranking" style="font-size: 0.875rem;"></div>
       </div>
     </div>
 
-    <div id="errors-section" style="display: none; margin-bottom: 2rem;">
-      <h3 style="margin-bottom: 1rem; color: var(--error);">Errors & Warnings</h3>
-      <div id="errors-list" style="background: var(--bg-alt); border-left: 3px solid var(--error); padding: 1rem; border-radius: 4px;"></div>
+    <!-- INTENT PATTERNS -->
+    <div>
+      <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">👤 User Intent Distribution</h3>
+      <div id="intent-breakdown" style="font-size: 0.875rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;"></div>
     </div>
 
-    <div id="timeline" class="timeline"></div>
-    <div id="pagination" class="pagination"></div>
+    <!-- USER FLOWS -->
+    <div style="margin-top: 2rem;">
+      <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">🚶 Top User Flows</h3>
+      <div id="flow-breakdown" style="font-size: 0.875rem; background: var(--bg-alt); border-left: 3px solid var(--accent); padding: 1rem; border-radius: 4px;"></div>
+    </div>
+
+    <!-- EASTER EGG DISCOVERIES -->
+    <div style="margin-top: 2rem;">
+      <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">🎉 Easter Egg Discoveries</h3>
+      <div id="easter-eggs" style="font-size: 0.875rem; background: var(--bg-alt); border-left: 3px solid var(--accent); padding: 1rem; border-radius: 4px;"></div>
+    </div>
+
+    <!-- MODE USAGE -->
+    <div style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">🎵 Mode Usage</h3>
+      <div id="mode-usage" style="font-size: 0.875rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;"></div>
+    </div>
   </div>
 
   <footer>
@@ -386,265 +413,133 @@
   </footer>
 
   <script>
-    const EVENTS_PER_PAGE = 50;
     let allEvents = [];
-    let filteredEvents = [];
-    let currentPage = 1;
     let keymap = {};
 
-    const eventTypeMap = {
-      0: "TYPE_SELECTED",
-      1: "VARIANT_CHANGED",
-      2: "PLAYBACK_STARTED",
-      3: "PLAYBACK_ENDED",
-      4: "MODE_CHANGED",
-      5: "SD_ERROR",
-      6: "SD_RECOVERED",
-      7: "CONFIG_ERROR",
-      8: "STANDBY_ENTERED",
-      9: "STANDBY_EXITED",
-      10: "PLAYBACK_SESSION",
-      11: "EASTER_EGG_TRIGGERED",
-      12: "EASTER_EGG_ENDED"
-    };
+    const intentMap = { 0: "UNKNOWN", 1: "ENGAGED", 2: "EXPLORING", 3: "REJECTED", 4: "ERROR" };
+    const easterEggPatterns = { 1: "SECRET_BUTTON", 2: "ASCENDING_SWEEP", 3: "SOS_MORSE", 4: "HAMMER_SINGLE", 5: "TEAM_EFFORT", 6: "LONG_HOLD_SUSTAINED", 7: "MULTI_HOLD", 8: "ALL_BUTTONS_HELD", 9: "CHAOS_BURST", 10: "MULTI_CLICK" };
 
-    const intentMap = {
-      0: "UNKNOWN",
-      1: "ENGAGED",
-      2: "EXPLORING",
-      3: "REJECTED",
-      4: "ERROR"
-    };
-
-    async function loadKeymap() {
-      // Populate event type filter
-      const select = document.getElementById('type-filter');
-      for (const [code, name] of Object.entries(eventTypeMap)) {
-        const opt = document.createElement('option');
-        opt.value = code;
-        opt.textContent = name;
-        select.appendChild(opt);
-      }
-    }
-
-    async function loadLogs() {
+    async function loadFilesFromPicker(files) {
       try {
         allEvents = [];
-        const response = await fetch('./');
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        // Extract JSON filenames from directory listing (rough parse)
-        const links = Array.from(doc.querySelectorAll('a'))
-          .map(a => a.textContent.trim())
-          .filter(name => /^\d{4}-\d{2}-\d{2}\.json$/.test(name));
-
-        document.getElementById('file-status').textContent = `Found ${links.length} log file(s)`;
-
-        for (const filename of links) {
-          await loadLogFile(`./${filename}`);
+        for (const file of files) {
+          await loadLogFileFromFile(file);
         }
-
-        allEvents.sort((a, b) => b.ts - a.ts);
-        updateStats();
-        applyFilters();
-        renderPage();
-        setStatus('success', `Loaded ${allEvents.length} events from ${links.length} file(s)`);
+        document.getElementById('file-status').textContent = `Loaded ${files.length} file(s) • ${allEvents.length} events`;
+        computeAnalytics();
       } catch (e) {
-        setStatus('error', `Failed to load logs: ${e.message}`);
-        console.error(e);
+        setStatus('error', `Failed: ${e.message}`);
       }
     }
 
-    async function loadLogFile(path) {
-      try {
-        const resp = await fetch(path);
-        const text = await resp.text();
-
-        const lines = text.trim().split('\n').filter(l => l.trim());
-        for (const line of lines) {
+    async function loadLogFileFromFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
           try {
-            const obj = JSON.parse(line);
-            allEvents.push(obj);
-          } catch (e) {
-            console.warn(`Failed to parse line in ${path}:`, line, e);
-          }
-        }
-      } catch (e) {
-        console.warn(`Could not load ${path}:`, e.message);
-      }
-    }
-
-    function getEventTypeName(code) {
-      return keymap[code] || eventTypeMap[code] || `UNKNOWN_${code}`;
-    }
-
-    function formatTimestamp(ts) {
-      const dt = new Date(ts * 1000);
-      return dt.toLocaleString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
+            const text = evt.target.result;
+            text.trim().split('\n').filter(l => l.trim()).forEach(line => {
+              try { allEvents.push(JSON.parse(line)); } catch (e) {}
+            });
+            resolve();
+          } catch (e) { reject(e); }
+        };
+        reader.onerror = () => reject(reader.error);
+        reader.readAsText(file);
       });
     }
 
-    function updateStats() {
-      const total = allEvents.length;
-      const played = allEvents.filter(e => e.evt === 2).length; // PLAYBACK_STARTED
-      const errors = allEvents.filter(e => [5, 7].includes(e.evt)).length; // SD_ERROR, CONFIG_ERROR
-      const fileCount = new Set(allEvents.map(e => {
-        const dt = new Date(e.ts * 1000);
-        return dt.toISOString().split('T')[0];
-      })).size;
+    function computeAnalytics() {
+      const sessions = {};
+      const typeClicks = {};
+      const variants = {};
+      const modes = {};
+      const intentCounts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
+      const flows = {};
+      const easterEggs = {};
+      let totalClicks = 0, completions = 0, avgListenTime = 0;
 
-      document.getElementById('stat-total').textContent = total;
-      document.getElementById('stat-played').textContent = played;
-      document.getElementById('stat-errors').textContent = errors;
-      document.getElementById('stat-files').textContent = fileCount;
-
-      // Per-type usage (group by type name)
-      const typeMap = {};
+      // Parse events
       allEvents.forEach(e => {
-        if (e.type) {
-          typeMap[e.type] = (typeMap[e.type] || 0) + 1;
+        if (e.evt === 0 || e.evt === 1) totalClicks++; // TYPE_SELECTED, VARIANT_CHANGED
+        if (e.evt === 10) { // PLAYBACK_SESSION
+          sessions[e.sid] = e;
+          if (e.intent !== undefined) intentCounts[e.intent]++;
+          if (e.complete) completions++;
+          if (e.actDur) avgListenTime += e.actDur;
+        }
+        if (e.evt === 2 && e.type) typeClicks[e.type] = (typeClicks[e.type] || 0) + 1;
+        if (e.evt === 3 && e.var) variants[e.var] = (variants[e.var] || 0) + 1;
+        if (e.mode) modes[e.mode] = (modes[e.mode] || 0) + 1;
+        if (e.evt === 11) { // EASTER_EGG_TRIGGERED
+          const patternName = easterEggPatterns[e.sid] || e.type || 'Unknown';
+          easterEggs[patternName] = (easterEggs[patternName] || 0) + 1;
         }
       });
-      const typeBreakdown = document.getElementById('type-breakdown');
-      typeBreakdown.innerHTML = Object.entries(typeMap)
-        .sort((a, b) => b[1] - a[1])
-        .map(([type, count]) => `<div style="margin-bottom: 0.5rem;">${type}: <strong>${count}</strong> events</div>`)
-        .join('') || '<div style="color: var(--text-muted);">No type usage yet</div>';
 
-      // Mode distribution (group by mode name)
-      const modeMap = {};
-      allEvents.forEach(e => {
-        if (e.mode) {
-          modeMap[e.mode] = (modeMap[e.mode] || 0) + 1;
-        }
-      });
-      const modeBreakdown = document.getElementById('mode-breakdown');
-      modeBreakdown.innerHTML = Object.entries(modeMap)
-        .sort((a, b) => b[1] - a[1])
-        .map(([mode, count]) => `<div style="margin-bottom: 0.5rem;">${mode}: <strong>${count}</strong> plays</div>`)
-        .join('') || '<div style="color: var(--text-muted);">All plays in default mode</div>';
-
-      // Error list
-      const errorEvents = allEvents.filter(e => [5, 7].includes(e.evt));
-      if (errorEvents.length > 0) {
-        document.getElementById('errors-section').style.display = 'block';
-        const errorsList = document.getElementById('errors-list');
-        errorsList.innerHTML = errorEvents
-          .sort((a, b) => b.ts - a.ts)
-          .slice(0, 10)
-          .map(e => {
-            const time = formatTimestamp(e.ts);
-            const type = getEventTypeName(e.evt);
-            const msg = e.msg ? ` — ${e.msg}` : '';
-            return `<div style="margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);"><strong>${type}</strong> at ${time}${msg}</div>`;
-          })
-          .join('');
-      }
-    }
-
-    function applyFilters() {
-      const dateVal = document.getElementById('date-filter').value;
-      const typeVal = document.getElementById('type-filter').value;
-
-      filteredEvents = allEvents.filter(e => {
-        if (dateVal) {
-          const eDate = new Date(e.ts * 1000).toISOString().split('T')[0];
-          if (eDate !== dateVal) return false;
-        }
-        if (typeVal && parseInt(typeVal) !== e.evt) return false;
-        return true;
-      });
-
-      currentPage = 1;
-      renderPage();
-    }
-
-    function renderPage() {
-      const start = (currentPage - 1) * EVENTS_PER_PAGE;
-      const end = start + EVENTS_PER_PAGE;
-      const pageEvents = filteredEvents.slice(start, end);
-
-      const timeline = document.getElementById('timeline');
-      timeline.innerHTML = '';
-
-      if (pageEvents.length === 0) {
-        timeline.innerHTML = '<div class="empty">No events found.</div>';
-      } else {
-        for (const evt of pageEvents) {
-          timeline.appendChild(renderEvent(evt));
-        }
+      // User flows: TYPE_SELECTED → TYPE_SELECTED sequences
+      const typeSelects = allEvents.filter(e => e.evt === 0).map(e => e.type);
+      for (let i = 0; i < typeSelects.length - 1; i++) {
+        const flow = `${typeSelects[i]} → ${typeSelects[i+1]}`;
+        flows[flow] = (flows[flow] || 0) + 1;
       }
 
-      renderPagination();
-    }
+      avgListenTime = completions > 0 ? Math.round(avgListenTime / completions) : 0;
+      const completionRate = (completions * 100 / Object.keys(sessions).length).toFixed(1);
 
-    function renderEvent(evt) {
-      const div = document.createElement('div');
-      div.className = 'event';
+      // Render stats
+      document.getElementById('stat-clicks').textContent = totalClicks;
+      document.getElementById('stat-completions').textContent = completions;
+      document.getElementById('stat-sessions').textContent = Object.keys(sessions).length;
+      document.getElementById('stat-easteregggs').textContent = Object.values(easterEggs).reduce((a,b) => a+b, 0);
+      document.getElementById('stat-completion-rate').textContent = completionRate + '%';
+      document.getElementById('stat-avg-listen').textContent = (avgListenTime / 1000).toFixed(1) + 's';
 
-      const eventName = getEventTypeName(evt.evt);
-      const timestamp = formatTimestamp(evt.ts);
+      // Type ranking
+      const typeRanking = document.getElementById('type-ranking');
+      typeRanking.innerHTML = Object.entries(typeClicks)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([type, count]) => `<div style="margin-bottom: 0.5rem; padding: 0.5rem; background: var(--bg); border-radius: 3px;"><strong>${type}</strong>: ${count} plays</div>`)
+        .join('') || '<div style="color: var(--text-muted);">No data</div>';
 
-      let detailsHTML = '';
-      if (evt.sid) detailsHTML += `<div class="detail-item"><div class="detail-label">Session</div><div class="detail-value">#${evt.sid}</div></div>`;
-      if (evt.intent !== undefined) detailsHTML += `<div class="detail-item"><div class="detail-label">Intent</div><div class="detail-value">${intentMap[evt.intent] || '?'}</div></div>`;
-      if (evt.type) detailsHTML += `<div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${evt.type}</div></div>`;
-      if (evt.var) detailsHTML += `<div class="detail-item"><div class="detail-label">Variant</div><div class="detail-value">${evt.var}</div></div>`;
-      if (evt.mode) detailsHTML += `<div class="detail-item"><div class="detail-label">Mode</div><div class="detail-value">${evt.mode}</div></div>`;
-      if (evt.expDur) detailsHTML += `<div class="detail-item"><div class="detail-label">Expected Dur</div><div class="detail-value">${(evt.expDur/1000).toFixed(1)}s</div></div>`;
-      if (evt.actDur) detailsHTML += `<div class="detail-item"><div class="detail-label">Actual Dur</div><div class="detail-value">${(evt.actDur/1000).toFixed(1)}s</div></div>`;
-      if (evt.complete !== undefined) detailsHTML += `<div class="detail-item"><div class="detail-label">Completed</div><div class="detail-value">${evt.complete ? '✓' : '✗'}</div></div>`;
-      if (evt.ctx) {
-        const ctx = evt.ctx;
-        if (ctx.presses) detailsHTML += `<div class="detail-item"><div class="detail-label">Presses</div><div class="detail-value">${ctx.presses}</div></div>`;
-        if (ctx.cycles) detailsHTML += `<div class="detail-item"><div class="detail-label">Cycles</div><div class="detail-value">${ctx.cycles}</div></div>`;
-        if (ctx.timeSinceLast) detailsHTML += `<div class="detail-item"><div class="detail-label">Time Since Last</div><div class="detail-value">${(ctx.timeSinceLast/1000).toFixed(1)}s</div></div>`;
-      }
-      if (evt.msg) detailsHTML += `<div class="detail-item"><div class="detail-label">Message</div><div class="detail-value" style="color: var(--error);">${evt.msg}</div></div>`;
+      // Variant ranking
+      const variantRanking = document.getElementById('variant-ranking');
+      variantRanking.innerHTML = Object.entries(variants)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([var_, count]) => `<div style="margin-bottom: 0.5rem; padding: 0.5rem; background: var(--bg); border-radius: 3px;"><strong>${var_}</strong>: ${count} plays</div>`)
+        .join('') || '<div style="color: var(--text-muted);">No data</div>';
 
-      div.innerHTML = `
-        <div class="event-header">
-          <div class="event-time">${timestamp}</div>
-          <div class="event-type ${eventName.replace(/_/g, '_')}">${eventName}</div>
-        </div>
-        ${detailsHTML ? `<div class="event-details">${detailsHTML}</div>` : ''}
-      `;
+      // Intent distribution
+      const intentBreakdown = document.getElementById('intent-breakdown');
+      intentBreakdown.innerHTML = Object.entries(intentCounts)
+        .map(([code, count]) => `<div style="background: var(--bg); padding: 0.75rem; border-radius: 4px; text-align: center;"><div style="font-weight: 600; color: var(--accent);">${count}</div><div style="font-size: 0.75rem; color: var(--text-muted);">${intentMap[code]}</div></div>`)
+        .join('');
 
-      return div;
-    }
+      // User flows
+      const flowBreakdown = document.getElementById('flow-breakdown');
+      flowBreakdown.innerHTML = Object.entries(flows)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([flow, count]) => `<div style="margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg); border-radius: 3px; border-left: 3px solid var(--accent);"><code>${flow}</code> <strong style="float: right;">${count}×</strong></div>`)
+        .join('') || '<div style="color: var(--text-muted);">No flow data</div>';
 
-    function renderPagination() {
-      const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
-      const pag = document.getElementById('pagination');
-      pag.innerHTML = '';
+      // Easter eggs
+      const eggsDiv = document.getElementById('easter-eggs');
+      eggsDiv.innerHTML = Object.entries(easterEggs)
+        .sort((a,b) => b[1] - a[1])
+        .map(([pattern, count]) => `<div style="margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg); border-radius: 3px;"><strong>${pattern}</strong> discovered <strong style="color: var(--success);">${count}</strong> times</div>`)
+        .join('') || '<div style="color: var(--text-muted);">No easter eggs found yet</div>';
 
-      if (totalPages <= 1) return;
+      // Mode usage
+      const modeUsage = document.getElementById('mode-usage');
+      modeUsage.innerHTML = Object.entries(modes)
+        .sort((a,b) => b[1] - a[1])
+        .map(([mode, count]) => `<div style="background: var(--bg); padding: 0.75rem; border-radius: 4px; text-align: center;"><div style="font-weight: 600;">${mode}</div><div style="color: var(--text-muted);">${count} plays</div></div>`)
+        .join('');
 
-      const btnPrev = document.createElement('button');
-      btnPrev.textContent = '← Prev';
-      btnPrev.disabled = currentPage === 1;
-      btnPrev.onclick = () => { currentPage--; renderPage(); };
-      pag.appendChild(btnPrev);
-
-      const span = document.createElement('span');
-      span.textContent = `Page ${currentPage} of ${totalPages}`;
-      pag.appendChild(span);
-
-      const btnNext = document.createElement('button');
-      btnNext.textContent = 'Next →';
-      btnNext.disabled = currentPage === totalPages;
-      btnNext.onclick = () => { currentPage++; renderPage(); };
-      pag.appendChild(btnNext);
+      setStatus('success', `Analyzed ${allEvents.length} events`);
     }
 
     function setStatus(type, msg) {
@@ -653,22 +548,19 @@
       el.textContent = msg;
     }
 
-    document.getElementById('date-filter').addEventListener('change', applyFilters);
-    document.getElementById('type-filter').addEventListener('change', applyFilters);
-    document.getElementById('refresh-btn').onclick = loadLogs;
+    document.getElementById('file-input').addEventListener('change', (evt) => {
+      if (evt.target.files.length > 0) loadFilesFromPicker(evt.target.files);
+    });
     document.getElementById('export-btn').onclick = () => {
-      const json = JSON.stringify(filteredEvents, null, 2);
-      const blob = new Blob([json], { type: 'application/json' });
+      const csv = allEvents.map(e => [e.ts, e.evt, e.sid, e.intent, e.type, e.var, e.mode, e.actDur, e.complete].join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `hippy-safari-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `hippy-safari-${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       URL.revokeObjectURL(url);
     };
-
-    // Initial load
-    loadKeymap().then(loadLogs);
   </script>
 </body>
 </html>
