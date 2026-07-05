@@ -9,13 +9,13 @@
 // Global pointer for ISR (only one SystemManager instance)
 static SystemManagerImpl* g_systemManager = nullptr;
 
-// ISR for PCF8574 INT pin (GPIO 19)
+// ISR for PCF8574 INT pin (GPIO 19) - MUST be fast, no I2C calls
 void IRAM_ATTR onPCF8574IntISR() {
   if (g_systemManager) {
-    // Cast to impl to access interrupt handler
+    // Just set flag - main loop handles I2C to avoid ISR timeout
     ButtonManagerImpl* btnMgr = static_cast<ButtonManagerImpl*>(g_systemManager->getButtonManager());
     if (btnMgr) {
-      btnMgr->onPCF8574Interrupt();
+      btnMgr->interruptPending = true;  // Non-blocking flag
     }
   }
 }
@@ -142,6 +142,15 @@ bool SystemManagerImpl::initializeSubsystems() {
 }
 
 void SystemManagerImpl::update() {
+  // Handle PCF8574 interrupt flag (set by ISR, handled here to avoid I2C in ISR)
+  if (buttonMgr) {
+    ButtonManagerImpl* btnMgr = static_cast<ButtonManagerImpl*>(buttonMgr.get());
+    if (btnMgr && btnMgr->interruptPending) {
+      btnMgr->interruptPending = false;
+      btnMgr->onPCF8574Interrupt();  // Safe I2C calls in main loop
+    }
+  }
+
   // Dequeue button events from interrupt queue (non-blocking)
   ButtonEvent event;
   while (buttonMgr && buttonMgr->dequeueEvent(event)) {

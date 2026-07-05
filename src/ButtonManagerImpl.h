@@ -21,6 +21,7 @@ private:
   ButtonEvent buttonQueue[MAX_BUTTON_QUEUE];
   size_t queueHead = 0;
   size_t queueTail = 0;
+  volatile bool interruptPending = false;  // Flag from ISR
 
   ContentManager* contentMgr = nullptr;
   PCF8574* pcf8574 = nullptr;
