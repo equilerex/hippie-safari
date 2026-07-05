@@ -126,6 +126,11 @@ bool ButtonManagerImpl::isDebounced(uint32_t now, uint32_t lastChangeMs) {
 }
 
 void ButtonManagerImpl::queueButtonEvent(const ButtonEvent& event) {
+  // Skip events during easter egg lockout
+  if (isInEasterEggLockout(millis())) {
+    return;
+  }
+
   // Add event to circular queue (drop oldest if full)
   size_t nextTail = (queueTail + 1) % MAX_BUTTON_QUEUE;
   if (nextTail == queueHead) {
@@ -226,4 +231,12 @@ EasterEggPattern ButtonManagerImpl::checkEasterEggPattern() {
 
 const char* ButtonManagerImpl::getLastError() const {
   return lastError;
+}
+
+bool ButtonManagerImpl::isInEasterEggLockout(uint32_t now) const {
+  return (int32_t)(easterEggLockoutEndMs - now) > 0;
+}
+
+void ButtonManagerImpl::lockoutButtonsForEasterEgg() {
+  easterEggLockoutEndMs = millis() + 3000;
 }

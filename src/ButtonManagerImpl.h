@@ -35,9 +35,13 @@ private:
   bool pcf8574Ready = false;  // Hardware actually responded
   char lastError[256] = {0};
   uint32_t lastSecretButtonChangeMs = 0;
+  uint32_t easterEggLockoutEndMs = 0;  // Lockout normal clicks during easter egg audio
 
   // Helper: debounce check
   bool isDebounced(uint32_t now, uint32_t lastChangeMs);
+
+  // Helper: check if in easter egg lockout period
+  bool isInEasterEggLockout(uint32_t now) const;
 
   // Interrupt handler: queue button event
   void queueButtonEvent(const ButtonEvent& event);
