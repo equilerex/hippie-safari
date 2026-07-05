@@ -208,8 +208,12 @@ bool ContentManagerImpl::loadModeFolderConfig(uint8_t typeIndex, const char* typ
     for (JsonObject windowObj : windowsArray) {
       TimeWindow window;
       window.priority = windowObj["priority"] | rootPriority;
-      
-      if (windowObj.containsKey("days")) {
+
+      if (windowObj.containsKey("startDateTime") && windowObj.containsKey("endDateTime")) {
+        window.type = TimeWindowType::ABSOLUTE_EVENT;
+        window.absoluteStartTime = parseIso8601Utc(windowObj["startDateTime"] | "");
+        window.absoluteEndTime = parseIso8601Utc(windowObj["endDateTime"] | "");
+      } else if (windowObj.containsKey("days")) {
         window.type = TimeWindowType::DAY_SPECIFIC;
         JsonArray daysArray = windowObj["days"].as<JsonArray>();
         window.dayMask = 0;
@@ -349,6 +353,7 @@ bool ContentManagerImpl::discoverEasterEggs() {
     else if (strcmp(patternName, "SOS_MORSE") == 0) pattern = EasterEggPattern::SOS_MORSE;
     else if (strcmp(patternName, "HAMMER_SINGLE") == 0) pattern = EasterEggPattern::HAMMER_SINGLE;
     else if (strcmp(patternName, "TEAM_EFFORT") == 0) pattern = EasterEggPattern::TEAM_EFFORT;
+    else if (strcmp(patternName, "FAST_CLICK_PAIR") == 0) pattern = EasterEggPattern::FAST_CLICK_PAIR;
     else if (strcmp(patternName, "LONG_HOLD_SUSTAINED") == 0) pattern = EasterEggPattern::LONG_HOLD_SUSTAINED;
     else if (strcmp(patternName, "MULTI_HOLD") == 0) pattern = EasterEggPattern::MULTI_HOLD;
     else if (strcmp(patternName, "ALL_BUTTONS_HELD") == 0) pattern = EasterEggPattern::ALL_BUTTONS_HELD;

@@ -41,6 +41,7 @@ bool ButtonManagerImpl::initialize() {
       // Extract initial state from port byte
       buttons[i].lastState = (portState >> buttons[i].port) & 1;
       buttons[i].lastChangeMs = millis();
+      buttons[i].pressStartMs = millis();
       Serial.print("[DEBUG] ButtonManager: Port ");
       Serial.print(buttons[i].port);
       Serial.print(" initialized, initial state: ");
@@ -122,7 +123,7 @@ bool ButtonManagerImpl::getButtonPressed(uint8_t typeIndex) const {
 }
 
 bool ButtonManagerImpl::isDebounced(uint32_t now, uint32_t lastChangeMs) {
-  return (now - lastChangeMs) >= BUTTON_DEBOUNCE_MS;
+  return (now - lastChangeMs) >= g_tuning.buttonDebounceMs;
 }
 
 void ButtonManagerImpl::queueButtonEvent(const ButtonEvent& event) {
@@ -172,8 +173,13 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
         buttons[i].lastChangeMs = now;
         buttons[i].lastState = currentState;
 
-        // Feed to easter egg detector for pattern detection (both press and release)
-        if (easterEggDetector) {
+        Serial.printf("[BTN-EVT] %s btn=%u t=%lu\n", currentState == LOW ? "PRESS  " : "RELEASE",
+                      i, (unsigned long)now);
+
+        // Feed to easter egg detector for pattern detection (both press and release).
+        // Suppressed during easter egg lockout so button spam while an egg clip
+        // is playing can't immediately re-trigger another one.
+        if (easterEggDetector && !isInEasterEggLockout(now)) {
           if (currentState == LOW) {
             easterEggDetector->recordPress(i, now);
           } else {
@@ -181,13 +187,22 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
           }
         }
 
-        // Queue for playback control (release only — normal track change)
+        if (currentState == LOW) {
+          buttons[i].pressStartMs = now;
+        }
+
+        // Queue for playback control (release only — normal track change).
+        // A hold longer than g_tuning.buttonClickMaxHoldMs is a hold gesture, not a
+        // click, so it must not also trigger normal playback.
         if (currentState == HIGH && buttons[i].contentAvailable) {
-          ButtonEvent event;
-          event.typeIndex = i;
-          event.pressTimeMs = now;
-          event.isPress = false;
-          queueButtonEvent(event);
+          uint32_t heldMs = now - buttons[i].pressStartMs;
+          if (heldMs <= g_tuning.buttonClickMaxHoldMs) {
+            ButtonEvent event;
+            event.typeIndex = i;
+            event.pressTimeMs = now;
+            event.isPress = false;
+            queueButtonEvent(event);
+          }
         }
       }
     }

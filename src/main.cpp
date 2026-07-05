@@ -9,6 +9,10 @@ void setup() {
   delay(1000);
 
   Serial.println("=== Hippy Safari Audio Installation ===");
+  Serial.print("Build: ");
+  Serial.print(__DATE__);
+  Serial.print(" ");
+  Serial.println(__TIME__);
   Serial.println("Initializing subsystems...");
 
   // Create and initialize system

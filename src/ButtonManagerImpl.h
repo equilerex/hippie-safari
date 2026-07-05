@@ -16,6 +16,7 @@ private:
     uint8_t typeIndex;
     bool lastState;
     uint32_t lastChangeMs;
+    uint32_t pressStartMs;  // timestamp of most recent press, for hold-duration check on release
     bool contentAvailable;
   };
 
@@ -67,6 +68,7 @@ public:
   bool getButtonPressed(uint8_t typeIndex) const override;
   void setEasterEggDetector(EasterEggDetector* detector) override;
   EasterEggPattern checkEasterEggPattern() override;
+  void lockoutButtonsForEasterEgg() override;
   const char* getLastError() const override;
 
   // New: dequeue button event from interrupt queue

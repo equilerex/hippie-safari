@@ -27,7 +27,7 @@ public:
 
   bool initialize(TwoWire* bus) override;
   bool isAvailable() const override;
-  void showNowPlaying(const char* filename, size_t bytesRead = 0, size_t totalBytes = 0) override;
+  void showNowPlaying(const char* filename, size_t bytesRead = 0, size_t totalBytes = 0, bool isEasterEgg = false) override;
   void showStandby() override;
   void showDebug(const char* line1, const char* line2 = nullptr) override;
   void clear() override;

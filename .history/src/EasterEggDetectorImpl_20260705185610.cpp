@@ -24,7 +24,7 @@ void EasterEggDetectorImpl::pruneOldEvents(uint32_t now)
   while (eventCount > 0)
   {
     uint8_t tailIdx = (eventHead + MAX_EVENT_HISTORY - eventCount) % MAX_EVENT_HISTORY;
-    if ((uint32_t)(now - eventHistory[tailIdx].timeMs) <= g_tuning.eventHistoryWindowMs)
+    if ((uint32_t)(now - eventHistory[tailIdx].timeMs) <= EVENT_HISTORY_WINDOW_MS)
     {
       break;
     }
@@ -35,7 +35,7 @@ void EasterEggDetectorImpl::pruneOldEvents(uint32_t now)
 bool EasterEggDetectorImpl::isButtonPressed(uint8_t buttonIndex, uint32_t timeMs) const
 {
   // Uses live press state (set in recordPress/recordRelease), not the ring
-  // buffer, so a hold longer than g_tuning.eventHistoryWindowMs still reports
+  // buffer, so a hold longer than EVENT_HISTORY_WINDOW_MS still reports
   // pressed — otherwise long-hold eggs could never reach their own threshold.
   if (buttonIndex >= numButtons)
   {
@@ -61,7 +61,7 @@ uint8_t EasterEggDetectorImpl::getPressedButtonCount(uint32_t timeMs) const
 
 bool EasterEggDetectorImpl::wasPatternRecentlyTriggered(uint32_t now) const
 {
-  return (uint32_t)(now - lastPatternTimeMs) < g_tuning.patternCooldownMs;
+  return (uint32_t)(now - lastPatternTimeMs) < PATTERN_COOLDOWN_MS;
 }
 
 bool EasterEggDetectorImpl::hasInterferingEvent(uint8_t exceptButton, uint32_t sinceMs, uint32_t now) const
@@ -134,12 +134,6 @@ bool EasterEggDetectorImpl::initialize(uint8_t numButtons)
   lastPattern = EasterEggPattern::NONE;
   lastPatternTimeMs = 0;
   lastInteractionTime = 0;
-  for (uint8_t b = 0; b < MAX_BUTTON_TYPES; b++)
-  {
-    currentlyPressed[b] = false;
-    currentPressStartMs[b] = 0;
-    holdConsumed[b] = false;
-  }
 
   return true;
 }
@@ -151,6 +145,7 @@ void EasterEggDetectorImpl::recordPress(uint8_t buttonIndex, uint32_t timeMs)
     return;
   }
 
+  Serial.printf("[EGG-EVT] PRESS   btn=%u t=%lu\n", buttonIndex, (unsigned long)timeMs);
   addEvent(buttonIndex, timeMs, true);
   if (buttonIndex < numButtons)
   {
@@ -167,30 +162,17 @@ void EasterEggDetectorImpl::recordRelease(uint8_t buttonIndex, uint32_t timeMs)
     return;
   }
 
+  Serial.printf("[EGG-EVT] RELEASE btn=%u t=%lu\n", buttonIndex, (unsigned long)timeMs);
   addEvent(buttonIndex, timeMs, false);
   if (buttonIndex < numButtons)
   {
     currentlyPressed[buttonIndex] = false;
-    holdConsumed[buttonIndex] = false;
   }
 }
 
 EasterEggPattern EasterEggDetectorImpl::checkPattern()
 {
-  bool anyHeld = false;
-  for (uint8_t b = 0; b < numButtons; b++)
-  {
-    if (currentlyPressed[b])
-    {
-      anyHeld = true;
-      break;
-    }
-  }
-
-  // eventCount==0 means no recent tap activity, but a button can still be
-  // held steady (generating no new ring-buffer events) long enough to
-  // qualify as a hold-based egg — don't bail out in that case.
-  if (eventCount == 0 && !anyHeld)
+  if (eventCount == 0)
   {
     return EasterEggPattern::NONE;
   }
@@ -301,7 +283,8 @@ void EasterEggDetectorImpl::updateInteractionTime(uint32_t timeMs)
 
 bool EasterEggDetectorImpl::shouldResetLoopIndices(uint32_t timeMs) const
 {
-  return (uint32_t)(timeMs - lastInteractionTime) >= g_tuning.loopResetMs;
+  constexpr uint32_t SILENCE_TIMEOUT_MS = 300000; // 5 min
+  return (uint32_t)(timeMs - lastInteractionTime) >= SILENCE_TIMEOUT_MS;
 }
 
 EasterEggPattern EasterEggDetectorImpl::getLastPattern() const
@@ -338,8 +321,8 @@ bool EasterEggDetectorImpl::detectAscendingSweep(uint32_t now)
   // Strict sequence: 0→1→2→...→N-1, in order, within 2 sec, one button at a
   // time. Any out-of-order press, repeat, skipped button, or simultaneous
   // chord (same/near-same timestamp as the previous step) invalidates it.
-  const uint32_t WINDOW_MS = g_tuning.sweepWindowMs;
-  const uint32_t MIN_STEP_GAP_MS = g_tuning.sweepMinStepGapMs;
+  constexpr uint32_t WINDOW_MS = 2000;
+  constexpr uint32_t MIN_STEP_GAP_MS = 30; // rules out chorded/simultaneous presses
   uint8_t expectedNext = 0;
   uint32_t startTime = 0;
   uint32_t lastStepTime = 0;
@@ -386,7 +369,7 @@ bool EasterEggDetectorImpl::detectAscendingSweep(uint32_t now)
     // Reject sweep taps held past the tap threshold, whether still held or already released
     if (isButtonPressed(event.buttonIndex, now))
     {
-      if ((uint32_t)(now - event.timeMs) > g_tuning.maxTapHoldMs)
+      if ((uint32_t)(now - event.timeMs) > MAX_TAP_HOLD_MS)
       {
         return false;
       }
@@ -399,7 +382,7 @@ bool EasterEggDetectorImpl::detectAscendingSweep(uint32_t now)
         const ButtonEvent &rel = eventHistory[ridx];
         if (rel.buttonIndex == event.buttonIndex && !rel.isPress && rel.timeMs >= event.timeMs)
         {
-          if ((rel.timeMs - event.timeMs) > g_tuning.maxTapHoldMs)
+          if ((rel.timeMs - event.timeMs) > MAX_TAP_HOLD_MS)
           {
             return false;
           }
@@ -418,7 +401,7 @@ bool EasterEggDetectorImpl::detectSosMorse(uint32_t now)
 {
   // Morse SOS: 3 short taps, pause, 3 medium, pause, 3 short
   // Simplified: count all taps and check for ~9 in 5 sec
-  const uint32_t WINDOW_MS = g_tuning.sosWindowMs;
+  constexpr uint32_t WINDOW_MS = 5000;
 
   uint32_t oldestTime = 0;
   uint8_t tapCount = 0;
@@ -439,20 +422,20 @@ bool EasterEggDetectorImpl::detectSosMorse(uint32_t now)
     }
 
     if ((uint32_t)(now - event.timeMs) <= WINDOW_MS && event.timeMs > lastPatternTimeMs &&
-        !wasHeldTooLong(event.buttonIndex, event.timeMs, g_tuning.maxTapHoldMs))
+        !wasHeldTooLong(event.buttonIndex, event.timeMs, MAX_TAP_HOLD_MS))
     {
       tapCount++;
     }
   }
 
-  return tapCount >= g_tuning.sosTapThreshold;
+  return tapCount >= 7;
 }
 
 bool EasterEggDetectorImpl::detectHammerSingle(uint32_t now)
 {
-  // Same button N+ times in window
-  const uint32_t WINDOW_MS = g_tuning.hammerWindowMs;
-  const uint8_t TAP_THRESHOLD = g_tuning.hammerTapThreshold;
+  // Same button 15+ times in 3 sec
+  constexpr uint32_t WINDOW_MS = 3000;
+  constexpr uint8_t TAP_THRESHOLD = 10;
 
   for (uint8_t b = 0; b < numButtons; b++)
   {
@@ -465,7 +448,7 @@ bool EasterEggDetectorImpl::detectHammerSingle(uint32_t now)
 
       if (event.buttonIndex == b && !event.isPress &&
           (uint32_t)(now - event.timeMs) <= WINDOW_MS && event.timeMs > lastPatternTimeMs &&
-          !wasHeldTooLong(b, event.timeMs, g_tuning.maxTapHoldMs))
+          !wasHeldTooLong(b, event.timeMs, MAX_TAP_HOLD_MS))
       {
         presses++;
       }
@@ -486,7 +469,7 @@ bool EasterEggDetectorImpl::detectTeamEffort(uint32_t now)
   // looked up across the full event history window (not just the last 100ms of
   // `now`) since confirming "not still held" requires waiting for releases,
   // which can arrive well after the press cluster itself.
-  const uint32_t WINDOW_MS = g_tuning.teamEffortWindowMs;
+  constexpr uint32_t WINDOW_MS = 150;
 
   uint8_t buttonsPressed = 0;
   bool pressed[MAX_BUTTON_TYPES] = {false};
@@ -499,7 +482,7 @@ bool EasterEggDetectorImpl::detectTeamEffort(uint32_t now)
     const ButtonEvent &event = eventHistory[idx];
 
     if (event.isPress && event.buttonIndex < numButtons &&
-        (uint32_t)(now - event.timeMs) <= g_tuning.eventHistoryWindowMs)
+        (uint32_t)(now - event.timeMs) <= EVENT_HISTORY_WINDOW_MS)
     {
       if (!pressed[event.buttonIndex])
       {
@@ -540,7 +523,7 @@ bool EasterEggDetectorImpl::detectFastClickPair(uint32_t now)
   // are looked up across the full event history window (not just the last
   // 100ms of `now`) since confirming "not still held" requires waiting for
   // releases, which can arrive well after the press cluster itself.
-  const uint32_t WINDOW_MS = g_tuning.fastClickPairWindowMs;
+  constexpr uint32_t WINDOW_MS = 150;
 
   uint8_t buttonsPressed = 0;
   bool pressed[MAX_BUTTON_TYPES] = {false};
@@ -553,7 +536,7 @@ bool EasterEggDetectorImpl::detectFastClickPair(uint32_t now)
     const ButtonEvent &event = eventHistory[idx];
 
     if (event.isPress && event.buttonIndex < numButtons &&
-        (uint32_t)(now - event.timeMs) <= g_tuning.eventHistoryWindowMs)
+        (uint32_t)(now - event.timeMs) <= EVENT_HISTORY_WINDOW_MS)
     {
       if (!pressed[event.buttonIndex])
       {
@@ -590,14 +573,14 @@ bool EasterEggDetectorImpl::detectFastClickPair(uint32_t now)
 
 bool EasterEggDetectorImpl::detectLongHoldSustained(uint32_t now)
 {
-  // Any button held 3+ sec. Uses live press state (currentPressStartMs), not
-  // the ring buffer, since a hold this long outlives g_tuning.eventHistoryWindowMs
+  // Any button held 5+ sec. Uses live press state (currentPressStartMs), not
+  // the ring buffer, since a hold this long outlives EVENT_HISTORY_WINDOW_MS
   // and its press event would otherwise be pruned before the threshold hits.
-  const uint32_t HOLD_MS = g_tuning.longHoldMs;
+  constexpr uint32_t HOLD_MS = 5000;
 
   for (uint8_t b = 0; b < numButtons; b++)
   {
-    if (!currentlyPressed[b] || holdConsumed[b])
+    if (!currentlyPressed[b])
     {
       continue;
     }
@@ -608,7 +591,6 @@ bool EasterEggDetectorImpl::detectLongHoldSustained(uint32_t now)
       {
         continue;
       }
-      holdConsumed[b] = true;
       return true;
     }
   }
@@ -622,8 +604,8 @@ bool EasterEggDetectorImpl::detectMultiHold(uint32_t now)
   // LAST button to join, since only then are all of them simultaneously held.
   // Buttons must also join within JOIN_WINDOW_MS of each other, otherwise
   // this is just two unrelated holds and not a deliberate multi-hold gesture.
-  const uint32_t HOLD_MS = g_tuning.multiHoldMs;
-  const uint32_t JOIN_WINDOW_MS = g_tuning.multiHoldJoinWindowMs;
+  constexpr uint32_t HOLD_MS = 3000;
+  constexpr uint32_t JOIN_WINDOW_MS = 1000;
 
   uint8_t pressedCount = getPressedButtonCount(now);
 
@@ -653,33 +635,7 @@ bool EasterEggDetectorImpl::detectMultiHold(uint32_t now)
       return false;
     }
 
-    // Fire once per continuous hold: skip if every button in this set was
-    // already consumed by a prior firing (none has released since).
-    bool alreadyConsumed = true;
-    for (uint8_t b = 0; b < numButtons; b++)
-    {
-      if (heldSet[b] && !holdConsumed[b])
-      {
-        alreadyConsumed = false;
-        break;
-      }
-    }
-    if (alreadyConsumed)
-    {
-      return false;
-    }
-
-    if ((uint32_t)(now - maxPressTime) >= HOLD_MS)
-    {
-      for (uint8_t b = 0; b < numButtons; b++)
-      {
-        if (heldSet[b])
-        {
-          holdConsumed[b] = true;
-        }
-      }
-      return true;
-    }
+    return (uint32_t)(now - maxPressTime) >= HOLD_MS;
   }
 
   return false;
@@ -688,8 +644,8 @@ bool EasterEggDetectorImpl::detectMultiHold(uint32_t now)
 bool EasterEggDetectorImpl::detectAllButtonsHeld(uint32_t now)
 {
   // All N buttons held 5+ sec — same "last joiner" and join-window logic as MULTI_HOLD
-  const uint32_t HOLD_MS = g_tuning.allButtonsHeldMs;
-  const uint32_t JOIN_WINDOW_MS = g_tuning.allButtonsJoinWindowMs;
+  constexpr uint32_t HOLD_MS = 5000;
+  constexpr uint32_t JOIN_WINDOW_MS = 1000;
 
   uint8_t pressedCount = getPressedButtonCount(now);
 
@@ -709,31 +665,8 @@ bool EasterEggDetectorImpl::detectAllButtonsHeld(uint32_t now)
       return false;
     }
 
-    // Fire once per continuous hold: since all buttons are part of the held
-    // set, skip if all have already been consumed (none released since).
-    bool alreadyConsumed = true;
-    for (uint8_t b = 0; b < numButtons; b++)
-    {
-      if (!holdConsumed[b])
-      {
-        alreadyConsumed = false;
-        break;
-      }
-    }
-    if (alreadyConsumed)
-    {
-      return false;
-    }
-
     // All buttons are part of the held set here, so no external interference is possible
-    if ((uint32_t)(now - maxPressTime) >= HOLD_MS)
-    {
-      for (uint8_t b = 0; b < numButtons; b++)
-      {
-        holdConsumed[b] = true;
-      }
-      return true;
-    }
+    return (uint32_t)(now - maxPressTime) >= HOLD_MS;
   }
 
   return false;
@@ -742,8 +675,8 @@ bool EasterEggDetectorImpl::detectAllButtonsHeld(uint32_t now)
 bool EasterEggDetectorImpl::detectChaosBurst(uint32_t now)
 {
   // 12+ random presses (mixed buttons) in 4 sec
-  const uint32_t WINDOW_MS = g_tuning.chaosBurstWindowMs;
-  const uint8_t TAP_THRESHOLD = g_tuning.chaosBurstThreshold;
+  constexpr uint32_t WINDOW_MS = 4000;
+  constexpr uint8_t TAP_THRESHOLD = 12;
 
   uint8_t presses = 0;
 
@@ -763,9 +696,9 @@ bool EasterEggDetectorImpl::detectChaosBurst(uint32_t now)
 
 bool EasterEggDetectorImpl::detectMultiClick(uint32_t now)
 {
-  // N+ presses of 2+ different buttons in window
-  const uint32_t WINDOW_MS = g_tuning.multiClickWindowMs;
-  const uint8_t TAP_THRESHOLD = g_tuning.multiClickThreshold;
+  // 4+ presses of 2+ different buttons in 2 sec
+  constexpr uint32_t WINDOW_MS = 2000;
+  constexpr uint8_t TAP_THRESHOLD = 4;
 
   uint8_t presses = 0;
   bool buttonsSeen[MAX_BUTTON_TYPES] = {false};
@@ -778,7 +711,7 @@ bool EasterEggDetectorImpl::detectMultiClick(uint32_t now)
 
     if (!event.isPress && event.buttonIndex < numButtons &&
         (uint32_t)(now - event.timeMs) <= WINDOW_MS && event.timeMs > lastPatternTimeMs &&
-        !wasHeldTooLong(event.buttonIndex, event.timeMs, g_tuning.maxTapHoldMs))
+        !wasHeldTooLong(event.buttonIndex, event.timeMs, MAX_TAP_HOLD_MS))
     {
       presses++;
 
@@ -803,7 +736,7 @@ void EasterEggDetectorImpl::logDebugState() const
   if (wasPatternRecentlyTriggered(millis()))
   {
     Serial.print("ACTIVE (");
-    Serial.print(g_tuning.patternCooldownMs - (millis() - lastPatternTimeMs));
+    Serial.print(PATTERN_COOLDOWN_MS - (millis() - lastPatternTimeMs));
     Serial.print("ms left)");
   }
   else

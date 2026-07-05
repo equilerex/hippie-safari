@@ -35,6 +35,9 @@ public:
   virtual void setEasterEggDetector(EasterEggDetector* detector) = 0;
   virtual EasterEggPattern checkEasterEggPattern() = 0;
 
+  // Lockout button presses for 3 sec after easter egg triggered
+  virtual void lockoutButtonsForEasterEgg() = 0;
+
   // Get last error
   virtual const char* getLastError() const = 0;
 };

@@ -17,6 +17,10 @@ public:
   // Get current time as Unix epoch (time_t); returns 0 if unavailable
   virtual time_t now() const = 0;
 
+  // Write a Unix epoch time to the RTC hardware so it persists across power cycles.
+  // Returns false if RTC unavailable.
+  virtual bool setTime(time_t epoch) = 0;
+
   // Get last error message
   virtual const char* getLastError() const = 0;
 };

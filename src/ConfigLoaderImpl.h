@@ -26,8 +26,6 @@ public:
   explicit ConfigLoaderImpl(ContentManager* contentMgr = nullptr) : contentMgr(contentMgr) {}
   ~ConfigLoaderImpl() override = default;
 
-  bool loadTypeConfig(uint8_t typeIndex, const char* folderPath, ModeConfig& outDefaultMode,
-                      std::vector<ModeConfig>& outModes) override;
   ModeSelectionResult selectModeForTime(uint8_t typeIndex, time_t currentTime) override;
   bool isTimeWindowActive(const TimeWindow& window, time_t currentTime) override;
   const char* getLastError() const override;

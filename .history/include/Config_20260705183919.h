@@ -67,50 +67,19 @@ enum class EasterEggPattern : uint8_t
   MULTI_CLICK = 11         // 4+ rapid presses of 2+ different buttons in 2 sec
 };
 
-// ============================================================================
-// RUNTIME TUNING (timings for button + easter egg detection)
-// ============================================================================
-// All values below have compiled-in defaults, but can be overridden at boot
-// by /safari-conf.json on the SD card root (see RuntimeTuning::loadFromSD).
-// Lets timing be tuned on-device without a rebuild/reflash.
-struct RuntimeTuning {
-  // --- Button-level timings (ButtonManagerImpl) ---
-  uint32_t buttonDebounceMs = 50;         // Min time between raw state changes to count as new
-  uint32_t buttonClickMaxHoldMs = 1000;   // Release counts as a "click" only if held <= this
+// Easter egg timing windows (milliseconds)
+constexpr uint32_t EASTER_EGG_WINDOW_CHORD_MS = 100;         // Buttons pressed within window for chord patterns
+constexpr uint32_t EASTER_EGG_WINDOW_SEQUENCE_MS = 2000;     // Buttons pressed within window for sequence
+constexpr uint32_t EASTER_EGG_WINDOW_RAPID_MS = 3000;        // Window for hammer/burst detection
+constexpr uint32_t EASTER_EGG_WINDOW_CHAOS_MS = 3000;        // Window for chaos burst
+constexpr uint32_t EASTER_EGG_HOLD_LONG_MS = 3000;           // Minimum hold duration for LONG_HOLD
+constexpr uint32_t EASTER_EGG_HOLD_MULTI_MS = 3000;          // Minimum hold for MULTI_HOLD
+constexpr uint32_t EASTER_EGG_HOLD_ALL_MS = 3000;            // Minimum hold for ALL_BUTTONS_HELD
+constexpr uint32_t EASTER_EGG_LOOP_RESET_MS = 5 * 60 * 1000; // 5 min silence = reset variant loop
 
-  // --- Easter egg: shared ---
-  uint32_t eventHistoryWindowMs = 3000;   // Ring buffer retention window for tap-based patterns
-  uint32_t patternCooldownMs = 1500;      // Min time between two egg triggers
-  uint32_t maxTapHoldMs = 200;            // Tap-based eggs invalid if held longer than this
-  uint32_t loopResetMs = 5 * 60 * 1000;   // Silence duration that resets per-pattern variant loop index
-
-  // --- Easter egg: per-pattern ---
-  uint32_t sweepWindowMs = 2000;          // ASCENDING_SWEEP: total time to complete sequence
-  uint32_t sweepMinStepGapMs = 30;        // ASCENDING_SWEEP: min gap between steps (rules out chords)
-  uint32_t sosWindowMs = 5000;            // SOS_MORSE: window to count taps in
-  uint8_t  sosTapThreshold = 7;           // SOS_MORSE: taps required
-  uint32_t hammerWindowMs = 3000;         // HAMMER_SINGLE: window
-  uint8_t  hammerTapThreshold = 7;        // HAMMER_SINGLE: presses required
-  uint32_t teamEffortWindowMs = 150;      // TEAM_EFFORT: max spread between all presses
-  uint32_t fastClickPairWindowMs = 150;   // FAST_CLICK_PAIR: max spread between the 2 presses
-  uint32_t longHoldMs = 3000;             // LONG_HOLD_SUSTAINED: min hold duration
-  uint32_t multiHoldMs = 3000;            // MULTI_HOLD: min simultaneous hold duration
-  uint32_t multiHoldJoinWindowMs = 1000;  // MULTI_HOLD: max spread between buttons joining the hold
-  uint32_t allButtonsHeldMs = 5000;       // ALL_BUTTONS_HELD: min hold duration
-  uint32_t allButtonsJoinWindowMs = 1000; // ALL_BUTTONS_HELD: max spread between buttons joining
-  uint32_t chaosBurstWindowMs = 3000;     // CHAOS_BURST: window
-  uint8_t  chaosBurstThreshold = 10;      // CHAOS_BURST: presses required
-  uint32_t multiClickWindowMs = 2000;     // MULTI_CLICK: window
-  uint8_t  multiClickThreshold = 4;       // MULTI_CLICK: presses required
-
-  // Load overrides from /safari-conf.json on the SD root, if present.
-  // Missing file or missing keys silently keep the compiled-in defaults.
-  void loadFromSD();
-};
-
-// Global tuning instance — populated with defaults at startup, optionally
-// overridden by RuntimeTuning::loadFromSD() during system init.
-extern RuntimeTuning g_tuning;
+// Max hold duration for a button release to still count as a normal "click" (playback trigger).
+// Longer holds are treated as a hold gesture and must not also fire the normal click.
+constexpr uint32_t BUTTON_CLICK_MAX_HOLD_MS = 1000;
 
 // Easter egg pattern name strings
 inline const char *getEasterEggPatternName(EasterEggPattern pattern)
@@ -312,6 +281,7 @@ struct EasterEggState
 // CONSTANTS
 // ============================================================================
 
+constexpr uint32_t BUTTON_DEBOUNCE_MS = 50;
 constexpr uint32_t SD_RETRY_INTERVAL_MS = 5000;        // Retry SD mount every 5s
 constexpr uint32_t CONTENT_DISCOVERY_RETRY_MS = 10000; // Retry content scan every 10s
 constexpr uint32_t LED_BLINK_INTERVAL_MS = 500;        // LED blink when SD unavailable

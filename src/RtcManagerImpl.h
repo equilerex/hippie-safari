@@ -22,6 +22,7 @@ public:
   bool initialize(TwoWire* bus) override;
   bool isAvailable() const override;
   time_t now() const override;
+  bool setTime(time_t epoch) override;
   const char* getLastError() const override;
 };
 

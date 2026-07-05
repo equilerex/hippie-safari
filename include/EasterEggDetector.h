@@ -35,6 +35,9 @@ public:
 
   // Get error message
   virtual const char* getLastError() const = 0;
+
+  // Debug: log internal state
+  virtual void logDebugState() const = 0;
 };
 
 #endif // EASTER_EGG_DETECTOR_H

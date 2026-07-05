@@ -74,7 +74,7 @@ bool DisplayManagerImpl::isAvailable() const
   return available;
 }
 
-void DisplayManagerImpl::showNowPlaying(const char *filename, size_t bytesRead, size_t totalBytes, bool isEasterEgg)
+void DisplayManagerImpl::showNowPlaying(const char *filename, size_t bytesRead, size_t totalBytes)
 {
   if (!available || !display)
     return;
@@ -86,8 +86,8 @@ void DisplayManagerImpl::showNowPlaying(const char *filename, size_t bytesRead, 
   display->clearBuffer();
   display->setFont(u8g2_font_mystery_quest_24_tf);
 
-  // Draw header
-  display->drawStr(0, 24, isEasterEgg ? "Naughty <3:" : "Playing:");
+  // Draw header "Playing:"
+  display->drawStr(0, 24, "Playing:");
 
   // Draw track name
   display->drawStr(0, 52, basename);

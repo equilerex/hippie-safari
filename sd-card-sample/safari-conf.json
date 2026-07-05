@@ -1,0 +1,27 @@
+{
+  "buttonDebounceMs": 50,
+  "buttonClickMaxHoldMs": 1000,
+
+  "eventHistoryWindowMs": 3000,
+  "patternCooldownMs": 1500,
+  "maxTapHoldMs": 200,
+  "loopResetMs": 300000,
+
+  "sweepWindowMs": 2000,
+  "sweepMinStepGapMs": 30,
+  "sosWindowMs": 5000,
+  "sosTapThreshold": 7,
+  "hammerWindowMs": 3000,
+  "hammerTapThreshold": 7,
+  "teamEffortWindowMs": 150,
+  "fastClickPairWindowMs": 150,
+  "longHoldMs": 3000,
+  "multiHoldMs": 3000,
+  "multiHoldJoinWindowMs": 1000,
+  "allButtonsHeldMs": 5000,
+  "allButtonsJoinWindowMs": 1000,
+  "chaosBurstWindowMs": 3000,
+  "chaosBurstThreshold": 10,
+  "multiClickWindowMs": 2000,
+  "multiClickThreshold": 4
+}

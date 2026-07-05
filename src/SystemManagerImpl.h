@@ -62,6 +62,8 @@ public:
 private:
   bool initializeSubsystems();
   void handleButtonEvent(const ButtonEvent& event);
+  void checkAndHandleEasterEgg();
+  void processAudioAndMaintenance();
   void processRecovery();
 };
 

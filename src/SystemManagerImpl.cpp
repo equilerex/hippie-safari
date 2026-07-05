@@ -115,6 +115,9 @@ bool SystemManagerImpl::initializeSubsystems() {
     return false;
   }
 
+  // Optional /safari-conf.json override for button/easter-egg timings (SD already mounted above)
+  g_tuning.loadFromSD();
+
   if (!logger->initialize()) {
     snprintf(lastError, sizeof(lastError), "PlaybackLogger init failed: %s", logger->getLastError());
     // Logger failure is not fatal
@@ -150,7 +153,8 @@ bool SystemManagerImpl::initializeSubsystems() {
       currentTime = compileTime;
       timeval tv = {currentTime, 0};
       settimeofday(&tv, nullptr);
-      Serial.print("[BOOT] Time synced to compile: ");
+      rtcMgr->setTime(currentTime);  // Persist to RTC hardware so it survives power cycles
+      Serial.print("[BOOT] Time synced to compile, written to RTC: ");
       Serial.println(ctime(&currentTime));
     } else {
       Serial.print("[BOOT] RTC time: ");
@@ -243,13 +247,27 @@ void SystemManagerImpl::update() {
     }
   }
 
-  // Dequeue button events from interrupt queue (non-blocking)
+  // Dequeue button events from interrupt queue (non-blocking). Easter egg
+  // pattern check runs right after each release is processed — the same
+  // event that drives normal click playback — so tap-based eggs (which need
+  // to see "just released, not still held") are evaluated at the moment
+  // their window is actually valid, not on some later free-running tick.
   ButtonEvent event;
   while (buttonMgr && buttonMgr->dequeueEvent(event)) {
     handleButtonEvent(event);
+    checkAndHandleEasterEgg();
   }
 
-  // Check for easter egg pattern detection (runs on every tick to support time-dependent hold patterns)
+  // Also poll every tick (not just on release) so hold-based eggs, which have
+  // no release event to hang off while the button is still down, can fire.
+  if (buttonMgr) {
+    checkAndHandleEasterEgg();
+  }
+
+  processAudioAndMaintenance();
+}
+
+void SystemManagerImpl::checkAndHandleEasterEgg() {
   if (buttonMgr) {
     EasterEggPattern pattern = buttonMgr->checkEasterEggPattern();
     if (pattern != EasterEggPattern::NONE) {
@@ -265,16 +283,19 @@ void SystemManagerImpl::update() {
         if (audioPlayer->playFile(variantPath)) {
           wasPlayingLastFrame = true;
           lastInteractionMs = millis();
+          buttonMgr->lockoutButtonsForEasterEgg();
           playbackCtrl->handleEasterEggPattern(pattern);
           
           const char* basename = strrchr(variantPath, '/');
           if (basename) basename++; else basename = variantPath;
-          displayMgr->showNowPlaying(basename);
+          displayMgr->showNowPlaying(basename, 0, 0, true);
         }
       }
     }
   }
+}
 
+void SystemManagerImpl::processAudioAndMaintenance() {
   // Process audio playback
   bool isPlaying = audioPlayer->isPlaying();
   if (isPlaying) {
@@ -359,13 +380,6 @@ void SystemManagerImpl::handleButtonEvent(const ButtonEvent& event) {
   // Get playback request from controller (using real time for mode selection, millis for debug timestamps)
   PlaybackRequest request = playbackCtrl->handleButtonEvent(event.typeIndex, currentTime);
 
-  Serial.print("[DEBUG] Button request: type=");
-  Serial.print(event.typeIndex);
-  Serial.print(" variant=");
-  Serial.print(request.variantIndex);
-  Serial.print(" action=");
-  Serial.println(request.action == PlaybackAction::START_CLIP ? "START" : "STOP");
-
   // Execute playback action
   switch (request.action) {
     case PlaybackAction::START_CLIP: {
@@ -379,10 +393,6 @@ void SystemManagerImpl::handleButtonEvent(const ButtonEvent& event) {
         if (audioPlayer->playFile(filePath)) {
           wasPlayingLastFrame = true;
           lastInteractionMs = millis();  // Update interaction timer on playback start
-
-          // Log audio start with track name
-          Serial.print("[AUDIO] Playing: ");
-          Serial.println(basename);
 
           // Update OLED (separate I2C bus - no blocking)
           displayMgr->showNowPlaying(basename);

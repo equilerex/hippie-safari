@@ -14,7 +14,7 @@ public:
   virtual bool isAvailable() const = 0;
 
   // Display now-playing filename (basename only) with optional progress
-  virtual void showNowPlaying(const char* filename, size_t bytesRead = 0, size_t totalBytes = 0) = 0;
+  virtual void showNowPlaying(const char* filename, size_t bytesRead = 0, size_t totalBytes = 0, bool isEasterEgg = false) = 0;
 
   // Display standby state
   virtual void showStandby() = 0;

@@ -6,114 +6,6 @@
 #include "ConfigLoaderImpl.h"
 #include "../include/Config.h"
 
-bool ConfigLoaderImpl::loadTypeConfig(uint8_t typeIndex, const char* folderPath,
-                                     ModeConfig& outDefaultMode, std::vector<ModeConfig>& outModes) {
-  outDefaultMode.modeName = "default";
-  outDefaultMode.timeWindows.clear();
-  outModes.clear();
-
-  // Build path to config.json
-  char configPath[256];
-  snprintf(configPath, sizeof(configPath), "%s/config.json", folderPath);
-
-  File configFile = SD.open(configPath);
-  if (!configFile) {
-    // No config found - use default only
-    snprintf(lastError, sizeof(lastError), "No config.json for type %u", typeIndex);
-    return false;  // Not critical; caller will use default
-  }
-
-  // Read file into buffer
-  size_t fileSize = configFile.size();
-  if (fileSize == 0 || fileSize > 16384) {
-    snprintf(lastError, sizeof(lastError), "Config file too large or empty");
-    configFile.close();
-    return false;
-  }
-
-  char* jsonBuffer = new char[fileSize + 1];
-  if (!jsonBuffer) {
-    snprintf(lastError, sizeof(lastError), "Out of memory for config buffer");
-    configFile.close();
-    return false;
-  }
-
-  configFile.read((uint8_t*)jsonBuffer, fileSize);
-  jsonBuffer[fileSize] = '\0';
-  configFile.close();
-
-  // Parse JSON
-  DynamicJsonDocument doc(8192);
-  DeserializationError error = deserializeJson(doc, jsonBuffer);
-  delete[] jsonBuffer;
-
-  if (error) {
-    snprintf(lastError, sizeof(lastError), "JSON parse error: %s", error.c_str());
-    return false;
-  }
-
-  // Extract modes array
-  if (!doc.containsKey("modes")) {
-    snprintf(lastError, sizeof(lastError), "No 'modes' array in config");
-    return false;
-  }
-
-  JsonArray modesArray = doc["modes"].as<JsonArray>();
-  for (JsonObject modeObj : modesArray) {
-    ModeConfig mode;
-    const char* modeName = modeObj["name"] | "unnamed";
-    mode.modeName = modeName;
-
-    // Parse time windows
-    if (modeObj.containsKey("timeWindows")) {
-      JsonArray windowsArray = modeObj["timeWindows"].as<JsonArray>();
-      for (JsonObject windowObj : windowsArray) {
-        TimeWindow window;
-
-        // Determine window type and parse accordingly
-        if (windowObj.containsKey("startDateTime") && windowObj.containsKey("endDateTime")) {
-          window.type = TimeWindowType::ABSOLUTE_EVENT;
-          // TODO: Parse ISO 8601 or epoch timestamps
-          window.absoluteStartTime = 0;  // Placeholder
-          window.absoluteEndTime = 0;
-        } else if (windowObj.containsKey("days")) {
-          window.type = TimeWindowType::DAY_SPECIFIC;
-          JsonArray daysArray = windowObj["days"].as<JsonArray>();
-          window.dayMask = 0;
-          for (const char* dayStr : daysArray) {
-            if (strcmp(dayStr, "monday") == 0) window.dayMask |= (1 << 0);
-            else if (strcmp(dayStr, "tuesday") == 0) window.dayMask |= (1 << 1);
-            else if (strcmp(dayStr, "wednesday") == 0) window.dayMask |= (1 << 2);
-            else if (strcmp(dayStr, "thursday") == 0) window.dayMask |= (1 << 3);
-            else if (strcmp(dayStr, "friday") == 0) window.dayMask |= (1 << 4);
-            else if (strcmp(dayStr, "saturday") == 0) window.dayMask |= (1 << 5);
-            else if (strcmp(dayStr, "sunday") == 0) window.dayMask |= (1 << 6);
-            else if (strcmp(dayStr, "test") == 0 || strcmp(dayStr, "test_odd") == 0) window.dayMask |= (1 << 7);
-          }
-          // Parse startTime and endTime (HH:MM format)
-          const char* startStr = windowObj["startTime"] | "00:00";
-          const char* endStr = windowObj["endTime"] | "00:00";
-          sscanf(startStr, "%hhu:%hhu", &window.startHour, &window.startMin);
-          sscanf(endStr, "%hhu:%hhu", &window.endHour, &window.endMin);
-        } else {
-          window.type = TimeWindowType::DAILY_RECURRING;
-          const char* startStr = windowObj["startTime"] | "00:00";
-          const char* endStr = windowObj["endTime"] | "00:00";
-          sscanf(startStr, "%hhu:%hhu", &window.startHour, &window.startMin);
-          sscanf(endStr, "%hhu:%hhu", &window.endHour, &window.endMin);
-        }
-
-        window.priority = windowObj["priority"] | 0;
-        mode.timeWindows.push_back(window);
-      }
-    }
-
-    outModes.push_back(mode);
-  }
-
-  return outModes.size() > 0;
-}
-
 ModeSelectionResult ConfigLoaderImpl::selectModeForTime(uint8_t typeIndex, time_t currentTime) {
   ModeSelectionResult result;
   result.modeFound = false;
@@ -144,7 +36,20 @@ ModeSelectionResult ConfigLoaderImpl::selectModeForTime(uint8_t typeIndex, time_
     int modePriority = -1;
     
     for (const auto& window : mode.timeWindows) {
-      if (isTimeWindowActive(window, currentTime)) {
+      bool active = isTimeWindowActive(window, currentTime);
+      if (window.type == TimeWindowType::ABSOLUTE_EVENT) {
+        Serial.printf("[MODE-DBG] type=%u mode=%s window(ABSOLUTE start=%ld end=%ld prio=%d) now=%ld active=%d\n",
+                      typeIndex, mode.modeName.c_str(),
+                      (long)window.absoluteStartTime, (long)window.absoluteEndTime,
+                      window.priority, (long)currentTime, active ? 1 : 0);
+      } else {
+        Serial.printf("[MODE-DBG] type=%u mode=%s window(%s dayMask=0x%02x %02u:%02u-%02u:%02u prio=%d) now=%ld active=%d\n",
+                      typeIndex, mode.modeName.c_str(),
+                      window.type == TimeWindowType::DAY_SPECIFIC ? "DAY_SPECIFIC" : "DAILY_RECURRING",
+                      window.dayMask, window.startHour, window.startMin, window.endHour, window.endMin,
+                      window.priority, (long)currentTime, active ? 1 : 0);
+      }
+      if (active) {
         modeActive = true;
         if (window.priority > modePriority) {
           modePriority = window.priority;
@@ -227,6 +132,11 @@ bool ConfigLoaderImpl::isTimeOfDayInRange(uint8_t currentHour, uint8_t currentMi
   uint16_t currentMinutes = currentHour * 60 + currentMin;
   uint16_t startMinutes = startHour * 60 + startMin;
   uint16_t endMinutes = endHour * 60 + endMin;
+
+  if (startMinutes == endMinutes) {
+    // Zero-duration window (e.g. unset "00:00"-"00:00") — never active
+    return false;
+  }
 
   if (startMinutes < endMinutes) {
     // Normal range (doesn't wrap midnight)

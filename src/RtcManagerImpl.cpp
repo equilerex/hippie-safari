@@ -46,6 +46,13 @@ time_t RtcManagerImpl::now() const {
   return lastCachedTime;
 }
 
+bool RtcManagerImpl::setTime(time_t epoch) {
+  rtc.adjust(DateTime((uint32_t)epoch));
+  lastCachedTime = epoch;
+  available = true;
+  return true;
+}
+
 const char* RtcManagerImpl::getLastError() const {
   return lastError;
 }

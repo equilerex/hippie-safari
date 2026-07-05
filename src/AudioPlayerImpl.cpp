@@ -142,9 +142,6 @@ bool AudioPlayerImpl::playFile(const char* filePath) {
     return false;
   }
 
-  Serial.print("[AUDIO] Requested: ");
-  Serial.println(filePath);
-
   stop();
 
   // Open + validate file
@@ -156,10 +153,6 @@ bool AudioPlayerImpl::playFile(const char* filePath) {
     return false;
   }
 
-  Serial.print("[AUDIO] File size: ");
-  Serial.print(currentFile.size());
-  Serial.println(" bytes");
-
   // Parse WAV header BEFORE decoder
   WavHeaderInfo wavInfo;
   if (!parseWavHeader(currentFile, wavInfo)) {
@@ -169,14 +162,6 @@ bool AudioPlayerImpl::playFile(const char* filePath) {
     currentFile.close();
     return false;
   }
-
-  Serial.print("[AUDIO] WAV: ");
-  Serial.print(wavInfo.sampleRate);
-  Serial.print("Hz ");
-  Serial.print(wavInfo.channels);
-  Serial.print("ch ");
-  Serial.print(wavInfo.bitsPerSample);
-  Serial.println("bit PCM");
 
   try {
     // Configure audio output BEFORE decoder chain
@@ -212,9 +197,7 @@ bool AudioPlayerImpl::playFile(const char* filePath) {
     }
 
     // Begin playback
-    Serial.println("[AUDIO] Before decoded->begin()");
     decoded->begin();
-    Serial.println("[AUDIO] After decoded->begin()");
 
     playing = true;
     streamState.isOpen = true;
@@ -223,8 +206,9 @@ bool AudioPlayerImpl::playFile(const char* filePath) {
     streamState.bytesRead = 0;
     streamState.totalBytes = currentFile.size();
 
-    Serial.print("[AUDIO] Playing: ");
-    Serial.println(filePath);
+    Serial.printf("[AUDIO] Playing: %s (%uHz %uch %ubit, %u bytes)\n", filePath,
+                  wavInfo.sampleRate, wavInfo.channels, wavInfo.bitsPerSample,
+                  (unsigned)currentFile.size());
     return true;
   } catch (const std::exception& e) {
     snprintf(lastError, sizeof(lastError), "playFile exception: %s", e.what());
