@@ -3,10 +3,28 @@
 #include <cstring>
 #include <string.h>
 #include "SystemManagerImpl.h"
+#include "ButtonManagerImpl.h"
 #include "../include/Config.h"
+
+// Global pointer for ISR (only one SystemManager instance)
+static SystemManagerImpl* g_systemManager = nullptr;
+
+// ISR for PCF8574 INT pin (GPIO 19)
+void IRAM_ATTR onPCF8574IntISR() {
+  if (g_systemManager) {
+    // Cast to impl to access interrupt handler
+    ButtonManagerImpl* btnMgr = static_cast<ButtonManagerImpl*>(g_systemManager->getButtonManager());
+    if (btnMgr) {
+      btnMgr->onPCF8574Interrupt();
+    }
+  }
+}
 
 bool SystemManagerImpl::initialize() {
   systemState = SystemState::INITIALIZING;
+
+  // Save global pointer for ISR
+  g_systemManager = this;
 
   // Create I2C access mutex (serialize audio codec + external I2C)
   i2cMutex = xSemaphoreCreateMutex();
@@ -61,6 +79,11 @@ bool SystemManagerImpl::initializeSubsystems() {
   Serial.println("[DEBUG] Constructing PCF8574 on extI2C...");
   pcf8574.reset(new PCF8574(0x20, &extI2C));  // PCF8574 at I2C addr 0x20 on extI2C bus
   buttonMgr.reset(new ButtonManagerImpl(contentMgr.get(), pcf8574.get()));
+
+  // Attach interrupt handler to PCF8574 INT pin (GPIO 19)
+  Serial.println("[DEBUG] Attaching PCF8574 INT handler to GPIO 19...");
+  pinMode(19, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(19), onPCF8574IntISR, FALLING);
 
   // Initialize in dependency order
   if (!contentMgr->initialize()) {
@@ -119,9 +142,9 @@ bool SystemManagerImpl::initializeSubsystems() {
 }
 
 void SystemManagerImpl::update() {
-  // Poll buttons (only if ButtonManager initialized successfully)
-  if (buttonMgr && buttonMgr->poll()) {
-    ButtonEvent event = buttonMgr->getLastEvent();
+  // Dequeue button events from interrupt queue (non-blocking)
+  ButtonEvent event;
+  while (buttonMgr && buttonMgr->dequeueEvent(event)) {
     handleButtonEvent(event);
   }
 
@@ -132,10 +155,10 @@ void SystemManagerImpl::update() {
       // Playback finished
       playbackCtrl->notifyClipFinished();
       wasPlayingLastFrame = false;
-      displayMgr->showStandby();  // Update OLED only on state change (playback -> standby)
+      displayMgr->showStandby();
     }
   } else if (wasPlayingLastFrame) {
-    // Transitioned from playing to not playing; update OLED if not already done
+    // Transitioned from playing to not playing
     wasPlayingLastFrame = false;
     displayMgr->showStandby();
   }
@@ -146,13 +169,28 @@ void SystemManagerImpl::update() {
     processRecovery();
   }
 
-  // Flush logs if queue has events and playback is idle
-  if (!audioPlayer->isPlaying() && logger->queueNeedsFlushing()) {
+  // Track when audio stopped
+  bool isNowPlaying = audioPlayer->isPlaying();
+  if (wasPlayingLastFrame && !isNowPlaying) {
+    audioStoppedMs = millis();
+  }
+
+  // Flush logs only during quiet window: audio stopped 5+ seconds ago + no interaction in last 5 seconds
+  // This prevents SD blocking during active playback or button interaction
+  uint32_t now = millis();
+  uint32_t timeSinceAudioStopped = (audioStoppedMs > 0) ? (now - audioStoppedMs) : 0;
+  uint32_t timeSinceInteraction = (lastInteractionMs > 0) ? (now - lastInteractionMs) : now;
+
+  if (!isNowPlaying && logger->queueNeedsFlushing() &&
+      timeSinceAudioStopped >= 5000 && timeSinceInteraction >= 5000) {
     logger->flushQueue();
   }
 }
 
 void SystemManagerImpl::handleButtonEvent(const ButtonEvent& event) {
+  // Record interaction time for quiet-window flush deferral
+  lastInteractionMs = millis();
+
   // Validate event: typeIndex must be in bounds
   if (event.typeIndex >= contentMgr->getTypeCount()) {
     Serial.print("[WARNING] Invalid button event: typeIndex ");
@@ -183,16 +221,28 @@ void SystemManagerImpl::handleButtonEvent(const ButtonEvent& event) {
   // Get playback request from controller (using real time for mode selection, millis for debug timestamps)
   PlaybackRequest request = playbackCtrl->handleButtonEvent(event.typeIndex, currentTime);
 
+  Serial.print("[DEBUG] Button request: type=");
+  Serial.print(event.typeIndex);
+  Serial.print(" variant=");
+  Serial.print(request.variantIndex);
+  Serial.print(" action=");
+  Serial.println(request.action == PlaybackAction::START_CLIP ? "START" : "STOP");
+
   // Execute playback action
   switch (request.action) {
     case PlaybackAction::START_CLIP: {
       const char* filePath = contentMgr->getVariantPath(request.typeIndex, request.variantIndex);
-      if (filePath && audioPlayer->playFile(filePath)) {
-        // Extract basename for display (called once on start, not every loop)
+      if (filePath) {
+        // Start audio playback FIRST (non-blocking)
+        if (audioPlayer->playFile(filePath)) {
+          wasPlayingLastFrame = true;
+          lastInteractionMs = millis();  // Update interaction timer on playback start
+        }
+        // Update OLED AFTER audio starts (blocking I2C doesn't delay button polling)
+        // Extract basename for display
         const char* basename = strrchr(filePath, '/');
         if (basename) basename++; else basename = filePath;
         displayMgr->showNowPlaying(basename);
-        wasPlayingLastFrame = true;
       }
       break;
     }

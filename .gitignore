@@ -3,3 +3,5 @@
 /.idea/editor.xml
 /.idea/misc.xml
 /.idea/vcs.xml
+.claude/**
+/.claude/

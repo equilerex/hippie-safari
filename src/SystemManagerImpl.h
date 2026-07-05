@@ -33,8 +33,10 @@ private:
 
   SystemState systemState = SystemState::INITIALIZING;
   uint32_t lastRetryMs = 0;
+  uint32_t lastInteractionMs = 0;  // Track last button press for quiet-window flush
+  uint32_t audioStoppedMs = 0;  // Track when audio stopped
   char lastError[256] = {0};
-  bool wasPlayingLastFrame = false;  // Track playback state for OLED updates
+  bool wasPlayingLastFrame = false;  // Track playback state for OLED updates on finish
   SemaphoreHandle_t i2cMutex = nullptr;  // Serialize I2C access (extI2C + codec I2C)
 
 public:

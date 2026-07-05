@@ -119,6 +119,58 @@ bool ButtonManagerImpl::isDebounced(uint32_t now, uint32_t lastChangeMs) {
   return (now - lastChangeMs) >= BUTTON_DEBOUNCE_MS;
 }
 
+void ButtonManagerImpl::queueButtonEvent(const ButtonEvent& event) {
+  // Add event to circular queue (drop oldest if full)
+  size_t nextTail = (queueTail + 1) % MAX_BUTTON_QUEUE;
+  if (nextTail == queueHead) {
+    // Queue full - drop oldest
+    queueHead = (queueHead + 1) % MAX_BUTTON_QUEUE;
+  }
+  buttonQueue[queueTail] = event;
+  queueTail = nextTail;
+}
+
+bool ButtonManagerImpl::hasQueuedEvent() const {
+  return queueHead != queueTail;
+}
+
+bool ButtonManagerImpl::dequeueEvent(ButtonEvent& outEvent) {
+  if (!hasQueuedEvent()) {
+    return false;
+  }
+  outEvent = buttonQueue[queueHead];
+  queueHead = (queueHead + 1) % MAX_BUTTON_QUEUE;
+  return true;
+}
+
+void ButtonManagerImpl::onPCF8574Interrupt() {
+  // Called from ISR when INT pin 19 goes LOW
+  // Read all button states and detect presses
+  if (!initialized) return;
+
+  uint32_t now = millis();
+  for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
+    bool currentState = pcf8574->read(buttons[i].port);
+
+    if (currentState != buttons[i].lastState) {
+      // State changed - check debounce
+      if (isDebounced(now, buttons[i].lastChangeMs)) {
+        buttons[i].lastChangeMs = now;
+        buttons[i].lastState = currentState;
+
+        // Falling edge (HIGH to LOW) = button press (active-low on PCF8574)
+        if (currentState == LOW && buttons[i].contentAvailable) {
+          ButtonEvent event;
+          event.typeIndex = i;
+          event.pressTimeMs = now;
+          event.isPress = true;
+          queueButtonEvent(event);
+        }
+      }
+    }
+  }
+}
+
 const char* ButtonManagerImpl::getLastError() const {
   return lastError;
 }

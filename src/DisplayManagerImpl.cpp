@@ -85,6 +85,8 @@ void DisplayManagerImpl::showNowPlaying(const char* filename) {
     display->drawStr(0, 10, "Playing:");
     display->drawStr(0, 25, basename);
     display->sendBuffer();
+    // Yield to let button polling happen during I2C transaction
+    vTaskDelay(pdMS_TO_TICKS(1));
   }
   if (i2cMutex) xSemaphoreGive(i2cMutex);
 
@@ -102,6 +104,7 @@ void DisplayManagerImpl::showStandby() {
     display->setFont(u8g2_font_6x10_tf);
     display->drawStr(0, 10, "Standby");
     display->sendBuffer();
+    vTaskDelay(pdMS_TO_TICKS(1));
   }
   if (i2cMutex) xSemaphoreGive(i2cMutex);
 
@@ -122,6 +125,7 @@ void DisplayManagerImpl::showDebug(const char* line1, const char* line2) {
       display->drawStr(0, 25, line2);
     }
     display->sendBuffer();
+    vTaskDelay(pdMS_TO_TICKS(1));
   }
   if (i2cMutex) xSemaphoreGive(i2cMutex);
 }

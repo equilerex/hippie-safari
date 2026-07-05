@@ -32,20 +32,7 @@ Use `.ai/prompts/` for reusable task workflows.
 
 - `prompts/review-diff.md`
   Code review workflow.
-
-## Skills
-
-Use `.ai/skills/` for project-specific conventions.
-
-- `skills/angular.md`
-  Angular conventions, if this repo uses Angular.
-
-- `skills/react.md`
-  React conventions, if this repo uses React.
-
-- `skills/esp32-platformio.md`
-  ESP32 / PlatformIO conventions, if this repo uses firmware.
-
+ 
 ## Tooling
 
 Use Serena for codebase navigation and editing:

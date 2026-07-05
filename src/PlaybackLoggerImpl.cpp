@@ -118,18 +118,38 @@ bool PlaybackLoggerImpl::flushQueue() {
   char logPath[256];
   getCurrentLogPath(logPath, sizeof(logPath), now);
 
-  // If date changed, we're writing to a new file (automatic rotation)
-  struct tm* timeinfo = localtime(&now);
-  time_t currentDate = (timeinfo->tm_year * 10000) + (timeinfo->tm_mon * 100) + timeinfo->tm_mday;
+  // Open file ONCE, write all events, close once (batch write)
+  File logFile = SD.open(logPath, FILE_APPEND);
+  if (!logFile) {
+    snprintf(lastError, sizeof(lastError), "Cannot open log file: %s", logPath);
+    return false;
+  }
 
   bool success = true;
+  size_t eventsWritten = 0;
   while (!eventQueue.empty()) {
     QueuedEvent qEvent = eventQueue.front();
-    if (!appendToLogFile(logPath, qEvent.entry)) {
+
+    char jsonLine[256];
+    formatEventJSON(qEvent.entry, jsonLine, sizeof(jsonLine));
+
+    size_t written = logFile.print(jsonLine);
+    if (written == 0) {
+      snprintf(lastError, sizeof(lastError), "Failed to write to log file: %s", logPath);
       success = false;
       break;  // Stop flushing on first error
     }
+
+    eventsWritten++;
     eventQueue.pop();
+  }
+
+  logFile.close();
+
+  if (success && debugLoggingEnabled) {
+    Serial.print("[LOG] Flushed ");
+    Serial.print(eventsWritten);
+    Serial.println(" events to SD");
   }
 
   if (success) {
@@ -140,6 +160,8 @@ bool PlaybackLoggerImpl::flushQueue() {
 }
 
 bool PlaybackLoggerImpl::appendToLogFile(const char* logPath, const LogEntry& entry) {
+  // Legacy single-event write (kept for backwards compat, but inefficient)
+  // For bulk writes, use flushQueue() instead
   File logFile = SD.open(logPath, FILE_APPEND);
   if (!logFile) {
     snprintf(lastError, sizeof(lastError), "Cannot open log file: %s", logPath);
