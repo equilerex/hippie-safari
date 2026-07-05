@@ -621,8 +621,8 @@
       });
       const heatmapData = [];
       let typeIdx = 0, variantSet = new Set();
-      typeVariantPairs.forEach((_, key) => {
-        const [_, variant] = key.split('||');
+      typeVariantPairs.forEach((cnt, k) => {
+        const [t, variant] = k.split('||');
         variantSet.add(variant);
       });
       const variantArray = Array.from(variantSet).slice(0, 20);
