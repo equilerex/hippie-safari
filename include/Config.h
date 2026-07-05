@@ -58,11 +58,12 @@ enum class EasterEggPattern : uint8_t {
   SOS_MORSE = 3,               // Morse code: tap-tap-tap, pause, tap-hold-tap-hold-tap-hold, pause, tap-tap-tap
   HAMMER_SINGLE = 4,           // Same button 15+ times in 3 sec
   TEAM_EFFORT = 5,             // All N buttons pressed simultaneously (within 100ms)
-  LONG_HOLD_SUSTAINED = 6,     // Hold any button 5+ sec
-  MULTI_HOLD = 7,              // Hold 2+ buttons simultaneously for 3+ sec
-  ALL_BUTTONS_HELD = 8,        // Hold all N buttons for 5+ sec
-  CHAOS_BURST = 9,             // 12+ random button presses in 4 sec
-  MULTI_CLICK = 10             // 4+ rapid presses of 2+ different buttons in 2 sec
+  FAST_CLICK_PAIR = 6,         // 2 buttons pressed within 100ms
+  LONG_HOLD_SUSTAINED = 7,     // Hold any button 5+ sec
+  MULTI_HOLD = 8,              // Hold 2+ buttons simultaneously for 3+ sec
+  ALL_BUTTONS_HELD = 9,        // Hold all N buttons for 5+ sec
+  CHAOS_BURST = 10,            // 12+ random button presses in 4 sec
+  MULTI_CLICK = 11             // 4+ rapid presses of 2+ different buttons in 2 sec
 };
 
 // Easter egg timing windows (milliseconds)
@@ -83,6 +84,7 @@ inline const char* getEasterEggPatternName(EasterEggPattern pattern) {
     case EasterEggPattern::SOS_MORSE: return "SOS_MORSE";
     case EasterEggPattern::HAMMER_SINGLE: return "HAMMER_SINGLE";
     case EasterEggPattern::TEAM_EFFORT: return "TEAM_EFFORT";
+    case EasterEggPattern::FAST_CLICK_PAIR: return "FAST_CLICK_PAIR";
     case EasterEggPattern::LONG_HOLD_SUSTAINED: return "LONG_HOLD_SUSTAINED";
     case EasterEggPattern::MULTI_HOLD: return "MULTI_HOLD";
     case EasterEggPattern::ALL_BUTTONS_HELD: return "ALL_BUTTONS_HELD";
