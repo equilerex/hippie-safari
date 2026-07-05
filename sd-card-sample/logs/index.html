@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hippy Safari — User Analytics</title>
+  <title>Hippy Safari — Complete Analytics</title>
   <style>
     * {
       margin: 0;
@@ -64,7 +64,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
@@ -94,19 +94,12 @@
       letter-spacing: 0.05em;
     }
 
-    select, input {
+    input[type="file"] {
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.5rem 0.75rem;
+      padding: 0.5rem;
       border-radius: 4px;
-      font-size: 0.875rem;
-    }
-
-    select:focus, input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.2);
     }
 
     button {
@@ -118,15 +111,10 @@
       cursor: pointer;
       font-size: 0.875rem;
       font-weight: 500;
-      transition: opacity 0.2s;
     }
 
     button:hover {
       opacity: 0.9;
-    }
-
-    button:active {
-      opacity: 0.8;
     }
 
     .status {
@@ -136,16 +124,10 @@
       font-size: 0.875rem;
     }
 
-    .status.loading {
+    .status.info {
       background: rgba(138, 180, 248, 0.1);
       border: 1px solid var(--accent);
       color: var(--accent);
-    }
-
-    .status.error {
-      background: rgba(242, 132, 130, 0.1);
-      border: 1px solid var(--error);
-      color: var(--error);
     }
 
     .status.success {
@@ -154,108 +136,9 @@
       color: var(--success);
     }
 
-    .status.info {
-      background: rgba(138, 180, 248, 0.1);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-    }
-
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .event {
-      background: var(--bg-alt);
-      border-left: 3px solid var(--accent);
-      padding: 1rem;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.2s;
-    }
-
-    .event:hover {
-      background: rgba(138, 180, 248, 0.05);
-    }
-
-    .event-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .event-time {
-      font-weight: 600;
-      color: var(--accent);
-      font-size: 0.875rem;
-      min-width: 140px;
-    }
-
-    .event-type {
-      display: inline-block;
-      background: var(--bg);
-      color: var(--accent);
-      padding: 0.25rem 0.75rem;
-      border-radius: 3px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border: 1px solid var(--accent);
-    }
-
-    .event-type.PLAYBACK_STARTED {
-      border-color: var(--success);
-      color: var(--success);
-    }
-
-    .event-type.PLAYBACK_ENDED {
-      border-color: var(--warning);
-      color: var(--warning);
-    }
-
-    .event-type.SD_ERROR, .event-type.CONFIG_ERROR {
-      border-color: var(--error);
-      color: var(--error);
-    }
-
-    .event-type.SD_RECOVERED {
-      border-color: var(--success);
-      color: var(--success);
-    }
-
-    .event-details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      margin-top: 0.75rem;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .detail-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .detail-value {
-      color: var(--text);
-      font-weight: 500;
-    }
-
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem;
       margin-bottom: 2rem;
     }
@@ -282,35 +165,70 @@
       letter-spacing: 0.05em;
     }
 
-    .empty {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: var(--text-muted);
+    .chart-container {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      min-height: 450px;
     }
 
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 2rem;
+    .chart-title {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-alt);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    thead {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    th:hover {
+      background: var(--bg-alt);
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
       font-size: 0.875rem;
     }
 
-    .pagination button {
-      padding: 0.5rem 1rem;
-      min-width: 3rem;
+    tr:hover {
+      background: rgba(138, 180, 248, 0.05);
     }
 
-    .pagination button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    .intent-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
 
-    .pagination span {
-      color: var(--text-muted);
-      margin: 0 0.5rem;
-    }
+    .intent-ENGAGED { background: rgba(129, 201, 149, 0.2); color: var(--success); }
+    .intent-EXPLORING { background: rgba(253, 226, 147, 0.2); color: var(--warning); }
+    .intent-REJECTED { background: rgba(242, 132, 130, 0.2); color: var(--error); }
+    .intent-UNKNOWN { background: rgba(154, 160, 166, 0.2); color: var(--text-muted); }
 
     footer {
       text-align: center;
@@ -321,37 +239,35 @@
       margin-top: 4rem;
     }
 
-    .chart-container {
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 2rem;
-      height: 400px;
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
     }
   </style>
   <script src="./highcharts.js"></script>
 </head>
 <body>
   <header>
-    <h1>🌴 Hippy Safari — User Analytics</h1>
+    <h1>🌴 Hippy Safari — Complete Analytics</h1>
     <div class="header-meta">
       <span id="file-status">No logs loaded</span>
     </div>
   </header>
 
   <div class="container">
-    <div id="status" class="status loading">Loading logs...</div>
-
     <div class="controls">
       <div class="control-group">
-        <label for="file-input">📂 Load Log Files</label>
-        <input type="file" id="file-input" multiple accept=".json" style="padding: 0.5rem;">
+        <label for="file-input">📂 Load Logs</label>
+        <input type="file" id="file-input" multiple accept=".json">
       </div>
       <button id="export-btn">⬇ Export CSV</button>
     </div>
 
-    <div id="status" class="status info" style="margin-bottom: 2rem;">Select log files to begin</div>
+    <div id="status" class="status info">Select log files to begin</div>
 
     <!-- KEY METRICS -->
     <div class="stats">
@@ -360,216 +276,389 @@
         <div class="stat-label">Total Clicks</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="stat-completions">0</div>
-        <div class="stat-label">Audio Completions</div>
-      </div>
-      <div class="stat-card">
         <div class="stat-value" id="stat-sessions">0</div>
         <div class="stat-label">Sessions</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="stat-easteregggs">0</div>
-        <div class="stat-label">Easter Eggs Found</div>
+        <div class="stat-value" id="stat-completions">0</div>
+        <div class="stat-label">Completions</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="stat-completion-rate">0%</div>
         <div class="stat-label">Completion Rate</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="stat-avg-listen">0s</div>
-        <div class="stat-label">Avg Listen Time</div>
+        <div class="stat-value" id="stat-avg-session">0s</div>
+        <div class="stat-label">Avg Session Time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-easter-eggs">0</div>
+        <div class="stat-label">Easter Eggs</div>
       </div>
     </div>
 
-    <!-- CONTENT POPULARITY CHARTS -->
+    <!-- CHARTS SECTION -->
+    <div class="section-title">📊 Visualizations</div>
+
+    <div class="chart-container">
+      <div class="chart-title">🌊 User Journey Flows (Sankey)</div>
+      <div id="chart-sankey"></div>
+    </div>
+
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-      <div class="chart-container" id="chart-types"></div>
-      <div class="chart-container" id="chart-variants"></div>
+      <div class="chart-container">
+        <div class="chart-title">🔥 Content Type Popularity</div>
+        <div id="chart-types"></div>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">⭐ Variant Popularity (Drilldown)</div>
+        <div id="chart-variants"></div>
+      </div>
     </div>
 
-    <!-- INTENT PATTERNS -->
-    <div class="chart-container" id="chart-intent" style="margin-bottom: 2rem;"></div>
-
-    <!-- USER FLOWS -->
-    <div style="margin-top: 2rem;">
-      <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">🚶 Top User Flows</h3>
-      <div id="flow-breakdown" style="font-size: 0.875rem; background: var(--bg-alt); border-left: 3px solid var(--accent); padding: 1rem; border-radius: 4px;"></div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+      <div class="chart-container">
+        <div class="chart-title">👤 Intent Distribution</div>
+        <div id="chart-intent"></div>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">🎵 Mode Usage</div>
+        <div id="chart-modes"></div>
+      </div>
     </div>
 
-    <!-- EASTER EGG DISCOVERIES -->
-    <div style="margin-top: 2rem;">
-      <h3 style="margin-bottom: 1rem; color: var(--accent); font-size: 1.1rem;">🎉 Easter Egg Discoveries</h3>
-      <div id="easter-eggs" style="font-size: 0.875rem; background: var(--bg-alt); border-left: 3px solid var(--accent); padding: 1rem; border-radius: 4px;"></div>
+    <div class="chart-container">
+      <div class="chart-title">🔀 Intent Funnel</div>
+      <div id="chart-funnel"></div>
     </div>
 
-    <!-- MODE USAGE -->
-    <div class="chart-container" id="chart-modes" style="margin-bottom: 2rem;"></div>
+    <div class="chart-container">
+      <div class="chart-title">📈 Session Timeline (colored by intent)</div>
+      <div id="chart-timeline"></div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">🔥 Type-Variant Heatmap</div>
+      <div id="chart-heatmap"></div>
+    </div>
+
+    <!-- DATA TABLE SECTION -->
+    <div class="section-title">📋 Raw Session Data</div>
+    <div style="overflow-x: auto; margin-bottom: 2rem;">
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Duration</th>
+            <th>Start Time</th>
+            <th>Types Visited</th>
+            <th>Variants Tried</th>
+            <th>Intent</th>
+            <th>Completions</th>
+            <th>Modes</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <footer>
-    <p>Event logs stored in <code>/logs/YYYY-MM-DD.json</code> · Keymap in <code>/logs/keymap.json</code></p>
+    <p>Event logs: <code>/logs/YYYY-MM-DD.json</code> · Keymap: <code>/logs/keymap.json</code></p>
   </footer>
 
   <script>
     let allEvents = [];
-    let keymap = {};
-
     const intentMap = { 0: "UNKNOWN", 1: "ENGAGED", 2: "EXPLORING", 3: "REJECTED", 4: "ERROR" };
-    const easterEggPatterns = { 1: "SECRET_BUTTON", 2: "ASCENDING_SWEEP", 3: "SOS_MORSE", 4: "HAMMER_SINGLE", 5: "TEAM_EFFORT", 6: "LONG_HOLD_SUSTAINED", 7: "MULTI_HOLD", 8: "ALL_BUTTONS_HELD", 9: "CHAOS_BURST", 10: "MULTI_CLICK" };
 
     async function loadFilesFromPicker(files) {
-      try {
-        allEvents = [];
-        for (const file of files) {
-          await loadLogFileFromFile(file);
-        }
-        document.getElementById('file-status').textContent = `Loaded ${files.length} file(s) • ${allEvents.length} events`;
-        computeAnalytics();
-      } catch (e) {
-        setStatus('error', `Failed: ${e.message}`);
+      allEvents = [];
+      for (const file of files) {
+        await loadLogFileFromFile(file);
       }
+      document.getElementById('file-status').textContent = `Loaded ${files.length} file(s) • ${allEvents.length} events`;
+      computeAnalytics();
     }
 
     async function loadLogFileFromFile(file) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (evt) => {
           try {
-            const text = evt.target.result;
-            text.trim().split('\n').filter(l => l.trim()).forEach(line => {
+            evt.target.result.trim().split('\n').filter(l => l.trim()).forEach(line => {
               try { allEvents.push(JSON.parse(line)); } catch (e) {}
             });
-            resolve();
-          } catch (e) { reject(e); }
+          } catch (e) {}
+          resolve();
         };
-        reader.onerror = () => reject(reader.error);
         reader.readAsText(file);
       });
     }
 
     function computeAnalytics() {
-      const sessions = {};
-      const typeClicks = {};
-      const variants = {};
-      const modes = {};
-      const intentCounts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
-      const flows = {};
-      const easterEggs = {};
-      let totalClicks = 0, completions = 0, avgListenTime = 0;
+      // Parse sessions
+      const sessions = new Map();
+      const typeFlow = [];
+      let totalClicks = 0;
 
-      // Parse events
       allEvents.forEach(e => {
-        if (e.evt === 0 || e.evt === 1) totalClicks++; // TYPE_SELECTED, VARIANT_CHANGED
-        if (e.evt === 10) { // PLAYBACK_SESSION
-          sessions[e.sid] = e;
-          if (e.intent !== undefined) intentCounts[e.intent]++;
-          if (e.complete) completions++;
-          if (e.actDur) avgListenTime += e.actDur;
+        if (e.evt === 0 || e.evt === 1) totalClicks++;
+
+        if (e.evt === 10 && e.sid) { // PLAYBACK_SESSION
+          if (!sessions.has(e.sid)) {
+            sessions.set(e.sid, {
+              id: e.sid,
+              types: [],
+              variants: [],
+              modes: new Set(),
+              completions: 0,
+              duration: 0,
+              startTime: e.ts,
+              endTime: e.ts,
+              intent: e.intent || 0
+            });
+          }
+          const sess = sessions.get(e.sid);
+          if (e.type) sess.types.push(e.type);
+          if (e.var) sess.variants.push(e.var);
+          if (e.mode) sess.modes.add(e.mode);
+          if (e.complete) sess.completions++;
+          sess.endTime = Math.max(sess.endTime, e.ts);
         }
-        if (e.evt === 2 && e.type) typeClicks[e.type] = (typeClicks[e.type] || 0) + 1;
-        if (e.evt === 3 && e.var) variants[e.var] = (variants[e.var] || 0) + 1;
-        if (e.mode) modes[e.mode] = (modes[e.mode] || 0) + 1;
-        if (e.evt === 11) { // EASTER_EGG_TRIGGERED
-          const patternName = easterEggPatterns[e.sid] || e.type || 'Unknown';
-          easterEggs[patternName] = (easterEggs[patternName] || 0) + 1;
+
+        if (e.evt === 0 && e.sid) { // TYPE_SELECTED
+          typeFlow.push({ sid: e.sid, type: e.type, ts: e.ts });
         }
       });
 
-      // User flows: TYPE_SELECTED → TYPE_SELECTED sequences (with gap check)
-      const typeSelects = allEvents.filter(e => e.evt === 0).map((e, i, arr) => ({ type: e.type, ts: e.ts }));
-      for (let i = 0; i < typeSelects.length - 1; i++) {
-        const gap = typeSelects[i+1].ts - typeSelects[i].ts;
-        if (gap < 60 && typeSelects[i].type && typeSelects[i+1].type) { // within 60 sec = related flow
-          const flow = `${typeSelects[i].type} → ${typeSelects[i+1].type}`;
-          flows[flow] = (flows[flow] || 0) + 1;
+      // Calculate session durations
+      sessions.forEach(s => {
+        s.duration = (s.endTime - s.startTime) * 1000;
+        s.modes = Array.from(s.modes);
+      });
+
+      // Build flows (Sankey)
+      const flowMap = new Map();
+      const sessionsArray = Array.from(sessions.values());
+      sessionsArray.forEach(s => {
+        const types = [...new Set(s.types)];
+        for (let i = 0; i < types.length - 1; i++) {
+          const key = `${types[i]}||${types[i+1]}`;
+          flowMap.set(key, (flowMap.get(key) || 0) + 1);
         }
-      }
+      });
 
-      avgListenTime = completions > 0 ? Math.round(avgListenTime / completions) : 0;
-      const completionRate = (completions * 100 / Object.keys(sessions).length).toFixed(1);
+      // Type-variant pairs
+      const typeVariantPairs = new Map();
+      allEvents.forEach(e => {
+        if (e.evt === 3 && e.type && e.var) { // PLAYBACK_ENDED
+          const key = `${e.type}||${e.var}`;
+          typeVariantPairs.set(key, (typeVariantPairs.get(key) || 0) + 1);
+        }
+      });
 
-      // Render stats
+      // Type stats
+      const typeStats = new Map();
+      sessionsArray.forEach(s => {
+        s.types.forEach(t => {
+          if (!typeStats.has(t)) {
+            typeStats.set(t, { plays: 0, completions: 0, totalDuration: 0, variants: new Set() });
+          }
+          const stats = typeStats.get(t);
+          stats.plays++;
+          stats.completions += s.completions;
+          stats.totalDuration += s.duration;
+          s.variants.forEach(v => stats.variants.add(v));
+        });
+      });
+
+      // Stats
+      const completions = sessionsArray.filter(s => s.completions > 0).length;
+      const avgSession = sessionsArray.length > 0 ? sessionsArray.reduce((a, s) => a + s.duration, 0) / sessionsArray.length / 1000 : 0;
+      const easterEggs = allEvents.filter(e => e.evt === 11).length;
+
       document.getElementById('stat-clicks').textContent = totalClicks;
+      document.getElementById('stat-sessions').textContent = sessionsArray.length;
       document.getElementById('stat-completions').textContent = completions;
-      document.getElementById('stat-sessions').textContent = Object.keys(sessions).length;
-      document.getElementById('stat-easteregggs').textContent = Object.values(easterEggs).reduce((a,b) => a+b, 0);
-      document.getElementById('stat-completion-rate').textContent = completionRate + '%';
-      document.getElementById('stat-avg-listen').textContent = (avgListenTime / 1000).toFixed(1) + 's';
+      document.getElementById('stat-completion-rate').textContent = ((completions / sessionsArray.length * 100) || 0).toFixed(1) + '%';
+      document.getElementById('stat-avg-session').textContent = avgSession.toFixed(1) + 's';
+      document.getElementById('stat-easter-eggs').textContent = easterEggs;
 
-      // Type ranking chart
-      const typeData = Object.entries(typeClicks)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0, 10);
-      if (typeData.length > 0) {
-        Highcharts.chart('chart-types', {
-          chart: { type: 'column', backgroundColor: 'transparent', style: { fontFamily: 'inherit', color: '#e8eaed' } },
-          title: { text: '🔥 Top Content Types' },
-          xAxis: { categories: typeData.map(d => d[0]), labels: { style: { color: '#9aa0a6' } } },
-          yAxis: { title: { text: 'Plays' }, labels: { style: { color: '#9aa0a6' } } },
-          legend: { enabled: false },
-          series: [{ name: 'Plays', data: typeData.map(d => d[1]), color: '#8ab4f8' }],
+      // Render charts
+      renderCharts(sessionsArray, typeStats, typeVariantPairs, flowMap);
+      renderDataTable(sessionsArray);
+
+      setStatus('success', `Analyzed ${allEvents.length} events, ${sessionsArray.length} sessions`);
+    }
+
+    function renderCharts(sessions, typeStats, typeVariantPairs, flowMap) {
+      const chartTheme = { colors: ['#8ab4f8', '#81c995', '#fde293', '#f28482', '#a8d8ea', '#aa96da'] };
+
+      // Sankey: Type flows
+      const sanKeyNodes = [];
+      const sanKeyLinks = [];
+      const typeNames = new Set();
+      flowMap.forEach((count, key) => {
+        const [from, to] = key.split('||');
+        typeNames.add(from);
+        typeNames.add(to);
+      });
+      const nodeList = Array.from(typeNames);
+      flowMap.forEach((count, key) => {
+        const [from, to] = key.split('||');
+        sanKeyLinks.push({ from, to, weight: count });
+      });
+
+      if (sanKeyLinks.length > 0) {
+        Highcharts.chart('chart-sankey', {
+          chart: { type: 'sankey', backgroundColor: 'transparent' },
+          title: { text: null },
+          series: [{ keys: ['from', 'to', 'weight'], data: sanKeyLinks.map(l => [l.from, l.to, l.weight]) }],
           credits: { enabled: false }
         });
       }
 
-      // Variant ranking chart
-      const variantData = Object.entries(variants)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0, 10);
-      if (variantData.length > 0) {
-        Highcharts.chart('chart-variants', {
-          chart: { type: 'bar', backgroundColor: 'transparent', style: { fontFamily: 'inherit', color: '#e8eaed' } },
-          title: { text: '⭐ Top Variants' },
-          xAxis: { categories: variantData.map(d => d[0].slice(0, 20)), labels: { style: { color: '#9aa0a6' } } },
-          yAxis: { title: { text: 'Plays' }, labels: { style: { color: '#9aa0a6' } } },
-          legend: { enabled: false },
-          series: [{ name: 'Plays', data: variantData.map(d => d[1]), color: '#81c995' }],
-          credits: { enabled: false }
-        });
-      }
+      // Types (column)
+      const typeData = Array.from(typeStats.entries())
+        .map(([name, stats]) => ({ name, y: stats.plays }))
+        .sort((a, b) => b.y - a.y)
+        .slice(0, 12);
+      Highcharts.chart('chart-types', {
+        chart: { type: 'column', backgroundColor: 'transparent' },
+        title: { text: null },
+        xAxis: { categories: typeData.map(d => d.name.slice(0, 15)) },
+        yAxis: { title: { text: 'Plays' } },
+        series: [{ name: 'Plays', data: typeData.map(d => d.y), color: '#8ab4f8' }],
+        credits: { enabled: false }
+      });
 
-      // Intent distribution pie chart
+      // Variants (Drilldown)
+      const variantData = Array.from(typeVariantPairs.entries())
+        .map(([key, count]) => {
+          const [type, variant] = key.split('||');
+          return { type, variant, count };
+        })
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 15);
+      Highcharts.chart('chart-variants', {
+        chart: { type: 'bar', backgroundColor: 'transparent' },
+        title: { text: null },
+        xAxis: { categories: variantData.map(d => `${d.variant.slice(0, 12)}`) },
+        yAxis: { title: { text: 'Plays' } },
+        series: [{ name: 'Plays', data: variantData.map(d => d.count), color: '#81c995' }],
+        credits: { enabled: false }
+      });
+
+      // Intent pie
+      const intentCounts = [0, 0, 0, 0, 0];
+      sessions.forEach(s => { intentCounts[s.intent]++; });
       const intentData = Object.entries(intentCounts)
         .filter(([_, count]) => count > 0)
         .map(([code, count]) => ({ name: intentMap[code], y: count }));
-      if (intentData.length > 0) {
-        Highcharts.chart('chart-intent', {
-          chart: { type: 'pie', backgroundColor: 'transparent', style: { fontFamily: 'inherit' } },
-          title: { text: '👤 User Intent Distribution' },
-          series: [{ name: 'Sessions', data: intentData, colors: ['#9aa0a6', '#81c995', '#fde293', '#f28482', '#8ab4f8'] }],
-          credits: { enabled: false }
+      Highcharts.chart('chart-intent', {
+        chart: { type: 'pie', backgroundColor: 'transparent' },
+        title: { text: null },
+        series: [{ name: 'Sessions', data: intentData, colors: chartTheme.colors }],
+        credits: { enabled: false }
+      });
+
+      // Modes pie
+      const modeCounts = {};
+      sessions.forEach(s => {
+        s.modes.forEach(m => { modeCounts[m] = (modeCounts[m] || 0) + 1; });
+      });
+      const modeData = Object.entries(modeCounts)
+        .map(([name, count]) => ({ name, y: count }))
+        .sort((a, b) => b.y - a.y);
+      Highcharts.chart('chart-modes', {
+        chart: { type: 'pie', backgroundColor: 'transparent' },
+        title: { text: null },
+        series: [{ name: 'Plays', data: modeData, colors: chartTheme.colors }],
+        credits: { enabled: false }
+      });
+
+      // Intent funnel
+      const funnelData = [
+        { name: 'Total Sessions', y: sessions.length },
+        { name: 'Exploring', y: sessions.filter(s => s.intent === 2).length },
+        { name: 'Engaged', y: sessions.filter(s => s.intent === 1).length },
+        { name: 'Rejected', y: sessions.filter(s => s.intent === 3).length }
+      ].filter(d => d.y > 0);
+      Highcharts.chart('chart-funnel', {
+        chart: { type: 'funnel', backgroundColor: 'transparent' },
+        title: { text: null },
+        series: [{ name: 'Sessions', data: funnelData }],
+        credits: { enabled: false }
+      });
+
+      // Session timeline (sorted by start time)
+      const timelineSessions = sessions.sort((a, b) => a.startTime - b.startTime).slice(0, 50);
+      const timelineData = timelineSessions.map((s, i) => ({
+        name: `Session #${s.id}`,
+        x: new Date(s.startTime * 1000).getTime(),
+        x2: new Date(s.endTime * 1000).getTime(),
+        y: i,
+        color: ['#9aa0a6', '#81c995', '#fde293', '#f28482', '#8ab4f8'][s.intent % 5]
+      }));
+      Highcharts.chart('chart-timeline', {
+        chart: { type: 'xrange', backgroundColor: 'transparent', height: '50%' },
+        title: { text: null },
+        xAxis: { type: 'datetime' },
+        yAxis: { categories: timelineSessions.map(s => `#${s.id}`), reversed: true },
+        series: [{ name: 'Session', data: timelineData }],
+        credits: { enabled: false }
+      });
+
+      // Type-variant heatmap
+      const typeVariantMatrix = {};
+      Array.from(typeStats.keys()).forEach(type => { typeVariantMatrix[type] = {}; });
+      typeVariantPairs.forEach((count, key) => {
+        const [type, variant] = key.split('||');
+        if (typeVariantMatrix[type]) {
+          typeVariantMatrix[type][variant] = count;
+        }
+      });
+      const heatmapData = [];
+      let typeIdx = 0, variantSet = new Set();
+      typeVariantPairs.forEach((_, key) => {
+        const [_, variant] = key.split('||');
+        variantSet.add(variant);
+      });
+      const variantArray = Array.from(variantSet).slice(0, 20);
+      Object.entries(typeVariantMatrix).forEach(([type, variants]) => {
+        variantArray.forEach((variant, varIdx) => {
+          heatmapData.push([varIdx, typeIdx, variants[variant] || 0]);
         });
-      }
+        typeIdx++;
+      });
+      Highcharts.chart('chart-heatmap', {
+        chart: { type: 'heatmap', backgroundColor: 'transparent' },
+        title: { text: null },
+        xAxis: { categories: variantArray.map(v => v.slice(0, 10)) },
+        yAxis: { categories: Object.keys(typeVariantMatrix) },
+        series: [{ name: 'Plays', data: heatmapData, colorByPoint: false }],
+        credits: { enabled: false }
+      });
+    }
 
-      // User flows
-      const flowBreakdown = document.getElementById('flow-breakdown');
-      flowBreakdown.innerHTML = Object.entries(flows)
-        .sort((a,b) => b[1] - a[1])
-        .slice(0, 10)
-        .map(([flow, count]) => `<div style="margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg); border-radius: 3px; border-left: 3px solid var(--accent);"><code>${flow}</code> <strong style="float: right;">${count}×</strong></div>`)
-        .join('') || '<div style="color: var(--text-muted);">No flow data</div>';
-
-      // Easter eggs
-      const eggsDiv = document.getElementById('easter-eggs');
-      eggsDiv.innerHTML = Object.entries(easterEggs)
-        .sort((a,b) => b[1] - a[1])
-        .map(([pattern, count]) => `<div style="margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg); border-radius: 3px;"><strong>${pattern}</strong> discovered <strong style="color: var(--success);">${count}</strong> times</div>`)
-        .join('') || '<div style="color: var(--text-muted);">No easter eggs found yet</div>';
-
-      // Mode usage pie chart
-      const modeData = Object.entries(modes)
-        .sort((a,b) => b[1] - a[1])
-        .map(([mode, count]) => ({ name: mode, y: count }));
-      if (modeData.length > 0) {
-        Highcharts.chart('chart-modes', {
-          chart: { type: 'pie', backgroundColor: 'transparent', style: { fontFamily: 'inherit' } },
-          title: { text: '🎵 Mode Usage' },
-          series: [{ name: 'Plays', data: modeData }],
-          credits: { enabled: false }
-        });
-      }
-
-      setStatus('success', `Analyzed ${allEvents.length} events`);
+    function renderDataTable(sessions) {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = sessions
+        .sort((a, b) => b.endTime - a.endTime)
+        .map(s => `
+          <tr>
+            <td>#${s.id}</td>
+            <td>${(s.duration / 1000).toFixed(1)}s</td>
+            <td>${new Date(s.startTime * 1000).toLocaleString()}</td>
+            <td>${s.types.join(', ') || '—'}</td>
+            <td>${s.variants.length}</td>
+            <td><span class="intent-badge intent-${intentMap[s.intent]}">${intentMap[s.intent]}</span></td>
+            <td>${s.completions}</td>
+            <td>${s.modes.join(', ') || 'default'}</td>
+          </tr>
+        `)
+        .join('');
     }
 
     function setStatus(type, msg) {
@@ -581,8 +670,15 @@
     document.getElementById('file-input').addEventListener('change', (evt) => {
       if (evt.target.files.length > 0) loadFilesFromPicker(evt.target.files);
     });
+
     document.getElementById('export-btn').onclick = () => {
-      const csv = allEvents.map(e => [e.ts, e.evt, e.sid, e.intent, e.type, e.var, e.mode, e.actDur, e.complete].join(',')).join('\n');
+      const csv = 'ID,Duration,Types,Variants,Intent,Completions\n' +
+        Array.from(document.querySelectorAll('#table-body tr'))
+          .map(tr => {
+            const cells = tr.querySelectorAll('td');
+            return [cells[0], cells[1], cells[3], cells[4], cells[5], cells[6]].map(c => '"' + c.textContent.replace(/"/g, '""') + '"').join(',');
+          })
+          .join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
