@@ -19,9 +19,13 @@ constexpr uint8_t PIN_I2S_DOUT = 35;
 constexpr uint8_t PIN_I2S_DIN  = 25;
 constexpr uint8_t PIN_I2S_MCLK = 0;
 
-// I2C (codec config)
+// I2C (codec config — internal, managed by audio lib)
 constexpr uint8_t PIN_I2C_SDA = 33;
 constexpr uint8_t PIN_I2C_SCL = 32;
+
+// External I2C bus (RTC, OLED, PCF8574 — all share this bus)
+constexpr uint8_t PIN_EXT_I2C_SDA = 18;
+constexpr uint8_t PIN_EXT_I2C_SCL = 23;
 
 // SD card (manual SPI control)
 constexpr uint8_t PIN_SD_CS   = 13;
@@ -33,22 +37,16 @@ constexpr uint8_t PIN_SD_SCK  = 14;
 constexpr uint8_t PIN_AMP_ENABLE = 21;
 constexpr bool    AMP_ENABLED_STATE = LOW;
 
-// Button types (reliable pins only on ESP32-A1S AudioKit v2.2)
-// GPIO 36: unreliable with Wi-Fi
-// GPIO 13: disabled by SD card SPI
-// GPIO 19: conflicts with onboard LED
-// Working pins: 5, 18, 23 (3 buttons)
-constexpr uint8_t PIN_BTN_TYPE0 = 5;   // Button 0 (Key 6)
-constexpr uint8_t PIN_BTN_TYPE1 = 18;  // Button 1 (Key 5)
-constexpr uint8_t PIN_BTN_TYPE2 = 23;  // Button 2 (Key 4)
-
-// Number of button types enabled
-constexpr uint8_t NUM_BUTTON_TYPES = 3;
-
-// Array of button GPIO pins (in type order)
+// User buttons — now on PCF8574 GPIO expander (addr 0x20)
+// PCF8574 provides 8 ports (P0-P7), active-low (button pulls to GND)
+// Port indices for each content type (adjusted per content discovery)
+constexpr uint8_t NUM_BUTTON_TYPES = 3;  // 3 content types; adjust if more/fewer types discovered
 constexpr uint8_t BUTTON_PINS[NUM_BUTTON_TYPES] = {
-  PIN_BTN_TYPE0, PIN_BTN_TYPE1, PIN_BTN_TYPE2
+  0, 1, 2  // PCF8574 ports P0, P1, P2 (was ESP32 GPIOs 5, 18, 23)
 };
+
+// Onboard debug button (optional, direct GPIO — not part of PCF8574 array)
+constexpr uint8_t PIN_BTN_DEBUG = 5;
 
 // ============================================================================
 // FILE PATHS & STORAGE

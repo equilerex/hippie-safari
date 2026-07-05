@@ -1,8 +1,11 @@
 #ifndef SYSTEMMANAGERIMPL_H
 #define SYSTEMMANAGERIMPL_H
 
-
 #include <memory>
+#include <Wire.h>
+#include <PCF8574.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/semphr.h>
 #include "../include/SystemManager.h"
 #include "ContentManagerImpl.h"
 #include "ConfigLoaderImpl.h"
@@ -10,12 +13,20 @@
 #include "AudioPlayerImpl.h"
 #include "ButtonManagerImpl.h"
 #include "PlaybackLoggerImpl.h"
+#include "RtcManagerImpl.h"
+#include "DisplayManagerImpl.h"
 
 class SystemManagerImpl : public SystemManager {
 private:
+  // External I2C bus (shared by RTC, OLED, PCF8574)
+  TwoWire extI2C{1};
+  std::unique_ptr<PCF8574> pcf8574;
+
   std::unique_ptr<ContentManagerImpl> contentMgr;
   std::unique_ptr<ConfigLoaderImpl> configLoader;
   std::unique_ptr<PlaybackLoggerImpl> logger;
+  std::unique_ptr<RtcManagerImpl> rtcMgr;
+  std::unique_ptr<DisplayManagerImpl> displayMgr;
   std::unique_ptr<PlaybackControllerImpl> playbackCtrl;
   std::unique_ptr<AudioPlayerImpl> audioPlayer;
   std::unique_ptr<ButtonManagerImpl> buttonMgr;
@@ -23,6 +34,8 @@ private:
   SystemState systemState = SystemState::INITIALIZING;
   uint32_t lastRetryMs = 0;
   char lastError[256] = {0};
+  bool wasPlayingLastFrame = false;  // Track playback state for OLED updates
+  SemaphoreHandle_t i2cMutex = nullptr;  // Serialize I2C access (extI2C + codec I2C)
 
 public:
   SystemManagerImpl() = default;
@@ -45,6 +58,5 @@ private:
   void handleButtonEvent(const ButtonEvent& event);
   void processRecovery();
 };
-
 
 #endif // SYSTEMMANAGERIMPL_H

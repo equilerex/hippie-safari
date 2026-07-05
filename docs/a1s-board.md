@@ -1,74 +1,338 @@
-# Project hardware:
+# Project Hardware
 
+## Board
 
-The AI-Thinker ESP32-A1S V2.2 Audio Kit utilizes an onboard ESP32-WROVER module paired with an ES8388 (or legacy AC101) audio codec. Many GPIOs are reserved for audio. [1, 2, 3]
-Here is the specific mapping and usage constraints:
-## Audio Codec (ES8388)
+- AI-Thinker ESP32-A1S Audio Kit V2.2
+- Audio codec: ES8388
+- ESP32 module: ESP32-WROVER
 
-* I2S SCK / BCLK: GPIO 27
-* I2S WS (LRCK): GPIO 26
-* I2S SDIN: GPIO 25
-* I2S SDOUT: GPIO 35
-* I2S MCLK: GPIO 0
-* I2C SDA: GPIO 33
-* I2C SCL: GPIO 32 [3, 4]
+---
 
-## Onboard Hardware Connections
+# Confirmed Hardware Configuration (Verified)
 
-* Headphone Jack Detection: GPIO 39
-* Amp Shutdown: GPIO 21
-* Key 1: GPIO 36
-* Key 2 / Vol Up: GPIO 13
-* Key 3 / Vol Down: GPIO 19
-* Key 4: GPIO 23
-* Key 5: GPIO 18
-* Key 6: GPIO 5 [1, 5, 6, 7, 8]
+The following has been verified on the actual hardware.
 
-## Exposed Header Pins (Top of Board)
-The main expansion headers provide:
+## Audio (I2S)
 
-* Power: 3.3V and GND
-* UART: GPIO 1 (TX0) and GPIO 3 (RX0)
-* General I/O: GPIO 0, 5, 18, 19, 21, 22, 23
-* Strapping Pins: GPIO 0 is tied to the BOOT button. Avoid pulling it LOW at startup to prevent bootlooping. [1, 9, 10]
+| Signal | GPIO |
+|---------|-----:|
+| BCLK | 27 |
+| LRCK / WS | 26 |
+| DIN | 25 |
+| DOUT | 35 |
+| MCLK | 0 |
 
-For an in-depth pin breakdown and layout visual, consult the [TinyTronics ESP32-A1S Specification PDF](https://www.tinytronics.nl/product_files/003625_ESP32-A1S-datasheet.pdf). [11]
+These pins are required for audio playback and should not be repurposed.
+
+---
+
+## Codec Configuration I²C
+
+The audio firmware successfully initializes and plays audio using:
+
+| Signal | GPIO |
+|---------|-----:|
+| SDA | 33 |
+| SCL | 32 |
+
+These pins configure the ES8388 codec.
+
+No I²C devices are visible on this bus using a normal Wire scanner, indicating the audio library likely manages this bus internally.
+
+Do not attach external peripherals here.
+
+---
+
+## External Expansion I²C (Verified)
+
+A dedicated external I²C bus was verified on the expansion header.
+
+| Signal | GPIO |
+|---------|-----:|
+| SDA | 18 |
+| SCL | 23 |
+
+Verified by hardware scan.
+
+### Connected devices
+
+| Address | Device | Notes |
+|---------:|--------|------|
+| 0x20 | PCF8574 GPIO Expander | Button expansion |
+| 0x3C | SSD1306 0.96" OLED | Display module |
+| 0x50 | AT24C32 EEPROM | Integrated on DS3231 module |
+| 0x68 | DS3231 RTC | Real-time clock |
+
+Example:
+
+```cpp
+TwoWire peripherals = TwoWire(1);
+
+peripherals.begin(18, 23);
+```
+
+All external peripherals should share this bus.
+
+Recommended usage:
+
+```cpp
+display.begin(..., &peripherals);
+rtc.begin(&peripherals);
+pcf8574.begin(&peripherals);
+```
+
+Current peripherals:
+
+```
+ESP32 GPIO18 (SDA)
+            │
+            ├── DS3231 RTC (0x68)
+            │      └── AT24C32 EEPROM (0x50)
+            │
+            ├── SSD1306 OLED (0x3C)
+            │
+            └── PCF8574 GPIO Expander (0x20)
+
+ESP32 GPIO23 (SCL)
+            │
+            └── Shared by all devices
+```
+
+This bus has been verified to operate correctly alongside audio playback.
+
+---
+
+## OLED Display
+
+### Module
+
+- Controller: **SSD1306**
+- Size: **0.96"**
+- Interface: **I²C**
+- Resolution: **128 × 64**
+- I²C Address: **0x3C**
+
+Board markings:
+
+```
+OLED IIC
+ADD_SELECT
+0x78 / 0x7A
+```
+
+The PCB uses **8-bit I²C notation**:
+
+| PCB Marking | Actual Address |
+|-------------|---------------:|
+| 0x78 | 0x3C |
+| 0x7A | 0x3D |
+
+This project uses **0x3C**.
+
+---
+
+## SD Card
+
+| Signal | GPIO |
+|---------|-----:|
+| CS | 13 |
+| MISO | 2 |
+| MOSI | 15 |
+| SCK | 14 |
+
+---
+
+## Amplifier
+
+| Function | GPIO |
+|----------|-----:|
+| Amplifier Enable / Shutdown | 21 |
+
+```cpp
+constexpr bool AMP_ENABLED_STATE = LOW;
+```
+
+GPIO21 should not be reused.
+
+---
+
+## Onboard Buttons
+
+| Button | GPIO | Notes |
+|--------|-----:|------|
+| Key 1 | 36 | Unreliable with Wi-Fi |
+| Key 2 | 13 | Shared with SD card |
+| Key 3 | 19 | LED conflict |
+| Key 4 | 23 | Available if external I²C not used |
+| Key 5 | 18 | Available if external I²C not used |
+| Key 6 | 5 | Available |
+
+Current project uses only:
+
+- GPIO5
+- GPIO18
+- GPIO23
+
+Since GPIO18/23 are now dedicated to the external I²C bus, button expansion is handled using a PCF8574.
+
+---
+
  
+## Expansion Header
 
-## Possibly usable pins
-----
+### Important
 
-On the ESP32-A1S V2.2 Audio Kit, almost every single GPIO is already routed to internal hardware (Audio Codec, SD Card reader, onboard buttons, amplifier, and status LEDs).
-Because of this heavy hardware integration, there are no truly free, unassigned GPIO pins available on the board. [1]
-To connect extra hardware like displays, sensors, or rotary encoders, you have to "steal" pins from the onboard components depending on what features you are willing to disable: [2]
-## Option 1: The Best Candidate Pins (Steal from the Onboard Buttons)
-The absolute easiest way to free up GPIOs is to avoid using the physical tactile buttons (Key 1 through Key 6) on the board. If you do not press these buttons in your code, their respective pins become available on the expansion header: [2, 3]
+The expansion header exposes **electrical connections to the ESP32 GPIOs**.
 
-* GPIO 22: Originally paired with Key 6 (or standard I2C SCL depending on the exact board revision trace). This is highly recommended for adding external components.
-* GPIO 23: Tied to Key 4. Free to use if you don't use that button.
-* GPIO 18: Tied to Key 5. Free to use if you don't use that button.
-* GPIO 19: Tied to Key 3 / Vol Down. Free to use if you don't use that button.
-* GPIO 5: Tied to Key 6 on alternative firmware assignments. Free to use if the button is ignored. [2, 4, 5]
+An exposed pin is **not necessarily unused**.
 
-## Option 2: The Digital Communication Pins (I2C)
+Many GPIOs are shared with onboard hardware (audio codec, SD card, amplifier, buttons, etc.). Before assigning a GPIO to a new function, always check whether it is already used elsewhere in this document.
 
-* GPIO 32 (SCL) & GPIO 33 (SDA): These pins drive the I2C communication to configure the ES8388 audio codec chip. Because I2C is a shared bus, you can safely connect other I2C devices (like an OLED display or an environment sensor) to these same pins without breaking the audio functionality. Just ensure the new devices have a different I2C address than the codec. [6, 7, 8]
+---
 
-## Option 3: Steal from the SD Card Reader
-If your project streams audio over Wi-Fi/Bluetooth and does not require an SD card, you can reclaim the entire SPI bus routed to the MicroSD slot: [3, 9]
+### Physical Header
 
-* GPIO 14 (CLK)
-* GPIO 15 (CMD)
-* GPIO 2 (D0)
-* GPIO 4 (D1)
-* GPIO 12 (D2)
-* GPIO 13 (D3) [10, 11]
+```
+3V3
+GND
 
-## Pins to Strictly Avoid
+GPIO0
+GPIO5
+GPIO18
+GPIO19
+GPIO21
+GPIO22
+GPIO23
 
-* GPIO 25, 26, 27, 35: Do not use these under any circumstance if you want audio to work; they are hardwired to the essential I2S audio stream.
-* GPIO 21: Hardwired to the onboard speaker amplifier shutdown circuit. Messing with this will turn your speakers off.
-* GPIO 0: A strapping pin tied to the boot button. Pulling this low during a restart will throw the ESP32 into a permanent bootloop. [2, 12, 13]
+TX0
+RX0
+RST
+```
 
-Which external peripheral are you looking to add? If you tell me what device you want to connect, I can tell you exactly which "stolen" pins will work best for it.
+---
+
+### Current Project Allocation
+
+The project intentionally assigns the exposed GPIOs as follows:
+
+| GPIO | Purpose | Status |
+|------|---------|--------|
+| GPIO0 | Audio MCLK / Boot strap | Reserved |
+| GPIO5 | Onboard debug button | Available |
+| GPIO18 | External I²C SDA | Reserved |
+| GPIO19 | Spare GPIO | Available |
+| GPIO21 | Amplifier enable | Reserved |
+| GPIO22 | Spare GPIO | Available |
+| GPIO23 | External I²C SCL | Reserved |
+| TX0 | Serial | Programming / Debug |
+| RX0 | Serial | Programming / Debug |
+| 3V3 | Power | External peripherals |
+| GND | Ground | External peripherals |
+| RST | Reset | Reset input |
+
+---
+
+### External I²C Expansion
+
+GPIO18 and GPIO23 are intentionally dedicated to an external I²C bus.
+
+```
+ESP32
+GPIO18 ─── SDA
+GPIO23 ─── SCL
+```
+
+The following peripherals share this bus:
+
+| Address | Device |
+|---------:|--------|
+| 0x20 | PCF8574 GPIO Expander |
+| 0x3C | SSD1306 OLED |
+| 0x50 | AT24C32 EEPROM |
+| 0x68 | DS3231 RTC |
+
+Multiple I²C devices share the same SDA/SCL wires.
+
+---
+
+### GPIO Expansion (PCF8574)
+
+The PCF8574 provides **8 additional digital GPIO pins** over the I²C bus.
+
+These are **not ESP32 GPIOs**.
+
+```
+PCF8574
+
+P0
+P1
+P2
+P3
+P4
+P5
+P6
+P7
+```
+
+Each pin may be used independently as a digital input or output.
+
+Typical button wiring:
+
+```
+P0 ─── Button ─── GND
+P1 ─── Button ─── GND
+...
+P7 ─── Button ─── GND
+```
+
+The PCF8574 is the preferred location for all user buttons, allowing the ESP32 GPIOs to remain dedicated to board hardware and communication buses. 
+---
+
+# GPIO Usage Summary
+
+| GPIO | Usage | Status |
+|------:|-------|--------|
+| 0 | MCLK / Boot strap | Reserved |
+| 2 | SD MISO | Reserved |
+| 5 | Button | Available |
+| 13 | SD CS | Reserved |
+| 14 | SD CLK | Reserved |
+| 15 | SD MOSI | Reserved |
+| 18 | External I²C SDA | Reserved |
+| 19 | Button / LED | Avoid |
+| 21 | Amplifier Enable | Reserved |
+| 22 | Currently free | Available |
+| 23 | External I²C SCL | Reserved |
+| 25 | I²S DIN | Reserved |
+| 26 | I²S LRCK | Reserved |
+| 27 | I²S BCLK | Reserved |
+| 32 | Codec I²C SCL | Internal |
+| 33 | Codec I²C SDA | Internal |
+| 35 | I²S DOUT | Reserved |
+| 36 | Button | Unreliable with Wi-Fi |
+| 39 | Headphone Detect | Reserved |
+
+---
+
+## Bus Architecture
+
+The project intentionally uses two independent buses:
+
+| Bus | Purpose |
+|-----|---------|
+| Internal I²C (GPIO32/33) | ES8388 audio codec configuration |
+| External I²C (GPIO18/23) | OLED, RTC, PCF8574 and future peripherals |
+
+Keeping audio and peripherals on separate buses avoids coupling external hardware to the audio subsystem.
+
+---
+
+# Recommended Expansion Strategy
+
+- Use GPIO18/23 exclusively for external I²C.
+- Connect all external I²C devices (RTC, OLED, PCF8574, future sensors) to this bus.
+- Use the PCF8574 for all additional buttons.
+- Leave the internal audio hardware completely untouched.
+- consider use of a library fx: TwoWire peripherals = TwoWire(1); peripherals.begin(18, 23);
+ 
  

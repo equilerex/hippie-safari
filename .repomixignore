@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+coverage/
+storybook-static/
+.angular/
+.next/
+.nuxt/
+.vite/
+.cache/
+.tmp/
+.pio/
+.vscode/ipch/
+*.log
+*.map
+*.bin
+*.elf

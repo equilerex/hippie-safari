@@ -1,0 +1,31 @@
+# Frontend
+node_modules/
+dist/
+build/
+coverage/
+storybook-static/
+.angular/
+.next/
+.nuxt/
+.vite/
+.cache/
+.tmp/
+*.log
+*.map
+*.tsbuildinfo
+
+# ESP32 / PlatformIO
+.pio/
+.vscode/ipch/
+*.bin
+*.elf
+
+# Generated / noisy
+*.generated.*
+*.schema.json
+*.snap
+
+# Lockfiles: hide by default unless dependency task needs them
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
