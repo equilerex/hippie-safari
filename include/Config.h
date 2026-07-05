@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-
+#include <Arduino.h>
 #include <cstdint>
 #include <ctime>
 #include <vector>
@@ -37,13 +37,60 @@ constexpr uint8_t PIN_SD_SCK  = 14;
 constexpr uint8_t PIN_AMP_ENABLE = 21;
 constexpr bool    AMP_ENABLED_STATE = LOW;
 
-// User buttons — now on PCF8574 GPIO expander (addr 0x20)
+// User buttons — PCF8574 GPIO expander (addr 0x20)
 // PCF8574 provides 8 ports (P0-P7), active-low (button pulls to GND)
-// Port indices for each content type (adjusted per content discovery)
-constexpr uint8_t NUM_BUTTON_TYPES = 3;  // 3 content types; adjust if more/fewer types discovered
-constexpr uint8_t BUTTON_PINS[NUM_BUTTON_TYPES] = {
-  0, 1, 2  // PCF8574 ports P0, P1, P2 (was ESP32 GPIOs 5, 18, 23)
+// NUM_BUTTON_TYPES determined at runtime from content discovery
+constexpr uint8_t MAX_BUTTON_TYPES = 7;  // P0-P6 (P7 reserved for easter egg)
+extern uint8_t NUM_BUTTON_TYPES;         // Set at runtime after content discovery
+extern uint8_t BUTTON_PINS[MAX_BUTTON_TYPES];  // Populated at runtime with ports for each type
+
+// Hidden easter egg button — also on PCF8574
+constexpr uint8_t PIN_EASTER_EGG = 7;    // PCF8574 port P7
+
+// ============================================================================
+// EASTER EGG PATTERNS
+// ============================================================================
+
+enum class EasterEggPattern : uint8_t {
+  NONE = 0,
+  SECRET_BUTTON = 1,           // Press hidden P7 button
+  ASCENDING_SWEEP = 2,         // Press buttons 0→1→2→...→N in order
+  SOS_MORSE = 3,               // Morse code: tap-tap-tap, pause, tap-hold-tap-hold-tap-hold, pause, tap-tap-tap
+  HAMMER_SINGLE = 4,           // Same button 15+ times in 3 sec
+  TEAM_EFFORT = 5,             // All N buttons pressed simultaneously (within 100ms)
+  LONG_HOLD_SUSTAINED = 6,     // Hold any button 5+ sec
+  MULTI_HOLD = 7,              // Hold 2+ buttons simultaneously for 3+ sec
+  ALL_BUTTONS_HELD = 8,        // Hold all N buttons for 5+ sec
+  CHAOS_BURST = 9,             // 12+ random button presses in 4 sec
+  MULTI_CLICK = 10             // 4+ rapid presses of 2+ different buttons in 2 sec
 };
+
+// Easter egg timing windows (milliseconds)
+constexpr uint32_t EASTER_EGG_WINDOW_CHORD_MS = 100;      // Buttons pressed within window for chord patterns
+constexpr uint32_t EASTER_EGG_WINDOW_SEQUENCE_MS = 2000;  // Buttons pressed within window for sequence
+constexpr uint32_t EASTER_EGG_WINDOW_RAPID_MS = 3000;     // Window for hammer/burst detection
+constexpr uint32_t EASTER_EGG_WINDOW_CHAOS_MS = 4000;     // Window for chaos burst
+constexpr uint32_t EASTER_EGG_HOLD_LONG_MS = 5000;        // Minimum hold duration for LONG_HOLD
+constexpr uint32_t EASTER_EGG_HOLD_MULTI_MS = 3000;       // Minimum hold for MULTI_HOLD
+constexpr uint32_t EASTER_EGG_HOLD_ALL_MS = 5000;         // Minimum hold for ALL_BUTTONS_HELD
+constexpr uint32_t EASTER_EGG_LOOP_RESET_MS = 5 * 60 * 1000;  // 5 min silence = reset variant loop
+
+// Easter egg pattern name strings
+inline const char* getEasterEggPatternName(EasterEggPattern pattern) {
+  switch (pattern) {
+    case EasterEggPattern::SECRET_BUTTON: return "SECRET_BUTTON";
+    case EasterEggPattern::ASCENDING_SWEEP: return "ASCENDING_SWEEP";
+    case EasterEggPattern::SOS_MORSE: return "SOS_MORSE";
+    case EasterEggPattern::HAMMER_SINGLE: return "HAMMER_SINGLE";
+    case EasterEggPattern::TEAM_EFFORT: return "TEAM_EFFORT";
+    case EasterEggPattern::LONG_HOLD_SUSTAINED: return "LONG_HOLD_SUSTAINED";
+    case EasterEggPattern::MULTI_HOLD: return "MULTI_HOLD";
+    case EasterEggPattern::ALL_BUTTONS_HELD: return "ALL_BUTTONS_HELD";
+    case EasterEggPattern::CHAOS_BURST: return "CHAOS_BURST";
+    case EasterEggPattern::MULTI_CLICK: return "MULTI_CLICK";
+    default: return "UNKNOWN";
+  }
+}
 
 // Onboard debug button (optional, direct GPIO — not part of PCF8574 array)
 constexpr uint8_t PIN_BTN_DEBUG = 5;
@@ -135,7 +182,9 @@ enum class EventType : uint8_t {
   CONFIG_ERROR = 7,
   STANDBY_ENTERED = 8,
   STANDBY_EXITED = 9,
-  PLAYBACK_SESSION = 10  // Summary event: one per clip completion with intent
+  PLAYBACK_SESSION = 10,      // Summary event: one per clip completion with intent
+  EASTER_EGG_TRIGGERED = 11,  // Easter egg pattern detected, starting playback
+  EASTER_EGG_ENDED = 12       // Easter egg playback ended
 };
 
 enum class PlaybackIntent : uint8_t {
@@ -167,6 +216,15 @@ struct LogEntry {
   bool completedFully;           // True if track played to end
   PlaybackSessionContext context; // Embedded session context (zeros if not PLAYBACK_SESSION)
   const char* details;           // Error/debug message
+};
+
+// ============================================================================
+// EASTER EGG STATE
+// ============================================================================
+
+struct EasterEggState {
+  uint8_t patternLoopIndex[10];  // Per-pattern variant index (indices 0-9 for patterns)
+  uint32_t lastInteractionTime = 0;  // Last button press (any button) for timeout
 };
 
 // ============================================================================

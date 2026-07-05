@@ -393,15 +393,27 @@
     let keymap = {};
 
     const eventTypeMap = {
-      0: "PLAYBACK_STARTED",
-      1: "PLAYBACK_ENDED",
-      2: "MODE_CHANGED",
-      3: "SD_ERROR",
-      4: "SD_RECOVERED",
-      5: "CONFIG_ERROR",
-      6: "STANDBY_ENTERED",
-      7: "STANDBY_EXITED",
-      8: "CONTENT_DISCOVERED"
+      0: "TYPE_SELECTED",
+      1: "VARIANT_CHANGED",
+      2: "PLAYBACK_STARTED",
+      3: "PLAYBACK_ENDED",
+      4: "MODE_CHANGED",
+      5: "SD_ERROR",
+      6: "SD_RECOVERED",
+      7: "CONFIG_ERROR",
+      8: "STANDBY_ENTERED",
+      9: "STANDBY_EXITED",
+      10: "PLAYBACK_SESSION",
+      11: "EASTER_EGG_TRIGGERED",
+      12: "EASTER_EGG_ENDED"
+    };
+
+    const intentMap = {
+      0: "UNKNOWN",
+      1: "ENGAGED",
+      2: "EXPLORING",
+      3: "REJECTED",
+      4: "ERROR"
     };
 
     async function loadKeymap() {
@@ -484,8 +496,8 @@
 
     function updateStats() {
       const total = allEvents.length;
-      const played = allEvents.filter(e => e.evt === 0).length; // PLAYBACK_STARTED
-      const errors = allEvents.filter(e => [3, 5].includes(e.evt)).length; // SD_ERROR, CONFIG_ERROR
+      const played = allEvents.filter(e => e.evt === 2).length; // PLAYBACK_STARTED
+      const errors = allEvents.filter(e => [5, 7].includes(e.evt)).length; // SD_ERROR, CONFIG_ERROR
       const fileCount = new Set(allEvents.map(e => {
         const dt = new Date(e.ts * 1000);
         return dt.toISOString().split('T')[0];
@@ -523,7 +535,7 @@
         .join('') || '<div style="color: var(--text-muted);">All plays in default mode</div>';
 
       // Error list
-      const errorEvents = allEvents.filter(e => [3, 5].includes(e.evt));
+      const errorEvents = allEvents.filter(e => [5, 7].includes(e.evt));
       if (errorEvents.length > 0) {
         document.getElementById('errors-section').style.display = 'block';
         const errorsList = document.getElementById('errors-list');
@@ -584,12 +596,20 @@
       const timestamp = formatTimestamp(evt.ts);
 
       let detailsHTML = '';
+      if (evt.sid) detailsHTML += `<div class="detail-item"><div class="detail-label">Session</div><div class="detail-value">#${evt.sid}</div></div>`;
+      if (evt.intent !== undefined) detailsHTML += `<div class="detail-item"><div class="detail-label">Intent</div><div class="detail-value">${intentMap[evt.intent] || '?'}</div></div>`;
       if (evt.type) detailsHTML += `<div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${evt.type}</div></div>`;
       if (evt.var) detailsHTML += `<div class="detail-item"><div class="detail-label">Variant</div><div class="detail-value">${evt.var}</div></div>`;
       if (evt.mode) detailsHTML += `<div class="detail-item"><div class="detail-label">Mode</div><div class="detail-value">${evt.mode}</div></div>`;
       if (evt.expDur) detailsHTML += `<div class="detail-item"><div class="detail-label">Expected Dur</div><div class="detail-value">${(evt.expDur/1000).toFixed(1)}s</div></div>`;
       if (evt.actDur) detailsHTML += `<div class="detail-item"><div class="detail-label">Actual Dur</div><div class="detail-value">${(evt.actDur/1000).toFixed(1)}s</div></div>`;
       if (evt.complete !== undefined) detailsHTML += `<div class="detail-item"><div class="detail-label">Completed</div><div class="detail-value">${evt.complete ? '✓' : '✗'}</div></div>`;
+      if (evt.ctx) {
+        const ctx = evt.ctx;
+        if (ctx.presses) detailsHTML += `<div class="detail-item"><div class="detail-label">Presses</div><div class="detail-value">${ctx.presses}</div></div>`;
+        if (ctx.cycles) detailsHTML += `<div class="detail-item"><div class="detail-label">Cycles</div><div class="detail-value">${ctx.cycles}</div></div>`;
+        if (ctx.timeSinceLast) detailsHTML += `<div class="detail-item"><div class="detail-label">Time Since Last</div><div class="detail-value">${(ctx.timeSinceLast/1000).toFixed(1)}s</div></div>`;
+      }
       if (evt.msg) detailsHTML += `<div class="detail-item"><div class="detail-label">Message</div><div class="detail-value" style="color: var(--error);">${evt.msg}</div></div>`;
 
       div.innerHTML = `
