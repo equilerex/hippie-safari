@@ -70,10 +70,10 @@ enum class EasterEggPattern : uint8_t {
 constexpr uint32_t EASTER_EGG_WINDOW_CHORD_MS = 100;      // Buttons pressed within window for chord patterns
 constexpr uint32_t EASTER_EGG_WINDOW_SEQUENCE_MS = 2000;  // Buttons pressed within window for sequence
 constexpr uint32_t EASTER_EGG_WINDOW_RAPID_MS = 3000;     // Window for hammer/burst detection
-constexpr uint32_t EASTER_EGG_WINDOW_CHAOS_MS = 4000;     // Window for chaos burst
-constexpr uint32_t EASTER_EGG_HOLD_LONG_MS = 5000;        // Minimum hold duration for LONG_HOLD
+constexpr uint32_t EASTER_EGG_WINDOW_CHAOS_MS = 3000;     // Window for chaos burst
+constexpr uint32_t EASTER_EGG_HOLD_LONG_MS = 3000;        // Minimum hold duration for LONG_HOLD
 constexpr uint32_t EASTER_EGG_HOLD_MULTI_MS = 3000;       // Minimum hold for MULTI_HOLD
-constexpr uint32_t EASTER_EGG_HOLD_ALL_MS = 5000;         // Minimum hold for ALL_BUTTONS_HELD
+constexpr uint32_t EASTER_EGG_HOLD_ALL_MS = 3000;         // Minimum hold for ALL_BUTTONS_HELD
 constexpr uint32_t EASTER_EGG_LOOP_RESET_MS = 5 * 60 * 1000;  // 5 min silence = reset variant loop
 
 // Easter egg pattern name strings

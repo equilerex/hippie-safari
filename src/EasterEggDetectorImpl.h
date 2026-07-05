@@ -13,7 +13,7 @@ private:
   };
 
   static constexpr uint8_t MAX_EVENT_HISTORY = 64;
-  static constexpr uint32_t EVENT_HISTORY_WINDOW_MS = 10000;
+  static constexpr uint32_t EVENT_HISTORY_WINDOW_MS = 3000;
   static constexpr uint32_t PATTERN_COOLDOWN_MS = 1500;
 
   ButtonEvent eventHistory[MAX_EVENT_HISTORY];

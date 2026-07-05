@@ -480,3 +480,20 @@ bool EasterEggDetectorImpl::detectMultiClick(uint32_t now) {
 
   return presses >= TAP_THRESHOLD && uniqueButtons >= 2;
 }
+
+void EasterEggDetectorImpl::logDebugState() const {
+  Serial.print("[EGG-DBG] Events: ");
+  Serial.print(eventCount);
+  Serial.print("/");
+  Serial.print(MAX_EVENT_HISTORY);
+  Serial.print(" | Cooldown: ");
+  if (wasPatternRecentlyTriggered(millis())) {
+    Serial.print("ACTIVE (");
+    Serial.print(PATTERN_COOLDOWN_MS - (millis() - lastPatternTimeMs));
+    Serial.print("ms left)");
+  } else {
+    Serial.print("READY");
+  }
+  Serial.print(" | LastPattern: ");
+  Serial.println(getEasterEggPatternName(lastPattern));
+}
