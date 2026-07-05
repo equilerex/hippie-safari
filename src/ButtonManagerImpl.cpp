@@ -84,14 +84,14 @@ bool ButtonManagerImpl::poll() {
         buttons[i].lastChangeMs = now;
         buttons[i].lastState = currentState;
 
-        // Falling edge (HIGH to LOW) = button press (active-low on PCF8574)
-        if (currentState == LOW && buttons[i].contentAvailable) {
+        // Rising edge (LOW to HIGH) = button release (active-low on PCF8574)
+        if (currentState == HIGH && buttons[i].contentAvailable) {
           Serial.print("[DEBUG] ButtonManager: Button ");
           Serial.print(i);
-          Serial.println(" pressed");
+          Serial.println(" released");
           lastEvent.typeIndex = i;
           lastEvent.pressTimeMs = now;
-          lastEvent.isPress = true;
+          lastEvent.isPress = false;
           eventDetected = true;
           return true;  // Event detected
         }
@@ -167,7 +167,7 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
         buttons[i].lastChangeMs = now;
         buttons[i].lastState = currentState;
 
-        // Feed to easter egg detector for pattern detection
+        // Feed to easter egg detector for pattern detection (both press and release)
         if (easterEggDetector) {
           if (currentState == LOW) {
             easterEggDetector->recordPress(i, now);
@@ -176,12 +176,12 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
           }
         }
 
-        // Queue for playback control (press only)
-        if (currentState == LOW && buttons[i].contentAvailable) {
+        // Queue for playback control (release only — normal track change)
+        if (currentState == HIGH && buttons[i].contentAvailable) {
           ButtonEvent event;
           event.typeIndex = i;
           event.pressTimeMs = now;
-          event.isPress = true;
+          event.isPress = false;
           queueButtonEvent(event);
         }
       }

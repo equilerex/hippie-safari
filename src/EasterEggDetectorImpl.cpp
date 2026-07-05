@@ -124,6 +124,12 @@ EasterEggPattern EasterEggDetectorImpl::checkPattern() {
     return lastPattern;
   }
 
+  if (detectFastClickPair(now)) {
+    lastPattern = EasterEggPattern::FAST_CLICK_PAIR;
+    lastPatternTimeMs = now;
+    return lastPattern;
+  }
+
   if (detectAllButtonsHeld(now)) {
     lastPattern = EasterEggPattern::ALL_BUTTONS_HELD;
     lastPatternTimeMs = now;
@@ -318,6 +324,29 @@ bool EasterEggDetectorImpl::detectTeamEffort(uint32_t now) {
   }
 
   return buttonsPressed == numButtons && numButtons > 1;
+}
+
+bool EasterEggDetectorImpl::detectFastClickPair(uint32_t now) {
+  // 2 buttons pressed within 100ms
+  constexpr uint32_t WINDOW_MS = 100;
+
+  uint8_t buttonsPressed = 0;
+  bool pressed[MAX_BUTTON_TYPES] = {false};
+
+  for (uint8_t i = 0; i < eventCount; i++) {
+    uint8_t idx = (eventHead + MAX_EVENT_HISTORY - eventCount + i) % MAX_EVENT_HISTORY;
+    const ButtonEvent& event = eventHistory[idx];
+
+    if (event.isPress && event.buttonIndex < numButtons &&
+        (uint32_t)(now - event.timeMs) <= WINDOW_MS) {
+      if (!pressed[event.buttonIndex]) {
+        pressed[event.buttonIndex] = true;
+        buttonsPressed++;
+      }
+    }
+  }
+
+  return buttonsPressed == 2;
 }
 
 bool EasterEggDetectorImpl::detectLongHoldSustained(uint32_t now) {

@@ -36,6 +36,7 @@ private:
   bool detectSosMorse(uint32_t now);
   bool detectHammerSingle(uint32_t now);
   bool detectTeamEffort(uint32_t now);
+  bool detectFastClickPair(uint32_t now);
   bool detectLongHoldSustained(uint32_t now);
   bool detectMultiHold(uint32_t now);
   bool detectAllButtonsHeld(uint32_t now);
