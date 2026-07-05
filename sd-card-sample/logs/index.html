@@ -475,11 +475,14 @@
         }
       });
 
-      // User flows: TYPE_SELECTED → TYPE_SELECTED sequences
-      const typeSelects = allEvents.filter(e => e.evt === 0).map(e => e.type);
+      // User flows: TYPE_SELECTED → TYPE_SELECTED sequences (with gap check)
+      const typeSelects = allEvents.filter(e => e.evt === 0).map((e, i, arr) => ({ type: e.type, ts: e.ts }));
       for (let i = 0; i < typeSelects.length - 1; i++) {
-        const flow = `${typeSelects[i]} → ${typeSelects[i+1]}`;
-        flows[flow] = (flows[flow] || 0) + 1;
+        const gap = typeSelects[i+1].ts - typeSelects[i].ts;
+        if (gap < 60 && typeSelects[i].type && typeSelects[i+1].type) { // within 60 sec = related flow
+          const flow = `${typeSelects[i].type} → ${typeSelects[i+1].type}`;
+          flows[flow] = (flows[flow] || 0) + 1;
+        }
       }
 
       avgListenTime = completions > 0 ? Math.round(avgListenTime / completions) : 0;
