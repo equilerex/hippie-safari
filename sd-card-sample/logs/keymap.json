@@ -1,0 +1,15 @@
+{
+  "eventTypes": {
+    "0": "TYPE_SELECTED",
+    "1": "VARIANT_CHANGED",
+    "2": "PLAYBACK_STARTED",
+    "3": "PLAYBACK_ENDED",
+    "4": "MODE_CHANGED",
+    "5": "SD_ERROR",
+    "6": "SD_RECOVERED",
+    "7": "CONFIG_ERROR",
+    "8": "STANDBY_ENTERED",
+    "9": "STANDBY_EXITED"
+  },
+  "schema": "ts=unix_epoch, evt=eventType, type=typeIndex, var=variantIndex, mode=modeIndex (255=undefined)"
+}

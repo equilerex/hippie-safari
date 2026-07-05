@@ -21,6 +21,8 @@ private:
   std::vector<uint8_t> currentModeIndices;  // Per-type current mode
   bool inStandby = false;
   char lastError[256] = {0};
+  uint32_t currentSessionId = 0;  // Active playback session
+  time_t lastSessionEndTime = 0;  // Track time since last playback for session context
 
 public:
   PlaybackControllerImpl(ContentManager* contentMgr, ConfigLoader* configLoader, PlaybackLogger* logger)

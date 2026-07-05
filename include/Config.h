@@ -134,16 +134,39 @@ enum class EventType : uint8_t {
   SD_RECOVERED = 6,
   CONFIG_ERROR = 7,
   STANDBY_ENTERED = 8,
-  STANDBY_EXITED = 9
+  STANDBY_EXITED = 9,
+  PLAYBACK_SESSION = 10  // Summary event: one per clip completion with intent
+};
+
+enum class PlaybackIntent : uint8_t {
+  UNKNOWN = 0,
+  ENGAGED = 1,        // Listened to substantial portion
+  EXPLORING = 2,      // Rapid cycling through variants/types
+  REJECTED = 3,       // Interrupted early, switched type
+  ERROR = 4           // Playback error or SD failure
+};
+
+struct PlaybackSessionContext {
+  uint32_t pressCount;           // How many button presses to reach this clip
+  uint8_t variantCycleCount;     // Rapid variant switches before settling
+  uint32_t timeSinceLastMs;      // Gap from previous interaction
+  bool modeChanged;              // Mode switch during session
+  uint32_t interruptionDelayMs;  // If interrupted: when (0 if completed)
 };
 
 struct LogEntry {
-  time_t timestamp;           // Unix timestamp
+  time_t timestamp;              // Unix timestamp
   EventType eventType;
-  uint8_t typeIndex;          // For relevant events
-  uint8_t variantIndex;       // For variant-related events
-  uint8_t modeIndex;          // For mode changes
-  const char* details;        // Optional string (error message, etc.)
+  uint32_t sessionId;            // Session correlation ID
+  PlaybackIntent intent;         // User intent (for PLAYBACK_SESSION events)
+  const char* typeName;          // Content type name
+  const char* variantName;       // Variant filename
+  const char* modeName;          // Mode name
+  uint32_t expectedDurationMs;   // Expected duration if playback started
+  uint32_t actualDurationMs;     // Actual duration played
+  bool completedFully;           // True if track played to end
+  PlaybackSessionContext context; // Embedded session context (zeros if not PLAYBACK_SESSION)
+  const char* details;           // Error/debug message
 };
 
 // ============================================================================

@@ -18,17 +18,24 @@ public:
   // Log an event to queue (flushed to SD when playback inactive)
   virtual void logEvent(const LogEntry& entry) = 0;
 
-  // Convenience methods
-  virtual void logTypeSelected(uint8_t typeIndex) = 0;
-  virtual void logVariantChanged(uint8_t typeIndex, uint8_t variantIndex) = 0;
-  virtual void logPlaybackStarted(uint8_t typeIndex, uint8_t variantIndex) = 0;
-  virtual void logPlaybackEnded(uint8_t typeIndex, uint8_t variantIndex) = 0;
-  virtual void logModeChanged(uint8_t typeIndex, uint8_t modeIndex) = 0;
+  // Session management for intent tracking
+  virtual uint32_t startSession(uint32_t timeSinceLastMs = 0) = 0;
+  virtual void endSession(uint32_t sessionId, const char* typeName, const char* variantName,
+                          uint32_t expectedDurationMs, uint32_t actualDurationMs, bool completedFully) = 0;
+  virtual void updateSessionContext(uint32_t sessionId, const PlaybackSessionContext& ctx) = 0;
+
+  // Convenience methods with full context
+  virtual void logPlaybackStarted(const char* typeName, const char* variantName, const char* modeName, uint32_t expectedDurationMs, uint32_t sessionId = 0) = 0;
+  virtual void logPlaybackEnded(const char* typeName, const char* variantName, const char* modeName, uint32_t actualDurationMs, bool completedFully, uint32_t sessionId = 0) = 0;
+  virtual void logVariantChanged(const char* typeName, const char* variantName, uint32_t sessionId = 0) = 0;
+  virtual void logTypeSelected(const char* typeName, uint32_t sessionId = 0) = 0;
+  virtual void logModeChanged(const char* typeName, const char* modeName, uint32_t sessionId = 0) = 0;
   virtual void logSDError(const char* message) = 0;
   virtual void logSDRecovered() = 0;
-  virtual void logConfigError(uint8_t typeIndex, const char* message) = 0;
+  virtual void logConfigError(const char* typeName, const char* message) = 0;
   virtual void logStandbyEntered() = 0;
   virtual void logStandbyExited() = 0;
+  virtual void logContentDiscovered(int typeCount, int totalVariants) = 0;
 
   // Flush queued events to SD (call when playback inactive)
   virtual bool flushQueue() = 0;

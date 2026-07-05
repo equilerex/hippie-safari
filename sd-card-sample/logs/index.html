@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hippy Safari — Event Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0f1419;
+      --bg-alt: #1a1f29;
+      --text: #e8eaed;
+      --text-muted: #9aa0a6;
+      --accent: #8ab4f8;
+      --success: #81c995;
+      --warning: #fde293;
+      --error: #f28482;
+      --border: #3c4452;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fafbfc;
+        --bg-alt: #f1f3f4;
+        --text: #202124;
+        --text-muted: #5f6368;
+        --accent: #1967d2;
+        --success: #0d652d;
+        --warning: #7f6700;
+        --error: #c5221f;
+        --border: #dadce0;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-meta {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .controls {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .control-group label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    select, input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.2);
+    }
+
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    .status {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+    }
+
+    .status.loading {
+      background: rgba(138, 180, 248, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .status.error {
+      background: rgba(242, 132, 130, 0.1);
+      border: 1px solid var(--error);
+      color: var(--error);
+    }
+
+    .status.success {
+      background: rgba(129, 201, 149, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .event {
+      background: var(--bg-alt);
+      border-left: 3px solid var(--accent);
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .event:hover {
+      background: rgba(138, 180, 248, 0.05);
+    }
+
+    .event-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .event-time {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.875rem;
+      min-width: 140px;
+    }
+
+    .event-type {
+      display: inline-block;
+      background: var(--bg);
+      color: var(--accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--accent);
+    }
+
+    .event-type.PLAYBACK_STARTED {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .event-type.PLAYBACK_ENDED {
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    .event-type.SD_ERROR, .event-type.CONFIG_ERROR {
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .event-type.SD_RECOVERED {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .event-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .detail-value {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      font-size: 0.875rem;
+    }
+
+    .pagination button {
+      padding: 0.5rem 1rem;
+      min-width: 3rem;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .pagination span {
+      color: var(--text-muted);
+      margin: 0 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌴 Hippy Safari — Event Dashboard</h1>
+    <div class="header-meta">
+      <span id="file-status">Loading...</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="status" class="status loading">Loading logs...</div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="date-filter">Filter by Date</label>
+        <input type="date" id="date-filter">
+      </div>
+      <div class="control-group">
+        <label for="type-filter">Filter by Event Type</label>
+        <select id="type-filter">
+          <option value="">All Types</option>
+        </select>
+      </div>
+      <button id="refresh-btn">↻ Refresh</button>
+      <button id="export-btn">⬇ Export JSON</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Total Events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-played">0</div>
+        <div class="stat-label">Clips Played</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-errors">0</div>
+        <div class="stat-label">Errors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-files">0</div>
+        <div class="stat-label">Log Files</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 1rem; color: var(--accent);">Usage by Content Type</h3>
+        <div id="type-breakdown" style="font-size: 0.875rem;"></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 1rem; color: var(--accent);">Mode Distribution</h3>
+        <div id="mode-breakdown" style="font-size: 0.875rem;"></div>
+      </div>
+    </div>
+
+    <div id="errors-section" style="display: none; margin-bottom: 2rem;">
+      <h3 style="margin-bottom: 1rem; color: var(--error);">Errors & Warnings</h3>
+      <div id="errors-list" style="background: var(--bg-alt); border-left: 3px solid var(--error); padding: 1rem; border-radius: 4px;"></div>
+    </div>
+
+    <div id="timeline" class="timeline"></div>
+    <div id="pagination" class="pagination"></div>
+  </div>
+
+  <footer>
+    <p>Event logs stored in <code>/logs/YYYY-MM-DD.json</code> · Keymap in <code>/logs/keymap.json</code></p>
+  </footer>
+
+  <script>
+    const EVENTS_PER_PAGE = 50;
+    let allEvents = [];
+    let filteredEvents = [];
+    let currentPage = 1;
+    let keymap = {};
+
+    const eventTypeMap = {
+      0: "PLAYBACK_STARTED",
+      1: "PLAYBACK_ENDED",
+      2: "MODE_CHANGED",
+      3: "SD_ERROR",
+      4: "SD_RECOVERED",
+      5: "CONFIG_ERROR",
+      6: "STANDBY_ENTERED",
+      7: "STANDBY_EXITED",
+      8: "CONTENT_DISCOVERED"
+    };
+
+    async function loadKeymap() {
+      // Populate event type filter
+      const select = document.getElementById('type-filter');
+      for (const [code, name] of Object.entries(eventTypeMap)) {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = name;
+        select.appendChild(opt);
+      }
+    }
+
+    async function loadLogs() {
+      try {
+        allEvents = [];
+        const response = await fetch('./');
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Extract JSON filenames from directory listing (rough parse)
+        const links = Array.from(doc.querySelectorAll('a'))
+          .map(a => a.textContent.trim())
+          .filter(name => /^\d{4}-\d{2}-\d{2}\.json$/.test(name));
+
+        document.getElementById('file-status').textContent = `Found ${links.length} log file(s)`;
+
+        for (const filename of links) {
+          await loadLogFile(`./${filename}`);
+        }
+
+        allEvents.sort((a, b) => b.ts - a.ts);
+        updateStats();
+        applyFilters();
+        renderPage();
+        setStatus('success', `Loaded ${allEvents.length} events from ${links.length} file(s)`);
+      } catch (e) {
+        setStatus('error', `Failed to load logs: ${e.message}`);
+        console.error(e);
+      }
+    }
+
+    async function loadLogFile(path) {
+      try {
+        const resp = await fetch(path);
+        const text = await resp.text();
+
+        const lines = text.trim().split('\n').filter(l => l.trim());
+        for (const line of lines) {
+          try {
+            const obj = JSON.parse(line);
+            allEvents.push(obj);
+          } catch (e) {
+            console.warn(`Failed to parse line in ${path}:`, line, e);
+          }
+        }
+      } catch (e) {
+        console.warn(`Could not load ${path}:`, e.message);
+      }
+    }
+
+    function getEventTypeName(code) {
+      return keymap[code] || eventTypeMap[code] || `UNKNOWN_${code}`;
+    }
+
+    function formatTimestamp(ts) {
+      const dt = new Date(ts * 1000);
+      return dt.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+    }
+
+    function updateStats() {
+      const total = allEvents.length;
+      const played = allEvents.filter(e => e.evt === 0).length; // PLAYBACK_STARTED
+      const errors = allEvents.filter(e => [3, 5].includes(e.evt)).length; // SD_ERROR, CONFIG_ERROR
+      const fileCount = new Set(allEvents.map(e => {
+        const dt = new Date(e.ts * 1000);
+        return dt.toISOString().split('T')[0];
+      })).size;
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-played').textContent = played;
+      document.getElementById('stat-errors').textContent = errors;
+      document.getElementById('stat-files').textContent = fileCount;
+
+      // Per-type usage (group by type name)
+      const typeMap = {};
+      allEvents.forEach(e => {
+        if (e.type) {
+          typeMap[e.type] = (typeMap[e.type] || 0) + 1;
+        }
+      });
+      const typeBreakdown = document.getElementById('type-breakdown');
+      typeBreakdown.innerHTML = Object.entries(typeMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(([type, count]) => `<div style="margin-bottom: 0.5rem;">${type}: <strong>${count}</strong> events</div>`)
+        .join('') || '<div style="color: var(--text-muted);">No type usage yet</div>';
+
+      // Mode distribution (group by mode name)
+      const modeMap = {};
+      allEvents.forEach(e => {
+        if (e.mode) {
+          modeMap[e.mode] = (modeMap[e.mode] || 0) + 1;
+        }
+      });
+      const modeBreakdown = document.getElementById('mode-breakdown');
+      modeBreakdown.innerHTML = Object.entries(modeMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(([mode, count]) => `<div style="margin-bottom: 0.5rem;">${mode}: <strong>${count}</strong> plays</div>`)
+        .join('') || '<div style="color: var(--text-muted);">All plays in default mode</div>';
+
+      // Error list
+      const errorEvents = allEvents.filter(e => [3, 5].includes(e.evt));
+      if (errorEvents.length > 0) {
+        document.getElementById('errors-section').style.display = 'block';
+        const errorsList = document.getElementById('errors-list');
+        errorsList.innerHTML = errorEvents
+          .sort((a, b) => b.ts - a.ts)
+          .slice(0, 10)
+          .map(e => {
+            const time = formatTimestamp(e.ts);
+            const type = getEventTypeName(e.evt);
+            const msg = e.msg ? ` — ${e.msg}` : '';
+            return `<div style="margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);"><strong>${type}</strong> at ${time}${msg}</div>`;
+          })
+          .join('');
+      }
+    }
+
+    function applyFilters() {
+      const dateVal = document.getElementById('date-filter').value;
+      const typeVal = document.getElementById('type-filter').value;
+
+      filteredEvents = allEvents.filter(e => {
+        if (dateVal) {
+          const eDate = new Date(e.ts * 1000).toISOString().split('T')[0];
+          if (eDate !== dateVal) return false;
+        }
+        if (typeVal && parseInt(typeVal) !== e.evt) return false;
+        return true;
+      });
+
+      currentPage = 1;
+      renderPage();
+    }
+
+    function renderPage() {
+      const start = (currentPage - 1) * EVENTS_PER_PAGE;
+      const end = start + EVENTS_PER_PAGE;
+      const pageEvents = filteredEvents.slice(start, end);
+
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+
+      if (pageEvents.length === 0) {
+        timeline.innerHTML = '<div class="empty">No events found.</div>';
+      } else {
+        for (const evt of pageEvents) {
+          timeline.appendChild(renderEvent(evt));
+        }
+      }
+
+      renderPagination();
+    }
+
+    function renderEvent(evt) {
+      const div = document.createElement('div');
+      div.className = 'event';
+
+      const eventName = getEventTypeName(evt.evt);
+      const timestamp = formatTimestamp(evt.ts);
+
+      let detailsHTML = '';
+      if (evt.type) detailsHTML += `<div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${evt.type}</div></div>`;
+      if (evt.var) detailsHTML += `<div class="detail-item"><div class="detail-label">Variant</div><div class="detail-value">${evt.var}</div></div>`;
+      if (evt.mode) detailsHTML += `<div class="detail-item"><div class="detail-label">Mode</div><div class="detail-value">${evt.mode}</div></div>`;
+      if (evt.expDur) detailsHTML += `<div class="detail-item"><div class="detail-label">Expected Dur</div><div class="detail-value">${(evt.expDur/1000).toFixed(1)}s</div></div>`;
+      if (evt.actDur) detailsHTML += `<div class="detail-item"><div class="detail-label">Actual Dur</div><div class="detail-value">${(evt.actDur/1000).toFixed(1)}s</div></div>`;
+      if (evt.complete !== undefined) detailsHTML += `<div class="detail-item"><div class="detail-label">Completed</div><div class="detail-value">${evt.complete ? '✓' : '✗'}</div></div>`;
+      if (evt.msg) detailsHTML += `<div class="detail-item"><div class="detail-label">Message</div><div class="detail-value" style="color: var(--error);">${evt.msg}</div></div>`;
+
+      div.innerHTML = `
+        <div class="event-header">
+          <div class="event-time">${timestamp}</div>
+          <div class="event-type ${eventName.replace(/_/g, '_')}">${eventName}</div>
+        </div>
+        ${detailsHTML ? `<div class="event-details">${detailsHTML}</div>` : ''}
+      `;
+
+      return div;
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+      const pag = document.getElementById('pagination');
+      pag.innerHTML = '';
+
+      if (totalPages <= 1) return;
+
+      const btnPrev = document.createElement('button');
+      btnPrev.textContent = '← Prev';
+      btnPrev.disabled = currentPage === 1;
+      btnPrev.onclick = () => { currentPage--; renderPage(); };
+      pag.appendChild(btnPrev);
+
+      const span = document.createElement('span');
+      span.textContent = `Page ${currentPage} of ${totalPages}`;
+      pag.appendChild(span);
+
+      const btnNext = document.createElement('button');
+      btnNext.textContent = 'Next →';
+      btnNext.disabled = currentPage === totalPages;
+      btnNext.onclick = () => { currentPage++; renderPage(); };
+      pag.appendChild(btnNext);
+    }
+
+    function setStatus(type, msg) {
+      const el = document.getElementById('status');
+      el.className = `status ${type}`;
+      el.textContent = msg;
+    }
+
+    document.getElementById('date-filter').addEventListener('change', applyFilters);
+    document.getElementById('type-filter').addEventListener('change', applyFilters);
+    document.getElementById('refresh-btn').onclick = loadLogs;
+    document.getElementById('export-btn').onclick = () => {
+      const json = JSON.stringify(filteredEvents, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `hippy-safari-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Initial load
+    loadKeymap().then(loadLogs);
+  </script>
+</body>
+</html>

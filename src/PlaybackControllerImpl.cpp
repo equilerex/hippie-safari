@@ -42,30 +42,51 @@ PlaybackRequest PlaybackControllerImpl::handleButtonEvent(uint8_t typeIndex, tim
   // Determine active mode for this type
   ModeSelectionResult modeResult = configLoader->selectModeForTime(typeIndex, eventTime);
 
+  // Get type name and mode name early
+  const TypeContent* typeContent = contentMgr->getType(typeIndex);
+  if (!typeContent) {
+    snprintf(lastError, sizeof(lastError), "Type %u not found", typeIndex);
+    request.action = PlaybackAction::STOP_CLIP;
+    return request;
+  }
+  const char* typeName = typeContent->folderName.c_str();
+  const char* modeName = modeResult.modeFound ? modeResult.modeName.c_str() : "default";
+
   // Check if mode changed from previous press
   if (modeResult.modeFound && currentModeIndices[typeIndex] != modeResult.modeIndex) {
     // Mode switched: reset variant index
     resetVariantIndex(typeIndex);
     currentModeIndices[typeIndex] = modeResult.modeIndex;
-    logger->logModeChanged(typeIndex, modeResult.modeIndex);
+    logger->logModeChanged(typeName, modeName, currentSessionId);
   }
 
   // Determine playback behavior
   bool wasSameType = (currentState.currentTypeIndex == typeIndex);
   bool wasPlaying = currentState.isPlaying;
+  bool isNewSession = false;
 
   if (wasSameType && wasPlaying) {
     // Mid-play same-type press: increment variant, interrupt current clip
     variantIndices[typeIndex] = getNextVariantIndex(typeIndex);
-    logger->logVariantChanged(typeIndex, variantIndices[typeIndex]);
     request.action = PlaybackAction::START_CLIP;
   } else if (!wasSameType && wasPlaying) {
     // Different type during playback: switch type, reset to index 0
     resetVariantIndex(typeIndex);
+    isNewSession = true;
     request.action = PlaybackAction::START_CLIP;
   } else {
     // Not playing or same type after completion: just start at current index
+    isNewSession = true;
     request.action = PlaybackAction::START_CLIP;
+  }
+
+  // Create new session if needed
+  if (isNewSession || currentSessionId == 0) {
+    uint32_t timeSinceLastMs = 0;
+    if (lastSessionEndTime > 0) {
+      timeSinceLastMs = (eventTime - lastSessionEndTime) * 1000;
+    }
+    currentSessionId = logger->startSession(timeSinceLastMs);
   }
 
   // Update current state
@@ -78,21 +99,42 @@ PlaybackRequest PlaybackControllerImpl::handleButtonEvent(uint8_t typeIndex, tim
 
   request.variantIndex = variantIndices[typeIndex];
 
-  logger->logTypeSelected(typeIndex);
-  logger->logPlaybackStarted(typeIndex, request.variantIndex);
+  // Get variant path for logging
+  const char* variantPath = contentMgr->getVariantPath(typeIndex, request.variantIndex);
+  if (!variantPath) variantPath = "unknown.wav";
+
+  // TODO: Get expected duration from file metadata (for now, use 0)
+  uint32_t expectedDurationMs = 0;
+
+  logger->logPlaybackStarted(typeName, variantPath, modeName, expectedDurationMs, currentSessionId);
 
   return request;
 }
 
 void PlaybackControllerImpl::notifyClipFinished() {
   if (currentState.isPlaying && currentState.currentTypeIndex != 0xFF) {
-    logger->logPlaybackEnded(currentState.currentTypeIndex, currentState.currentVariantIndex);
+    // Get names for logging
+    const TypeContent* typeContent = contentMgr->getType(currentState.currentTypeIndex);
+    const char* typeName = typeContent ? typeContent->folderName.c_str() : "unknown";
+    const char* variantPath = contentMgr->getVariantPath(currentState.currentTypeIndex, currentState.currentVariantIndex);
+    if (!variantPath) variantPath = "unknown.wav";
+    const char* modeName = currentState.currentModeIndex < typeContent->modes.size()
+      ? typeContent->modes[currentState.currentModeIndex].modeName.c_str()
+      : "default";
+
+    // Log raw completion
+    logger->logPlaybackEnded(typeName, variantPath, modeName, 0, true, currentSessionId);
+
+    // End session with intent analysis (expected duration = 0, actual = 0, completed fully)
+    logger->endSession(currentSessionId, typeName, variantPath, 0, 0, true);
 
     // Reset index to 0 for next play
     resetVariantIndex(currentState.currentTypeIndex);
 
     currentState.isPlaying = false;
     currentState.currentTypeIndex = 0xFF;
+    lastSessionEndTime = time(nullptr);
+    currentSessionId = 0;
   }
 }
 
@@ -137,6 +179,11 @@ const char* PlaybackControllerImpl::getLastError() const {
 void PlaybackControllerImpl::enterStandby() {
   inStandby = true;
   currentState.isPlaying = false;
+  if (currentSessionId != 0) {
+    logger->endSession(currentSessionId, nullptr, nullptr, 0, 0, false);
+    currentSessionId = 0;
+    lastSessionEndTime = time(nullptr);
+  }
   logger->logStandbyEntered();
 }
 
