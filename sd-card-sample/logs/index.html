@@ -480,92 +480,114 @@
       // Sort files by name so they load in chronological order if named by date
       const sortedFiles = Array.from(files).sort((a, b) => a.name.localeCompare(b.name));
       for (const file of sortedFiles) {
-        await loadLogFileFromFile(file);
+        const text = await file.text();
+        parseLogText(text);
       }
       document.getElementById('file-status').textContent = `Loaded ${files.length} file(s) • ${allEvents.length} events`;
       computeAnalytics();
     }
 
-    async function loadLogFileFromFile(file) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (evt) => {
+    // When served by the ESP32's own AP (no filesystem access), fetch the
+    // file list from the device and load each log over HTTP instead.
+    async function loadFilesFromDevice() {
+      allEvents = [];
+      setStatus('info', 'Fetching log list from device...');
+      let names;
+      try {
+        const res = await fetch('/logs/list');
+        names = await res.json();
+      } catch (e) {
+        setStatus('info', 'Could not reach device log list. Use "Load Logs" to pick files manually.');
+        return;
+      }
+
+      names.sort();
+      for (const name of names) {
+        try {
+          const res = await fetch('/' + name);
+          const text = await res.text();
+          parseLogText(text);
+        } catch (e) {
+          console.warn('Failed to fetch log file:', name, e);
+        }
+      }
+      document.getElementById('file-status').textContent = `Loaded ${names.length} file(s) from device • ${allEvents.length} events`;
+      computeAnalytics();
+    }
+
+    function parseLogText(text) {
+      try {
+        const rawLines = text.split('\n');
+        const processedLines = [];
+
+        // 1. Recover split lines (e.g. if the ESP32 buffer cut off a line)
+        for (let i = 0; i < rawLines.length; i++) {
+          let line = rawLines[i].trim();
+          if (!line) continue;
+
+          // If a line does not start with '{' and we have a previous line, append it to heal the split
+          if (!line.startsWith('{') && processedLines.length > 0) {
+            processedLines[processedLines.length - 1] += line;
+          } else {
+            processedLines.push(line);
+          }
+        }
+
+        // 2. Parse and sanitize recovered lines
+        processedLines.forEach(line => {
           try {
-            const rawLines = evt.target.result.split('\n');
-            const processedLines = [];
-            
-            // 1. Recover split lines (e.g. if the ESP32 buffer cut off a line)
-            for (let i = 0; i < rawLines.length; i++) {
-              let line = rawLines[i].trim();
-              if (!line) continue;
-              
-              // If a line does not start with '{' and we have a previous line, append it to heal the split
-              if (!line.startsWith('{') && processedLines.length > 0) {
-                processedLines[processedLines.length - 1] += line;
-              } else {
-                processedLines.push(line);
+            allEvents.push(JSON.parse(line));
+          } catch (e) {
+            // Try fixing common nested unescaped quote corruption from logging buffer
+            try {
+              let cleaned = line
+                .replace(/"mode":"({[^}]+})"/g, '"mode":$1')
+                .replace(/"mode":"({[^}]+})/g, '"mode":$1')
+                .replace(/"mode":"modeChanged.*?}}",/g, '"mode":"corrupted",')
+                .replace(/"mode":"uptMs.*?}}",/g, '"mode":"corrupted",')
+                .replace(/"mode":"imeSinceLast.*?}}",/g, '"mode":"corrupted",')
+                .replace(/"mode":"lse}"/g, '"mode":"corrupted"')
+                .replace(/"mode":"lse}",/g, '"mode":"corrupted",')
+                .replace(/"mode":"{"presses":.*?}/g, '"mode":"corrupted"}');
+
+              if (cleaned.startsWith('{') && !cleaned.endsWith('}')) {
+                cleaned += '}';
+              }
+              allEvents.push(JSON.parse(cleaned));
+            } catch (err) {
+              // Fallback: Regex extraction for key fields to salvage as much as possible
+              try {
+                let tsMatch = line.match(/"ts":(\d+)/);
+                let evtMatch = line.match(/"evt":(\d+)/);
+                let sidMatch = line.match(/"sid":(\d+)/);
+                let typeMatch = line.match(/"type":"(.*?)"/);
+                let varMatch = line.match(/"var":"(.*?)"/);
+                let modeMatch = line.match(/"mode":"(.*?)"/);
+                let completeMatch = line.match(/"complete":(true|false)/);
+                let intentMatch = line.match(/"intent":(\d+)/);
+
+                if (tsMatch && evtMatch) {
+                  let obj = {
+                    ts: parseInt(tsMatch[1]),
+                    evt: parseInt(evtMatch[1]),
+                    sid: sidMatch ? parseInt(sidMatch[1]) : 0,
+                    complete: completeMatch ? completeMatch[1] === 'true' : false
+                  };
+                  if (typeMatch) obj.type = typeMatch[1];
+                  if (varMatch) obj.var = varMatch[1];
+                  if (modeMatch) obj.mode = modeMatch[1];
+                  if (intentMatch) obj.intent = parseInt(intentMatch[1]);
+                  allEvents.push(obj);
+                }
+              } catch (lastErr) {
+                console.warn("Could not salvage log line:", line);
               }
             }
-
-            // 2. Parse and sanitize recovered lines
-            processedLines.forEach(line => {
-              try {
-                allEvents.push(JSON.parse(line));
-              } catch (e) {
-                // Try fixing common nested unescaped quote corruption from logging buffer
-                try {
-                  let cleaned = line
-                    .replace(/"mode":"({[^}]+})"/g, '"mode":$1')
-                    .replace(/"mode":"({[^}]+})/g, '"mode":$1')
-                    .replace(/"mode":"modeChanged.*?}}",/g, '"mode":"corrupted",')
-                    .replace(/"mode":"uptMs.*?}}",/g, '"mode":"corrupted",')
-                    .replace(/"mode":"imeSinceLast.*?}}",/g, '"mode":"corrupted",')
-                    .replace(/"mode":"lse}"/g, '"mode":"corrupted"')
-                    .replace(/"mode":"lse}",/g, '"mode":"corrupted",')
-                    .replace(/"mode":"{"presses":.*?}/g, '"mode":"corrupted"}');
-
-                  if (cleaned.startsWith('{') && !cleaned.endsWith('}')) {
-                    cleaned += '}';
-                  }
-                  allEvents.push(JSON.parse(cleaned));
-                } catch (err) {
-                  // Fallback: Regex extraction for key fields to salvage as much as possible
-                  try {
-                    let tsMatch = line.match(/"ts":(\d+)/);
-                    let evtMatch = line.match(/"evt":(\d+)/);
-                    let sidMatch = line.match(/"sid":(\d+)/);
-                    let typeMatch = line.match(/"type":"(.*?)"/);
-                    let varMatch = line.match(/"var":"(.*?)"/);
-                    let modeMatch = line.match(/"mode":"(.*?)"/);
-                    let completeMatch = line.match(/"complete":(true|false)/);
-                    let intentMatch = line.match(/"intent":(\d+)/);
-
-                    if (tsMatch && evtMatch) {
-                      let obj = {
-                        ts: parseInt(tsMatch[1]),
-                        evt: parseInt(evtMatch[1]),
-                        sid: sidMatch ? parseInt(sidMatch[1]) : 0,
-                        complete: completeMatch ? completeMatch[1] === 'true' : false
-                      };
-                      if (typeMatch) obj.type = typeMatch[1];
-                      if (varMatch) obj.var = varMatch[1];
-                      if (modeMatch) obj.mode = modeMatch[1];
-                      if (intentMatch) obj.intent = parseInt(intentMatch[1]);
-                      allEvents.push(obj);
-                    }
-                  } catch (lastErr) {
-                    console.warn("Could not salvage log line:", line);
-                  }
-                }
-              }
-            });
-          } catch (e) {
-            console.error("Error reading log file:", e);
           }
-          resolve();
-        };
-        reader.readAsText(file);
-      });
+        });
+      } catch (e) {
+        console.error("Error reading log file:", e);
+      }
     }
 
     function groupEventsByInteractionWindow(events) {
@@ -1467,6 +1489,12 @@
         computeAnalytics();
       }
     });
+
+    // Served by the ESP32 itself (http:// over its AP) — no local filesystem
+    // access, so auto-fetch logs from the device. File picker still works too.
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      loadFilesFromDevice();
+    }
 
     document.getElementById('export-btn').onclick = () => {
       const csv = 'ID,Duration,StartTime,Clicks,SideTracks,Types,Variants,Intent,Completions,Modes\n' +

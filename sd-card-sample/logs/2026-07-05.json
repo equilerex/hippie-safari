@@ -18,3 +18,979 @@
 {"ts":1783258836,"evt":3,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":884,"complete":false}
 {"ts":1783258836,"evt":2,"sid":6,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
 {"ts":1783258857,"evt":3,"sid":6,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":21048,"complete":true}
+{"ts":5,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783259548,"evt":4,"sid":0,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783259548,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783259551,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783259554,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783259555,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783259556,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783259558,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783259560,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783259561,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783259562,"evt":2,"sid":6,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783259565,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783259566,"evt":2,"sid":8,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783259567,"evt":3,"sid":8,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":857,"complete":false}
+{"ts":1783259567,"evt":2,"sid":8,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783259588,"evt":3,"sid":8,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":21048,"complete":true}
+{"ts":1783259590,"evt":4,"sid":8,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783259590,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783259595,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783259596,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783259597,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783259598,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783259600,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783259602,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783259603,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783259666,"evt":3,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"weekends","complete":true}
+{"ts":1783259666,"evt":10,"sid":11,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":5,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783260260,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260262,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260268,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260269,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260270,"evt":3,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260270,"evt":2,"sid":3,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260278,"evt":3,"sid":3,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":8239,"complete":false}
+{"ts":1783260278,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260285,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260286,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260287,"evt":3,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260287,"evt":2,"sid":5,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260291,"evt":3,"sid":5,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":3567,"complete":false}
+{"ts":1783260291,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260293,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260294,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260295,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260296,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260297,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260307,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260308,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260312,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260314,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260316,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260318,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260320,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260321,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260322,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260324,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260325,"evt":2,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260326,"evt":2,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260329,"evt":3,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"weekday_morning","complete":true}
+{"ts":1783260329,"evt":10,"sid":11,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":1783260411,"evt":3,"sid":20,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":918,"complete":false}
+{"ts":1783260411,"evt":2,"sid":20,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260414,"evt":3,"sid":20,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":3039,"complete":false}
+{"ts":1783260414,"evt":2,"sid":21,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260415,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260415,"evt":2,"sid":23,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260416,"evt":3,"sid":23,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260416,"evt":2,"sid":23,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783260418,"evt":3,"sid":23,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":1432,"complete":false}
+{"ts":1783260418,"evt":2,"sid":24,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260420,"evt":2,"sid":25,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260421,"evt":2,"sid":26,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260422,"evt":2,"sid":26,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260424,"evt":2,"sid":26,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260425,"evt":2,"sid":27,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260425,"evt":3,"sid":27,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":932,"complete":false}
+{"ts":1783260426,"evt":2,"sid":27,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260427,"evt":3,"sid":27,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":1392,"complete":false}
+{"ts":1783260427,"evt":2,"sid":28,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260428,"evt":2,"sid":29,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260429,"evt":3,"sid":29,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260429,"evt":2,"sid":29,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260431,"evt":3,"sid":29,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":2271,"complete":false}
+{"ts":1783260431,"evt":2,"sid":30,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260434,"evt":2,"sid":30,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260434,"evt":2,"sid":31,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260435,"evt":3,"sid":31,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260436,"evt":2,"sid":31,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260437,"evt":3,"sid":31,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":1647,"complete":false}
+{"ts":1783260437,"evt":2,"sid":32,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260439,"evt":2,"sid":32,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260441,"evt":2,"sid":32,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260442,"evt":2,"sid":33,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260443,"evt":2,"sid":33,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260444,"evt":2,"sid":34,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260445,"evt":3,"sid":34,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260445,"evt":2,"sid":34,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260447,"evt":3,"sid":34,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":1839,"complete":false}
+{"ts":1783260447,"evt":2,"sid":35,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260448,"evt":2,"sid":36,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260448,"evt":3,"sid":36,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260449,"evt":2,"sid":36,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260450,"evt":3,"sid":36,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":1040,"complete":false}
+{"ts":1783260450,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260451,"evt":2,"sid":38,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260452,"evt":2,"sid":39,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260453,"evt":3,"sid":39,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260453,"evt":2,"sid":39,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260454,"evt":3,"sid":39,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":795,"complete":false}
+{"ts":1783260454,"evt":2,"sid":40,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260455,"evt":2,"sid":41,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260456,"evt":2,"sid":41,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260458,"evt":2,"sid":42,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260460,"evt":2,"sid":43,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260462,"evt":2,"sid":43,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260464,"evt":2,"sid":44,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260465,"evt":2,"sid":44,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260467,"evt":2,"sid":44,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260468,"evt":2,"sid":45,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260469,"evt":3,"sid":45,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":932,"complete":false}
+{"ts":1783260469,"evt":2,"sid":45,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260470,"evt":3,"sid":45,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":880,"complete":false}
+{"ts":1783260470,"evt":2,"sid":46,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260471,"evt":2,"sid":47,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260472,"evt":3,"sid":47,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":932,"complete":false}
+{"ts":1783260472,"evt":2,"sid":47,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260473,"evt":3,"sid":47,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":617,"complete":false}
+{"ts":1783260473,"evt":2,"sid":48,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260473,"evt":3,"sid":48,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":918,"complete":false}
+{"ts":1783260474,"evt":2,"sid":48,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260474,"evt":3,"sid":48,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":832,"complete":false}
+{"ts":1783260474,"evt":2,"sid":49,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260475,"evt":2,"sid":50,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260477,"evt":2,"sid":50,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260479,"evt":2,"sid":51,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260480,"evt":2,"sid":52,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260486,"evt":2,"sid":53,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260486,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260487,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260488,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260490,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260490,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260492,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260493,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260494,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260495,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260496,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260497,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260498,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260499,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260500,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260501,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260502,"evt":2,"sid":54,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260506,"evt":2,"sid":55,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260508,"evt":2,"sid":55,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260508,"evt":2,"sid":56,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260511,"evt":2,"sid":57,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260512,"evt":2,"sid":58,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260558,"evt":3,"sid":58,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":true}
+{"ts":1783260558,"evt":10,"sid":58,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":3446038136,"modeChanged":false,"interruptMs":0}}
+{"ts":5,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783260237,"evt":2,"sid":1,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260238,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260240,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260241,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260244,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783260245,"evt":2,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260246,"evt":3,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":959,"complete":false}
+{"ts":1783260246,"evt":2,"sid":4,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260248,"evt":3,"sid":4,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":2015,"complete":false}
+{"ts":1783260248,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260250,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260251,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260252,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260253,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260254,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260256,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260257,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260258,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260259,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783260260,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783260261,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783260263,"evt":2,"sid":6,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260264,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260265,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260266,"evt":3,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":958,"complete":false}
+{"ts":1783260266,"evt":2,"sid":8,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783260270,"evt":3,"sid":8,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":3522,"complete":false}
+{"ts":1783260270,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260278,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783260280,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783260281,"evt":2,"sid":11,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783260282,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783260285,"evt":3,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":3456,"complete":false}
+{"ts":1783260285,"evt":2,"sid":12,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783260307,"evt":3,"sid":12,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":21144,"complete":true}
+{"ts":1783262254,"evt":2,"sid":29,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262255,"evt":2,"sid":30,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262257,"evt":2,"sid":30,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783262258,"evt":2,"sid":30,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"default","complete":false}
+{"ts":1783262259,"evt":2,"sid":30,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"default","complete":false}
+{"ts":1783262262,"evt":2,"sid":31,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262262,"evt":2,"sid":32,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262263,"evt":2,"sid":32,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783262265,"evt":2,"sid":33,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262266,"evt":2,"sid":34,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262268,"evt":2,"sid":34,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262269,"evt":2,"sid":34,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262269,"evt":2,"sid":35,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262270,"evt":2,"sid":35,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783262272,"evt":2,"sid":36,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262272,"evt":2,"sid":37,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262274,"evt":2,"sid":38,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262274,"evt":2,"sid":39,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262276,"evt":2,"sid":40,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262277,"evt":2,"sid":41,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262278,"evt":2,"sid":42,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262284,"evt":2,"sid":43,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262285,"evt":2,"sid":44,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262288,"evt":2,"sid":45,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262289,"evt":2,"sid":46,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262290,"evt":2,"sid":46,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262291,"evt":2,"sid":47,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262292,"evt":2,"sid":48,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262294,"evt":2,"sid":49,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262294,"evt":2,"sid":50,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262296,"evt":2,"sid":51,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262296,"evt":2,"sid":52,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262304,"evt":2,"sid":53,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262304,"evt":2,"sid":54,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262313,"evt":2,"sid":55,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262324,"evt":2,"sid":56,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262324,"evt":2,"sid":57,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262325,"evt":2,"sid":57,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783262326,"evt":2,"sid":58,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262327,"evt":2,"sid":58,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783262329,"evt":2,"sid":59,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262330,"evt":2,"sid":59,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783262330,"evt":2,"sid":60,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262331,"evt":2,"sid":61,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262332,"evt":3,"sid":61,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":856,"complete":false}
+{"ts":1783262332,"evt":2,"sid":61,"type":"EGG_10","var":"/audio/easter-egg/MULTI_CLICK/Chaos Burst.wav","mode":"easter-egg","complete":false}
+{"ts":1783262336,"evt":3,"sid":61,"type":"EGG_10","var":"Chaos Burst.wav","mode":"easter-egg","actDur":3658,"complete":false}
+{"ts":1783262336,"evt":2,"sid":62,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262337,"evt":2,"sid":63,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262337,"evt":2,"sid":63,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783262338,"evt":2,"sid":64,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262339,"evt":2,"sid":65,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262340,"evt":2,"sid":66,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262341,"evt":3,"sid":66,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":897,"complete":false}
+{"ts":1783262341,"evt":2,"sid":66,"type":"EGG_10","var":"/audio/easter-egg/MULTI_CLICK/Hammer Single.wav","mode":"easter-egg","complete":false}
+{"ts":1783262342,"evt":3,"sid":66,"type":"EGG_10","var":"Hammer Single.wav","mode":"easter-egg","actDur":821,"complete":false}
+{"ts":1783262342,"evt":2,"sid":67,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262343,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262344,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262345,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262346,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262346,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262347,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262348,"evt":2,"sid":68,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262349,"evt":2,"sid":69,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262351,"evt":2,"sid":69,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783262353,"evt":2,"sid":70,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262353,"evt":2,"sid":71,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262354,"evt":2,"sid":72,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262355,"evt":2,"sid":73,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262356,"evt":3,"sid":73,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":883,"complete":false}
+{"ts":1783262356,"evt":2,"sid":73,"type":"EGG_10","var":"/audio/easter-egg/MULTI_CLICK/Long Hold Sustained.wav","mode":"easter-egg","complete":false}
+{"ts":1783262360,"evt":3,"sid":73,"type":"EGG_10","var":"Long Hold Sustained.wav","mode":"easter-egg","actDur":4284,"complete":false}
+{"ts":1783262360,"evt":2,"sid":74,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262361,"evt":2,"sid":75,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262363,"evt":2,"sid":76,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262371,"evt":2,"sid":76,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783262372,"evt":2,"sid":77,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262373,"evt":2,"sid":78,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262374,"evt":2,"sid":79,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262375,"evt":3,"sid":79,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","actDur":884,"complete":false}
+{"ts":1783262375,"evt":2,"sid":79,"type":"EGG_10","var":"/audio/easter-egg/MULTI_CLICK/Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783262380,"evt":3,"sid":79,"type":"EGG_10","var":"Multi-Click.wav","mode":"easter-egg","actDur":5135,"complete":false}
+{"ts":1783262380,"evt":2,"sid":80,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262382,"evt":2,"sid":81,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262383,"evt":2,"sid":82,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262384,"evt":2,"sid":83,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262385,"evt":2,"sid":84,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262386,"evt":2,"sid":85,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262387,"evt":2,"sid":86,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262388,"evt":2,"sid":87,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783262388,"evt":2,"sid":88,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262389,"evt":3,"sid":88,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":857,"complete":false}
+{"ts":1783262389,"evt":2,"sid":88,"type":"EGG_3","var":"/audio/easter-egg/SOS_MORSE/SOS Morse.wav","mode":"easter-egg","complete":false}
+{"ts":1783262390,"evt":3,"sid":88,"type":"EGG_3","var":"SOS Morse.wav","mode":"easter-egg","actDur":1066,"complete":false}
+{"ts":1783262390,"evt":2,"sid":89,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783262391,"evt":2,"sid":90,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"default","complete":false}
+{"ts":1783262393,"evt":2,"sid":90,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"default","complete":false}
+{"ts":1783262455,"evt":3,"sid":90,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":true}
+{"ts":1783262455,"evt":10,"sid":90,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":3444173136,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783268284,"evt":4,"sid":0,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783268284,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268285,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268288,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783268288,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268290,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268291,"evt":4,"sid":4,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783268291,"evt":2,"sid":5,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268292,"evt":3,"sid":5,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"default","actDur":861,"complete":false}
+{"ts":1783268292,"evt":2,"sid":5,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783268296,"evt":3,"sid":5,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":4456,"complete":false}
+{"ts":1783268296,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268301,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268302,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268305,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783268307,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268309,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268311,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268313,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268314,"evt":2,"sid":11,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268316,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268321,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268322,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268329,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268330,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268331,"evt":2,"sid":17,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268332,"evt":2,"sid":18,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268332,"evt":3,"sid":18,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":889,"complete":false}
+{"ts":1783268333,"evt":2,"sid":18,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783268335,"evt":3,"sid":18,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":2605,"complete":false}
+{"ts":1783268335,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268336,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268337,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268337,"evt":3,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":869,"complete":false}
+{"ts":1783268338,"evt":2,"sid":21,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783268338,"evt":3,"sid":21,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":689,"complete":false}
+{"ts":1783268338,"evt":2,"sid":21,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783268339,"evt":3,"sid":21,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":930,"complete":false}
+{"ts":1783268339,"evt":2,"sid":22,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268340,"evt":2,"sid":23,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268342,"evt":2,"sid":24,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268343,"evt":2,"sid":25,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268343,"evt":2,"sid":26,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268345,"evt":2,"sid":27,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268346,"evt":2,"sid":28,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268347,"evt":2,"sid":29,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268348,"evt":2,"sid":30,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268349,"evt":2,"sid":31,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268351,"evt":2,"sid":32,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268351,"evt":2,"sid":33,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268353,"evt":2,"sid":34,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268354,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268355,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783268356,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783268357,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"festival","complete":false}
+{"ts":1783268358,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268359,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783268360,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783268361,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"festival","complete":false}
+{"ts":1783268362,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268363,"evt":2,"sid":35,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783268365,"evt":2,"sid":36,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268366,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268368,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783268369,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783268369,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"festival","complete":false}
+{"ts":1783268370,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268371,"evt":2,"sid":37,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783268373,"evt":2,"sid":38,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268374,"evt":2,"sid":39,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268375,"evt":3,"sid":39,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":929,"complete":false}
+{"ts":1783268375,"evt":2,"sid":39,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783268376,"evt":3,"sid":39,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":542,"complete":false}
+{"ts":1783268376,"evt":2,"sid":40,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268376,"evt":2,"sid":41,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268377,"evt":2,"sid":42,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268378,"evt":2,"sid":43,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268379,"evt":2,"sid":44,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268385,"evt":2,"sid":45,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783268386,"evt":2,"sid":46,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783268387,"evt":2,"sid":47,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783268432,"evt":3,"sid":47,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","complete":true}
+{"ts":1783268432,"evt":10,"sid":47,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783269833,"evt":4,"sid":0,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783269833,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783269834,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783269835,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783269837,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783269838,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783269840,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783269841,"evt":3,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"weekday_morning","actDur":1162,"complete":false}
+{"ts":1783269841,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783269849,"evt":3,"sid":2,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":7364,"complete":false}
+{"ts":1783269849,"evt":2,"sid":2,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269850,"evt":3,"sid":2,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1394,"complete":false}
+{"ts":1783269850,"evt":2,"sid":2,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269852,"evt":3,"sid":2,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1527,"complete":false}
+{"ts":1783269852,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783269853,"evt":3,"sid":2,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1347,"complete":false}
+{"ts":1783269853,"evt":2,"sid":2,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269855,"evt":3,"sid":2,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1569,"complete":false}
+{"ts":1783269855,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783269858,"evt":3,"sid":2,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":3098,"complete":false}
+{"ts":1783269858,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783269859,"evt":2,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783269860,"evt":3,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":905,"complete":false}
+{"ts":1783269860,"evt":2,"sid":4,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269861,"evt":3,"sid":4,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1395,"complete":false}
+{"ts":1783269861,"evt":2,"sid":4,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269864,"evt":3,"sid":4,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":2970,"complete":false}
+{"ts":1783269864,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783269865,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783269868,"evt":3,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":3058,"complete":false}
+{"ts":1783269868,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269870,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1394,"complete":false}
+{"ts":1783269870,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269871,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1396,"complete":false}
+{"ts":1783269871,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269873,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1397,"complete":false}
+{"ts":1783269873,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269874,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1392,"complete":false}
+{"ts":1783269874,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269876,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1397,"complete":false}
+{"ts":1783269876,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269877,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1393,"complete":false}
+{"ts":1783269877,"evt":2,"sid":6,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269881,"evt":3,"sid":6,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":3608,"complete":false}
+{"ts":1783269881,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783269888,"evt":4,"sid":7,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783269888,"evt":2,"sid":8,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783269894,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783269896,"evt":3,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":1532,"complete":false}
+{"ts":1783269896,"evt":2,"sid":9,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783269898,"evt":3,"sid":9,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":2289,"complete":false}
+{"ts":1783269899,"evt":2,"sid":9,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783269900,"evt":3,"sid":9,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1346,"complete":false}
+{"ts":1783269900,"evt":2,"sid":9,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269901,"evt":3,"sid":9,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":1393,"complete":false}
+{"ts":1783269902,"evt":2,"sid":9,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783269907,"evt":3,"sid":9,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":5966,"complete":false}
+{"ts":1783269907,"evt":2,"sid":10,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783269910,"evt":3,"sid":10,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"default","actDur":2194,"complete":false}
+{"ts":1783269910,"evt":2,"sid":10,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783269914,"evt":3,"sid":10,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":3802,"complete":false}
+{"ts":1783269914,"evt":2,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783269914,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783269960,"evt":3,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","complete":true}
+{"ts":1783269960,"evt":10,"sid":12,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783271895,"evt":4,"sid":0,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783271895,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271897,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783271902,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271903,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271904,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271904,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271906,"evt":2,"sid":6,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271907,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271910,"evt":2,"sid":8,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271911,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271914,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783271916,"evt":4,"sid":9,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783271916,"evt":2,"sid":10,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271916,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271917,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783271920,"evt":2,"sid":12,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271920,"evt":2,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271922,"evt":2,"sid":14,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271924,"evt":2,"sid":14,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271925,"evt":2,"sid":14,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271927,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271927,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271928,"evt":3,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":926,"complete":false}
+{"ts":1783271928,"evt":2,"sid":16,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783271932,"evt":3,"sid":16,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":3316,"complete":false}
+{"ts":1783271932,"evt":2,"sid":17,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783271933,"evt":2,"sid":18,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271936,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271938,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271939,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783271941,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783271942,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783271945,"evt":3,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"weekday_morning","complete":true}
+{"ts":1783271945,"evt":10,"sid":20,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":5,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783272459,"evt":2,"sid":1,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272460,"evt":4,"sid":1,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783272460,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272461,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272462,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272463,"evt":3,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":878,"complete":false}
+{"ts":1783272463,"evt":2,"sid":3,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783272466,"evt":3,"sid":3,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":3659,"complete":false}
+{"ts":1783272466,"evt":2,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272467,"evt":4,"sid":4,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783272467,"evt":2,"sid":5,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272468,"evt":2,"sid":6,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272470,"evt":2,"sid":6,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783272471,"evt":2,"sid":7,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272471,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272473,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272473,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272474,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272475,"evt":2,"sid":11,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272476,"evt":2,"sid":12,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272476,"evt":2,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272477,"evt":3,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":858,"complete":false}
+{"ts":1783272477,"evt":2,"sid":13,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783272484,"evt":3,"sid":13,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":7052,"complete":false}
+{"ts":1783272484,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272485,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272487,"evt":2,"sid":16,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272488,"evt":2,"sid":16,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272489,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272491,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783272492,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783272493,"evt":3,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"weekday_morning","complete":true}
+{"ts":1783272493,"evt":10,"sid":17,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783272521,"evt":2,"sid":1,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272522,"evt":4,"sid":1,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783272522,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272525,"evt":3,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":2682,"complete":false}
+{"ts":1783272525,"evt":2,"sid":2,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783272532,"evt":3,"sid":2,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":7134,"complete":false}
+{"ts":1783272532,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272538,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272539,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272541,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272542,"evt":4,"sid":5,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783272542,"evt":2,"sid":6,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272543,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272544,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783272546,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272547,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272548,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783272549,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"festival","complete":false}
+{"ts":1783272551,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272552,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272553,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783272554,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"festival","complete":false}
+{"ts":1783272599,"evt":3,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"weekends","complete":true}
+{"ts":1783272599,"evt":10,"sid":8,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783272487,"evt":4,"sid":0,"type":"01_intro","mode":"Friday","complete":false}
+{"ts":1783272487,"evt":2,"sid":1,"type":"01_intro","var":"/audio/types/01_intro/Friday/Friday night(1).wav","mode":"Friday","complete":false}
+{"ts":1783272491,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272491,"evt":4,"sid":2,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783272491,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272493,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272494,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783272499,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783272500,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783272506,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783272534,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783272537,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"festival","complete":false}
+{"ts":1783272582,"evt":3,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","mode":"weekends","complete":true}
+{"ts":1783272582,"evt":10,"sid":5,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/default/sauna goblin (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783274914,"evt":2,"sid":1,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274915,"evt":2,"sid":2,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274917,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274918,"evt":4,"sid":3,"type":"03_groups","mode":"weekends","complete":false}
+{"ts":1783274918,"evt":2,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274919,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274920,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783274921,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274922,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274923,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274930,"evt":2,"sid":9,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274931,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274932,"evt":2,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274933,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274935,"evt":2,"sid":13,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274935,"evt":2,"sid":14,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274937,"evt":2,"sid":15,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274938,"evt":2,"sid":16,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274939,"evt":2,"sid":17,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274940,"evt":2,"sid":18,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274941,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274942,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274943,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783274944,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274946,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274947,"evt":2,"sid":23,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274949,"evt":2,"sid":24,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274950,"evt":2,"sid":25,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274964,"evt":2,"sid":26,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274965,"evt":2,"sid":27,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274966,"evt":2,"sid":28,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274967,"evt":2,"sid":29,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274968,"evt":2,"sid":30,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274969,"evt":2,"sid":31,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274970,"evt":2,"sid":32,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783274971,"evt":2,"sid":33,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274971,"evt":2,"sid":34,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274972,"evt":2,"sid":35,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274973,"evt":2,"sid":36,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274978,"evt":2,"sid":37,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274978,"evt":2,"sid":38,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274982,"evt":2,"sid":38,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274988,"evt":2,"sid":39,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783274989,"evt":2,"sid":39,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783274990,"evt":2,"sid":40,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783274991,"evt":2,"sid":40,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275081,"evt":3,"sid":40,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","complete":true}
+{"ts":1783275081,"evt":10,"sid":40,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783275424,"evt":4,"sid":0,"type":"03_groups","mode":"weekends","complete":false}
+{"ts":1783275424,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275427,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275428,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275429,"evt":2,"sid":4,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783275430,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275431,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783275433,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783275434,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783275436,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275437,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275438,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275443,"evt":2,"sid":9,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783275446,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275448,"evt":2,"sid":10,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275448,"evt":2,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275449,"evt":2,"sid":11,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783275450,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275451,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275452,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275453,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275454,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275455,"evt":2,"sid":16,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783275457,"evt":3,"sid":16,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":1389,"complete":false}
+{"ts":1783275457,"evt":2,"sid":16,"type":"EGG_2","var":"/audio/easter-egg/ASCENDING_SWEEP/Ascending Sweep.wav","mode":"easter-egg","complete":false}
+{"ts":1783275463,"evt":3,"sid":16,"type":"EGG_2","var":"Ascending Sweep.wav","mode":"easter-egg","actDur":6390,"complete":false}
+{"ts":1783275463,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783275464,"evt":2,"sid":18,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783275554,"evt":3,"sid":18,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","complete":true}
+{"ts":1783275554,"evt":10,"sid":18,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":1783276360,"evt":3,"sid":2,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":4186,"complete":false}
+{"ts":1783276360,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276362,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276364,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276365,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276365,"evt":2,"sid":6,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783276366,"evt":3,"sid":6,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":821,"complete":false}
+{"ts":1783276366,"evt":2,"sid":6,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783276369,"evt":3,"sid":6,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":3167,"complete":false}
+{"ts":1783276370,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276370,"evt":2,"sid":8,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783276371,"evt":3,"sid":8,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":822,"complete":false}
+{"ts":1783276371,"evt":2,"sid":8,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783276374,"evt":3,"sid":8,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":2688,"complete":false}
+{"ts":1783276374,"evt":2,"sid":8,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783276375,"evt":3,"sid":8,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1344,"complete":false}
+{"ts":1783276376,"evt":2,"sid":8,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783276379,"evt":3,"sid":8,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":3001,"complete":false}
+{"ts":1783276379,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276380,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276381,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276382,"evt":3,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":847,"complete":false}
+{"ts":1783276382,"evt":2,"sid":10,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783276387,"evt":3,"sid":10,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":4747,"complete":false}
+{"ts":1783276387,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276389,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276390,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276391,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276394,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276395,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276396,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276397,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276398,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276399,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276400,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276402,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276403,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276404,"evt":2,"sid":12,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276404,"evt":2,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276405,"evt":3,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":828,"complete":false}
+{"ts":1783276405,"evt":2,"sid":13,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783276407,"evt":3,"sid":13,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1914,"complete":false}
+{"ts":1783276407,"evt":2,"sid":13,"type":"EGG_3","var":"/audio/easter-egg/SOS_MORSE/SOS Morse.wav","mode":"easter-egg","complete":false}
+{"ts":1783276410,"evt":3,"sid":13,"type":"EGG_3","var":"SOS Morse.wav","mode":"easter-egg","actDur":3050,"complete":false}
+{"ts":1783276410,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276411,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276415,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276416,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276417,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783276417,"evt":2,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783276419,"evt":3,"sid":15,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"weekday_morning","complete":true}
+{"ts":1783276419,"evt":10,"sid":15,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":1783276420,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276421,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276422,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276423,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276425,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276425,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276428,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276429,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276429,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276432,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276433,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276434,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276435,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276436,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276437,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276438,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276439,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276440,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276441,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276442,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276443,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276451,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276452,"evt":2,"sid":18,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276452,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783276458,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276459,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276461,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276462,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276462,"evt":3,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":847,"complete":false}
+{"ts":1783276462,"evt":2,"sid":22,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783276466,"evt":3,"sid":22,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":3801,"complete":false}
+{"ts":1783276466,"evt":2,"sid":23,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276467,"evt":2,"sid":24,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783276468,"evt":2,"sid":25,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276469,"evt":2,"sid":26,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276470,"evt":2,"sid":27,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276472,"evt":2,"sid":28,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783276473,"evt":3,"sid":28,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":822,"complete":false}
+{"ts":1783276473,"evt":2,"sid":28,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783276473,"evt":3,"sid":28,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":497,"complete":false}
+{"ts":1783276473,"evt":2,"sid":29,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276474,"evt":2,"sid":30,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276476,"evt":2,"sid":31,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783276477,"evt":2,"sid":32,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783276477,"evt":2,"sid":33,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783276478,"evt":3,"sid":33,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":967,"complete":false}
+{"ts":1783276478,"evt":2,"sid":33,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783276504,"evt":3,"sid":33,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":25574,"complete":true}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783277062,"evt":4,"sid":0,"type":"03_groups","mode":"weekends","complete":false}
+{"ts":1783277062,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277065,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277065,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277066,"evt":3,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":851,"complete":false}
+{"ts":1783277066,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277073,"evt":3,"sid":2,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":6490,"complete":false}
+{"ts":1783277073,"evt":2,"sid":3,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783277074,"evt":3,"sid":3,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":823,"complete":false}
+{"ts":1783277074,"evt":2,"sid":3,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277074,"evt":3,"sid":3,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":497,"complete":false}
+{"ts":1783277074,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277075,"evt":3,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":847,"complete":false}
+{"ts":1783277075,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277077,"evt":3,"sid":4,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1407,"complete":false}
+{"ts":1783277077,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277078,"evt":3,"sid":4,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1344,"complete":false}
+{"ts":1783277078,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277081,"evt":3,"sid":4,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":2810,"complete":false}
+{"ts":1783277081,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277083,"evt":3,"sid":4,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1576,"complete":false}
+{"ts":1783277083,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277084,"evt":3,"sid":4,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1355,"complete":false}
+{"ts":1783277085,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277086,"evt":3,"sid":4,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1359,"complete":false}
+{"ts":1783277086,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277087,"evt":3,"sid":4,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1364,"complete":false}
+{"ts":1783277088,"evt":2,"sid":4,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277107,"evt":3,"sid":4,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":19076,"complete":false}
+{"ts":1783277107,"evt":2,"sid":5,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783277193,"evt":3,"sid":5,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","complete":true}
+{"ts":1783277193,"evt":10,"sid":5,"intent":3,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783277402,"evt":4,"sid":0,"type":"03_groups","mode":"weekends","complete":false}
+{"ts":1783277402,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277405,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277406,"evt":2,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277407,"evt":3,"sid":2,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":851,"complete":false}
+{"ts":1783277407,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277408,"evt":3,"sid":2,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1360,"complete":false}
+{"ts":1783277408,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277410,"evt":3,"sid":2,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1358,"complete":false}
+{"ts":1783277410,"evt":2,"sid":2,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277413,"evt":3,"sid":2,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":3032,"complete":false}
+{"ts":1783277413,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277415,"evt":2,"sid":4,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783277423,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277424,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783277425,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783277427,"evt":3,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"weekday_morning","complete":true}
+{"ts":1783277427,"evt":10,"sid":5,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":1783277429,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277435,"evt":3,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":6827,"complete":false}
+{"ts":1783277436,"evt":2,"sid":6,"type":"EGG_8","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783277449,"evt":3,"sid":6,"type":"EGG_8","var":"Duet.wav","mode":"easter-egg","actDur":13786,"complete":false}
+{"ts":1783277449,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277456,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277456,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277457,"evt":2,"sid":7,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277462,"evt":2,"sid":8,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783277468,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277469,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277470,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277471,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277472,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277472,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277473,"evt":2,"sid":9,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277476,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277477,"evt":2,"sid":11,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277478,"evt":2,"sid":12,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277478,"evt":2,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277479,"evt":3,"sid":13,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":827,"complete":false}
+{"ts":1783277479,"evt":2,"sid":13,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277481,"evt":3,"sid":13,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":2010,"complete":false}
+{"ts":1783277482,"evt":2,"sid":13,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783277483,"evt":3,"sid":13,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":1393,"complete":false}
+{"ts":1783277483,"evt":2,"sid":13,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783277509,"evt":3,"sid":13,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":25574,"complete":true}
+{"ts":1783277704,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277705,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277706,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277707,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277708,"evt":2,"sid":15,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783277709,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277710,"evt":2,"sid":16,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277711,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277712,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783277713,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783277714,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783277714,"evt":3,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"weekday_morning","actDur":857,"complete":false}
+{"ts":1783277715,"evt":2,"sid":17,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277715,"evt":3,"sid":17,"type":"EGG_11","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":497,"complete":false}
+{"ts":1783277715,"evt":2,"sid":18,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277716,"evt":3,"sid":18,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":890,"complete":false}
+{"ts":1783277716,"evt":2,"sid":18,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783277718,"evt":3,"sid":18,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":1384,"complete":false}
+{"ts":1783277718,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277719,"evt":3,"sid":18,"type":"EGG_11","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1328,"complete":false}
+{"ts":1783277719,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277721,"evt":3,"sid":18,"type":"EGG_11","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1383,"complete":false}
+{"ts":1783277721,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277722,"evt":3,"sid":18,"type":"EGG_11","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1373,"complete":false}
+{"ts":1783277722,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277725,"evt":3,"sid":18,"type":"EGG_11","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":2467,"complete":false}
+{"ts":1783277725,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277726,"evt":3,"sid":18,"type":"EGG_11","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1365,"complete":false}
+{"ts":1783277726,"evt":2,"sid":18,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277728,"evt":3,"sid":18,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1372,"complete":false}
+{"ts":1783277728,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277730,"evt":3,"sid":18,"type":"EGG_11","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":1703,"complete":false}
+{"ts":1783277730,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277731,"evt":3,"sid":18,"type":"EGG_11","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1321,"complete":false}
+{"ts":1783277731,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277732,"evt":3,"sid":18,"type":"EGG_11","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1372,"complete":false}
+{"ts":1783277733,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277735,"evt":3,"sid":18,"type":"EGG_11","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":2273,"complete":false}
+{"ts":1783277735,"evt":2,"sid":18,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277736,"evt":3,"sid":18,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1428,"complete":false}
+{"ts":1783277737,"evt":2,"sid":18,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277739,"evt":3,"sid":18,"type":"EGG_11","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":2669,"complete":false}
+{"ts":1783277739,"evt":2,"sid":18,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277744,"evt":3,"sid":18,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":5044,"complete":false}
+{"ts":1783277745,"evt":2,"sid":19,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783277745,"evt":2,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277746,"evt":3,"sid":20,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"weekday_morning","actDur":846,"complete":false}
+{"ts":1783277746,"evt":2,"sid":20,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783277748,"evt":3,"sid":20,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":1467,"complete":false}
+{"ts":1783277748,"evt":2,"sid":20,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/4 Multi-Click.wav","mode":"easter-egg","complete":false}
+{"ts":1783277749,"evt":3,"sid":20,"type":"EGG_6","var":"4 Multi-Click.wav","mode":"easter-egg","actDur":1353,"complete":false}
+{"ts":1783277749,"evt":2,"sid":20,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783277779,"evt":3,"sid":20,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":29278,"complete":true}
+{"ts":1783277876,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277877,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277878,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277878,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277879,"evt":2,"sid":21,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783277926,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783277927,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783277928,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783277928,"evt":2,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783277971,"evt":3,"sid":22,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"weekday_morning","complete":true}
+{"ts":1783277971,"evt":10,"sid":22,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":4294917296,"modeChanged":false,"interruptMs":0}}
+{"ts":1783278065,"evt":2,"sid":23,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783278069,"evt":2,"sid":24,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783278070,"evt":2,"sid":24,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783278071,"evt":2,"sid":24,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783278072,"evt":2,"sid":24,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783278162,"evt":3,"sid":24,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","complete":true}
+{"ts":1783278162,"evt":10,"sid":24,"intent":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":4294373296,"modeChanged":false,"interruptMs":0}}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783279102,"evt":4,"sid":0,"type":"03_groups","mode":"weekends","complete":false}
+{"ts":1783279102,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279103,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279104,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279106,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279107,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279108,"evt":2,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279117,"evt":3,"sid":1,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":9170,"complete":false}
+{"ts":1783279117,"evt":2,"sid":1,"type":"EGG_8","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783279126,"evt":3,"sid":1,"type":"EGG_8","var":"Duet.wav","mode":"easter-egg","actDur":8459,"complete":false}
+{"ts":1783279126,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279127,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279128,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783279130,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783279131,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783279132,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783279133,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783279134,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783279167,"evt":3,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"weekday_morning","complete":true}
+{"ts":1783279167,"evt":10,"sid":3,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":1783279578,"evt":2,"sid":0,"type":"EGG_8","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783279599,"evt":3,"sid":0,"type":"EGG_8","var":"Duet.wav","mode":"easter-egg","actDur":21059,"complete":true}
+{"ts":4,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783280929,"evt":2,"sid":0,"type":"EGG_7","var":"/audio/easter-egg/LONG_HOLD_SUSTAINED/All Buttons Held.wav","mode":"easter-egg","complete":false}
+{"ts":1783280935,"evt":3,"sid":0,"type":"EGG_7","var":"All Buttons Held.wav","mode":"easter-egg","actDur":6446,"complete":false}
+{"ts":1783280935,"evt":2,"sid":1,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783280936,"evt":4,"sid":1,"type":"03_groups","mode":"weekends","complete":false}
+{"ts":1783280936,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280937,"evt":3,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":848,"complete":false}
+{"ts":1783280937,"evt":2,"sid":2,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783280943,"evt":3,"sid":2,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":6077,"complete":false}
+{"ts":1783280943,"evt":2,"sid":2,"type":"EGG_8","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783280954,"evt":3,"sid":2,"type":"EGG_8","var":"Duet.wav","mode":"easter-egg","actDur":10905,"complete":false}
+{"ts":1783280954,"evt":2,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280955,"evt":3,"sid":3,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":816,"complete":false}
+{"ts":1783280955,"evt":2,"sid":3,"type":"EGG_11","var":"/audio/easter-egg/MULTI_CLICK/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783280958,"evt":3,"sid":3,"type":"EGG_11","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":3098,"complete":false}
+{"ts":1783280958,"evt":2,"sid":4,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783280959,"evt":2,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280960,"evt":3,"sid":5,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":807,"complete":false}
+{"ts":1783280960,"evt":2,"sid":5,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/2 Multi-Click - Copy.wav","mode":"easter-egg","complete":false}
+{"ts":1783280963,"evt":3,"sid":5,"type":"EGG_6","var":"2 Multi-Click - Copy.wav","mode":"easter-egg","actDur":2954,"complete":false}
+{"ts":1783280963,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280968,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783280969,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783280969,"evt":2,"sid":7,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783280971,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280971,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280973,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280974,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280977,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280978,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280979,"evt":2,"sid":8,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783280980,"evt":2,"sid":9,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783280981,"evt":2,"sid":9,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783280984,"evt":3,"sid":9,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"weekday_morning","complete":true}
+{"ts":1783280984,"evt":10,"sid":9,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":0,"modeChanged":false,"interruptMs":0}}
+{"ts":1783280985,"evt":2,"sid":10,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783280987,"evt":2,"sid":11,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783281010,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783281014,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783281015,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783281016,"evt":2,"sid":12,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783281017,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783281019,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783281020,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783281021,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783281025,"evt":2,"sid":13,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783281026,"evt":2,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"weekends","complete":false}
+{"ts":1783281026,"evt":3,"sid":14,"type":"03_groups","var":"/audio/types/03_groups/weekends/oh,  look a zebra(1).wav","mode":"default","actDur":802,"complete":false}
+{"ts":1783281026,"evt":2,"sid":14,"type":"EGG_6","var":"/audio/easter-egg/FAST_CLICK_PAIR/3 Multi-Click - Copy (1).wav","mode":"easter-egg","complete":false}
+{"ts":1783281032,"evt":3,"sid":14,"type":"EGG_6","var":"3 Multi-Click - Copy (1).wav","mode":"easter-egg","actDur":5657,"complete":false}
+{"ts":1783281032,"evt":2,"sid":15,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783281033,"evt":3,"sid":15,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"Friday","actDur":858,"complete":false}
+{"ts":1783281033,"evt":2,"sid":15,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783281035,"evt":3,"sid":15,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":1393,"complete":false}
+{"ts":1783281035,"evt":2,"sid":15,"type":"EGG_5","var":"/audio/easter-egg/TEAM_EFFORT/Team Effort.wav","mode":"easter-egg","complete":false}
+{"ts":1783281041,"evt":3,"sid":15,"type":"EGG_5","var":"Team Effort.wav","mode":"easter-egg","actDur":6320,"complete":false}
+{"ts":1783281041,"evt":2,"sid":16,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783281043,"evt":2,"sid":16,"type":"01_intro","var":"/audio/types/01_intro/default/hippie intro.wav","mode":"default","complete":false}
+{"ts":1783281045,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783281046,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/btn1.wav","mode":"default","complete":false}
+{"ts":1783281048,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/drm64_mario2.wav","mode":"default","complete":false}
+{"ts":1783281049,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/emotional support (1).wav","mode":"default","complete":false}
+{"ts":1783281051,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/radical self reliance (1).wav","mode":"default","complete":false}
+{"ts":1783281052,"evt":2,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/regional burner (1).wav","mode":"default","complete":false}
+{"ts":1783281095,"evt":3,"sid":17,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/regional burner (1).wav","mode":"weekday_morning","complete":true}
+{"ts":1783281095,"evt":10,"sid":17,"intent":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/regional burner (1).wav","complete":true,"ctx":{"presses":0,"cycles":0,"timeSinceLast":4294841296,"modeChanged":false,"interruptMs":0}}

@@ -62,6 +62,14 @@ bool SystemManagerImpl::initialize() {
     return false;
   }
 
+  // Start WiFi AP + log-viewer webserver first, independent of SD/audio state
+  webServerMgr.reset(new WebServerManagerImpl());
+  if (!webServerMgr->initialize()) {
+    Serial.print("[WARNING] WebServerManager init failed: ");
+    Serial.println(webServerMgr->getLastError());
+    // Non-fatal; system continues without the log viewer
+  }
+
   // Create all subsystems (except PCF8574 — needs extI2C bus initialized first)
   contentMgr.reset(new ContentManagerImpl());
   configLoader.reset(new ConfigLoaderImpl(contentMgr.get()));
@@ -238,6 +246,10 @@ bool SystemManagerImpl::initializeSubsystems() {
 }
 
 void SystemManagerImpl::update() {
+  if (webServerMgr) {
+    webServerMgr->update();
+  }
+
   // Handle PCF8574 interrupt flag (set by ISR, handled here to avoid I2C in ISR)
   if (buttonMgr) {
     ButtonManagerImpl* btnMgr = static_cast<ButtonManagerImpl*>(buttonMgr.get());

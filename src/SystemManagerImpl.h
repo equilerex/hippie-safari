@@ -16,6 +16,7 @@
 #include "RtcManagerImpl.h"
 #include "DisplayManagerImpl.h"
 #include "EasterEggDetectorImpl.h"
+#include "WebServerManagerImpl.h"
 
 class SystemManagerImpl : public SystemManager {
 private:
@@ -33,6 +34,7 @@ private:
   std::unique_ptr<AudioPlayerImpl> audioPlayer;
   std::unique_ptr<ButtonManagerImpl> buttonMgr;
   std::unique_ptr<EasterEggDetectorImpl> easterEggDetector;
+  std::unique_ptr<WebServerManagerImpl> webServerMgr;
   EasterEggState easterEggState = {};
 
   SystemState systemState = SystemState::INITIALIZING;
