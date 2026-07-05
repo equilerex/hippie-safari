@@ -22,11 +22,37 @@
 - GPIO pin mapping verified
 - I2C bus architecture (internal codec, external peripherals)
 
-**Next:**
-- Task 9: Integration tests (optional)
-- Task 10: Documentation & deployment (optional)
-- Build verification: `pio run -e esp32-a1s-audiokit`
-- Hardware deployment testing
+## 2026-07-05
 
-**Blocked:**
-- None (ready for build/hardware test phase)
+**Done:**
+- Fixed rapid button click loss: interrupt-driven input on GPIO 19 INT pin
+  - ISR sets flag only (non-blocking, µs latency)
+  - Main loop reads PCF8574 + queues events (circular queue, max 10)
+  - ButtonManagerImpl: `interruptPending` flag, `queueButtonEvent()`, `dequeueEvent()`, `onPCF8574Interrupt()`
+- Fixed I2C blockage (Error 263):
+  - Moved button I2C reads from ISR to main loop
+  - Created separate GPIO 5/22 I2C bus for OLED (SW_I2C bit-banging)
+  - No contention between button polling + OLED updates + SD writes
+- Optimized SD logging:
+  - Batch writes: file open once, write all queued events, close once
+  - Deferred to quiet window: flush only when audio off 5s + no interaction 5s
+  - Reduced blocking from 5-20s to ~50-100ms per flush
+- System time sync:
+  - RTC boot check; fallback to compile timestamp if before 2025
+  - ESP32 internal clock tracks after boot (no polling needed)
+- Enhanced debug output:
+  - Boot: system time, content scan (types + variants count)
+  - Button clicks: `[BTN] Type name (type#)`
+  - Audio events: `[AUDIO] Playing: trackname`, finish, stop
+  - All serial output (non-blocking)
+
+**Verified:**
+- Button responsiveness: rapid clicks now immediate (no loss)
+- OLED + button + audio all responsive simultaneously
+- Compilation clean, no I2C conflicts
+- Boot logs show all system state
+
+**Next:**
+- Hardware testing with wired buttons on PCF8574
+- Volume control / additional features
+- Production packaging

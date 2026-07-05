@@ -165,6 +165,7 @@ GPIO21 should not be reused.
 | Key 3 | 19 | LED conflict |
 | Key 4 | 23 | Available if external I²C not used |
 | Key 5 | 18 | Available if external I²C not used |
+| Key 5 | 18 | Available if external I²C not used |
 | Key 6 | 5 | Available |
 
 Current project uses only:

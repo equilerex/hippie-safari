@@ -33,18 +33,13 @@ void DisplayManagerImpl::truncateFilename(char* dest, size_t maxlen, const char*
 }
 
 bool DisplayManagerImpl::initialize(TwoWire* bus) {
-  Serial.println("[DEBUG] DisplayManager: Initializing with SW_I2C on GPIO18/23...");
   this->bus = bus;
 
-  // U8G2_SH1106_128X64_NONAME_F_SW_I2C(rotation, clock_pin, data_pin, reset_pin)
-  // SW_I2C allows us to use any GPIO pins
-  Serial.print("[DEBUG] DisplayManager: Creating U8G2_SH1106 with SW_I2C (SDA=GPIO");
-  Serial.print(PIN_EXT_I2C_SDA);
-  Serial.print(", SCL=GPIO");
-  Serial.print(PIN_EXT_I2C_SCL);
-  Serial.println(")");
+  // Use SW_I2C with GPIO 5 (SDA) / GPIO 22 (SCL) for separate OLED bus
+  Serial.println("[DEBUG] DisplayManager: Initializing with SW_I2C on GPIO5/22...");
+  Serial.println("[DEBUG] DisplayManager: Creating U8G2_SH1106 with GPIO5=SDA, GPIO22=SCL");
 
-  display = new U8G2_SH1106_128X64_NONAME_F_SW_I2C(U8G2_R0, PIN_EXT_I2C_SCL, PIN_EXT_I2C_SDA, U8X8_PIN_NONE);
+  display = new U8G2_SH1106_128X64_NONAME_F_SW_I2C(U8G2_R0, 22, 5, U8X8_PIN_NONE);
 
   Serial.println("[DEBUG] DisplayManager: U8G2 object created");
   Serial.println("[DEBUG] DisplayManager: Calling display->begin()...");

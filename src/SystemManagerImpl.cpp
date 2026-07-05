@@ -107,10 +107,47 @@ bool SystemManagerImpl::initializeSubsystems() {
     Serial.println("[DEBUG] RTC initialized successfully");
   }
 
-  // Initialize OLED display (non-fatal; system works without it)
-  displayMgr->setI2CMutex(i2cMutex);  // Pass mutex for I2C serialization
+  // Sync ESP32 system time from RTC if available, else use compile timestamp
+  time_t currentTime = rtcMgr->now();
+  struct tm buildTime = {};
+  if (strptime(__DATE__ " " __TIME__, "%b %d %Y %H:%M:%S", &buildTime) != nullptr) {
+    time_t compileTime = mktime(&buildTime);
+
+    // If RTC unset OR older than 2025, use compile timestamp
+    if (currentTime < 86400 || currentTime < 1735689600) {  // 2025-01-01
+      currentTime = compileTime;
+      timeval tv = {currentTime, 0};
+      settimeofday(&tv, nullptr);
+      Serial.print("[BOOT] Time synced to compile: ");
+      Serial.println(ctime(&currentTime));
+    } else {
+      Serial.print("[BOOT] RTC time: ");
+      Serial.println(ctime(&currentTime));
+    }
+  }
+
+  // Log content discovery results
+  uint8_t typeCount = contentMgr->getTypeCount();
+  Serial.print("[BOOT] Content scan: ");
+  Serial.print(typeCount);
+  Serial.println(" types");
+  for (uint8_t i = 0; i < typeCount; i++) {
+    const TypeContent* type = contentMgr->getType(i);
+    if (type) {
+      Serial.print("[BOOT]   Type");
+      Serial.print(i);
+      Serial.print(": ");
+      Serial.print(type->folderName.c_str());
+      Serial.print(" (");
+      Serial.print(contentMgr->getVariantCount(i));
+      Serial.println(" variants)");
+    }
+  }
+  Serial.println("[BOOT] Ready");
+
+  // Initialize OLED on GPIO 5/22 (U8G2 SW_I2C bit-banging, no TwoWire needed)
   Serial.println("[DEBUG] Initializing OLED display...");
-  if (!displayMgr->initialize(&extI2C)) {
+  if (!displayMgr->initialize(nullptr)) {
     Serial.print("[DEBUG] OLED init warning: ");
     Serial.println(displayMgr->getLastError());
     // Non-fatal
@@ -164,11 +201,13 @@ void SystemManagerImpl::update() {
       // Playback finished
       playbackCtrl->notifyClipFinished();
       wasPlayingLastFrame = false;
+      Serial.println("[AUDIO] Playback finished");
       displayMgr->showStandby();
     }
   } else if (wasPlayingLastFrame) {
     // Transitioned from playing to not playing
     wasPlayingLastFrame = false;
+    Serial.println("[AUDIO] Stopped");
     displayMgr->showStandby();
   }
   wasPlayingLastFrame = isPlaying;
@@ -190,6 +229,7 @@ void SystemManagerImpl::update() {
   uint32_t timeSinceAudioStopped = (audioStoppedMs > 0) ? (now - audioStoppedMs) : 0;
   uint32_t timeSinceInteraction = (lastInteractionMs > 0) ? (now - lastInteractionMs) : now;
 
+  // Flush SD queue during quiet window (OLED is on separate bus - no blocking)
   if (!isNowPlaying && logger->queueNeedsFlushing() &&
       timeSinceAudioStopped >= 5000 && timeSinceInteraction >= 5000) {
     logger->flushQueue();
@@ -209,8 +249,16 @@ void SystemManagerImpl::handleButtonEvent(const ButtonEvent& event) {
     return;
   }
 
-  Serial.print("[DEBUG] Button event received: typeIndex=");
-  Serial.println(event.typeIndex);
+  // Log button click with type info
+  const TypeContent* type = contentMgr->getType(event.typeIndex);
+  Serial.print("[BTN] Click: ");
+  if (type) {
+    String myString = String(type->folderName.c_str());
+    Serial.print(myString);
+  };
+  Serial.print(" (type");
+  Serial.print(event.typeIndex);
+  Serial.println(")");
 
   if (systemState == SystemState::STANDBY) {
     // Try recovery if in standby
@@ -242,16 +290,22 @@ void SystemManagerImpl::handleButtonEvent(const ButtonEvent& event) {
     case PlaybackAction::START_CLIP: {
       const char* filePath = contentMgr->getVariantPath(request.typeIndex, request.variantIndex);
       if (filePath) {
+        // Extract basename for logging
+        const char* basename = strrchr(filePath, '/');
+        if (basename) basename++; else basename = filePath;
+
         // Start audio playback FIRST (non-blocking)
         if (audioPlayer->playFile(filePath)) {
           wasPlayingLastFrame = true;
           lastInteractionMs = millis();  // Update interaction timer on playback start
+
+          // Log audio start with track name
+          Serial.print("[AUDIO] Playing: ");
+          Serial.println(basename);
+
+          // Update OLED (separate I2C bus - no blocking)
+          displayMgr->showNowPlaying(basename);
         }
-        // Update OLED AFTER audio starts (blocking I2C doesn't delay button polling)
-        // Extract basename for display
-        const char* basename = strrchr(filePath, '/');
-        if (basename) basename++; else basename = filePath;
-        displayMgr->showNowPlaying(basename);
       }
       break;
     }

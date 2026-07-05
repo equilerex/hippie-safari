@@ -5,3 +5,6 @@
 /.idea/vcs.xml
 .claude/**
 /.claude/
+/.serena/
+/.vscode/
+/graphify-out/

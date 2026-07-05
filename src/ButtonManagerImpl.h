@@ -21,7 +21,6 @@ private:
   ButtonEvent buttonQueue[MAX_BUTTON_QUEUE];
   size_t queueHead = 0;
   size_t queueTail = 0;
-  volatile bool interruptPending = false;  // Flag from ISR
 
   ContentManager* contentMgr = nullptr;
   PCF8574* pcf8574 = nullptr;
@@ -41,6 +40,8 @@ private:
   bool hasQueuedEvent() const;
 
 public:
+  volatile bool interruptPending = false;  // Set by ISR on GPIO 19 interrupt
+
   ButtonManagerImpl(ContentManager* contentMgr, PCF8574* pcf8574)
     : contentMgr(contentMgr), pcf8574(pcf8574) {
     lastEvent.typeIndex = 0xFF;
@@ -59,7 +60,7 @@ public:
   // New: dequeue button event from interrupt queue
   bool dequeueEvent(ButtonEvent& outEvent);
 
-  // Called from GPIO interrupt handler on INT pin 19
+  // Called from main loop when interruptPending is true (non-blocking I2C)
   void onPCF8574Interrupt();
 };
 

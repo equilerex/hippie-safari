@@ -18,8 +18,9 @@
 
 class SystemManagerImpl : public SystemManager {
 private:
-  // External I2C bus (shared by RTC, OLED, PCF8574)
+  // External I2C bus (RTC + PCF8574 buttons on GPIO18/23)
   TwoWire extI2C{1};
+  // Note: OLED uses SW_I2C (bit-banging) on GPIO5/22, doesn't need TwoWire object
   std::unique_ptr<PCF8574> pcf8574;
 
   std::unique_ptr<ContentManagerImpl> contentMgr;
