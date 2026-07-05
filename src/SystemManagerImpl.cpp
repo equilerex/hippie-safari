@@ -6,6 +6,35 @@
 #include "ButtonManagerImpl.h"
 #include "../include/Config.h"
 
+// Instantiate extern variables from Config.h
+uint8_t NUM_BUTTON_TYPES = 3;  // Set at runtime after content discovery
+uint8_t BUTTON_PINS[MAX_BUTTON_TYPES] = {0, 1, 2};  // Default; set at runtime
+
+// I2C Scanner Helper for systematic debugging (and stabilization delay)
+static void scanI2CBus(TwoWire& wire, const char* label) {
+  Serial.print("[I2C SCAN] ");
+  Serial.print(label);
+  Serial.println(":");
+  int nDevices = 0;
+  for (uint8_t address = 1; address < 127; address++) {
+    wire.beginTransmission(address);
+    byte error = wire.endTransmission();
+    if (error == 0) {
+      Serial.print("  -> Found device at 0x");
+      if (address < 16) Serial.print("0");
+      Serial.println(address, HEX);
+      nDevices++;
+    } else if (error == 4) {
+      Serial.print("  -> Unknown error at 0x");
+      if (address < 16) Serial.print("0");
+      Serial.println(address, HEX);
+    }
+  }
+  if (nDevices == 0) {
+    Serial.println("  -> No I2C devices responded");
+  }
+}
+
 // Global pointer for ISR (only one SystemManager instance)
 static SystemManagerImpl* g_systemManager = nullptr;
 
@@ -35,7 +64,7 @@ bool SystemManagerImpl::initialize() {
 
   // Create all subsystems (except PCF8574 — needs extI2C bus initialized first)
   contentMgr.reset(new ContentManagerImpl());
-  configLoader.reset(new ConfigLoaderImpl());
+  configLoader.reset(new ConfigLoaderImpl(contentMgr.get()));
   logger.reset(new PlaybackLoggerImpl());
   playbackCtrl.reset(new PlaybackControllerImpl(contentMgr.get(), configLoader.get(), logger.get()));
   audioPlayer.reset(new AudioPlayerImpl());
@@ -59,26 +88,19 @@ bool SystemManagerImpl::initializeSubsystems() {
   Serial.println(PIN_EXT_I2C_SCL);
 
   int result = extI2C.begin(PIN_EXT_I2C_SDA, PIN_EXT_I2C_SCL);
+  delay(50);  // Allow I2C pins to electrically pull high and stabilize
   Serial.print("[DEBUG] extI2C.begin() returned: ");
   Serial.println(result);
   Serial.println("[DEBUG] External I2C bus ready");
+  scanI2CBus(extI2C, "At startup");
 
-  // Debug: try to ping devices on extI2C
-  Serial.println("[DEBUG] Scanning extI2C for devices...");
-  for (uint8_t addr = 0x08; addr < 0x78; addr++) {
-    extI2C.beginTransmission(addr);
-    int error = extI2C.endTransmission();
-    if (error == 0) {
-      Serial.print("[DEBUG] Found I2C device at 0x");
-      if (addr < 0x10) Serial.print("0");
-      Serial.println(addr, HEX);
-    }
-  }
+  // Skip I2C scan - it corrupts PCF8574 state before button manager init
+  // TODO: Move scan to after button init if debug output needed
 
   // Construct PCF8574 after bus is ready, passing extI2C explicitly
   Serial.println("[DEBUG] Constructing PCF8574 on extI2C...");
   pcf8574.reset(new PCF8574(0x20, &extI2C));  // PCF8574 at I2C addr 0x20 on extI2C bus
-  buttonMgr.reset(new ButtonManagerImpl(contentMgr.get(), pcf8574.get()));
+  buttonMgr.reset(new ButtonManagerImpl(contentMgr.get(), pcf8574.get(), &extI2C));
 
   // Attach interrupt handler to PCF8574 INT pin (GPIO 19)
   Serial.println("[DEBUG] Attaching PCF8574 INT handler to GPIO 19...");
@@ -86,6 +108,7 @@ bool SystemManagerImpl::initializeSubsystems() {
   attachInterrupt(digitalPinToInterrupt(19), onPCF8574IntISR, FALLING);
 
   // Initialize in dependency order
+  // Content discovery (normal + easter eggs happen together)
   if (!contentMgr->initialize()) {
     snprintf(lastError, sizeof(lastError), "ContentManager init failed: %s", contentMgr->getLastError());
     systemState = SystemState::STANDBY;
@@ -106,6 +129,15 @@ bool SystemManagerImpl::initializeSubsystems() {
   } else {
     Serial.println("[DEBUG] RTC initialized successfully");
   }
+
+  scanI2CBus(extI2C, "After RTC init");
+
+  // CRITICAL WARNING: RTClib begin() resets the TwoWire port 1 (extI2C) pins back to defaults.
+  // We must re-establish GPIO 18/23 here. DO NOT REMOVE THIS CALL or the delay(50)!
+  // The delay is electrically required to let the open-drain SDA/SCL lines pull high and stabilize.
+  extI2C.begin(PIN_EXT_I2C_SDA, PIN_EXT_I2C_SCL);
+  delay(50);  // Bus stabilization delay
+  scanI2CBus(extI2C, "After RTC restore");
 
   // Sync ESP32 system time from RTC if available, else use compile timestamp
   time_t currentTime = rtcMgr->now();
@@ -145,7 +177,30 @@ bool SystemManagerImpl::initializeSubsystems() {
   }
   Serial.println("[BOOT] Ready");
 
-  // Initialize OLED on GPIO 5/22 (U8G2 SW_I2C bit-banging, no TwoWire needed)
+  if (!audioPlayer->initialize()) {
+    snprintf(lastError, sizeof(lastError), "AudioPlayer init failed: %s", audioPlayer->getLastError());
+    return false;
+  }
+
+  scanI2CBus(extI2C, "After AudioPlayer init");
+
+  Serial.println("[DEBUG] Initializing ButtonManager...");
+  // CRITICAL WARNING: AudioPlayer initialize() (audioKit->begin()) resets I2C registers and pin mappings.
+  // We must re-establish GPIO 18/23 here before initializing ButtonManager. 
+  // DO NOT REMOVE THIS CALL or the delay(50)! The delay is electrically required to let lines pull high.
+  extI2C.begin(PIN_EXT_I2C_SDA, PIN_EXT_I2C_SCL);
+  delay(50);  // Bus stabilization delay
+  scanI2CBus(extI2C, "Before ButtonManager init");
+  if (!buttonMgr->initialize()) {
+    Serial.print("[DEBUG] ButtonManager init warning: ");
+    Serial.println(buttonMgr->getLastError());
+    Serial.println("[WARNING] Buttons disabled — PCF8574 not responding. Check I2C wiring.");
+    // Non-fatal; system continues but buttons won't work
+  } else {
+    Serial.println("[DEBUG] ButtonManager initialized successfully");
+  }
+
+  // Initialize OLED last (after Button/I2C work is done)
   Serial.println("[DEBUG] Initializing OLED display...");
   if (!displayMgr->initialize(nullptr)) {
     Serial.print("[DEBUG] OLED init warning: ");
@@ -155,20 +210,20 @@ bool SystemManagerImpl::initializeSubsystems() {
     Serial.println("[DEBUG] OLED initialized successfully");
   }
 
-  if (!audioPlayer->initialize()) {
-    snprintf(lastError, sizeof(lastError), "AudioPlayer init failed: %s", audioPlayer->getLastError());
-    return false;
+  // Initialize easter egg detector
+  Serial.println("[DEBUG] Initializing EasterEggDetector...");
+  easterEggDetector.reset(new EasterEggDetectorImpl());
+  if (!easterEggDetector->initialize(contentMgr->getTypeCount())) {
+    Serial.print("[DEBUG] EasterEggDetector init warning: ");
+    Serial.println(easterEggDetector->getLastError());
+  } else {
+    Serial.println("[DEBUG] EasterEggDetector initialized successfully");
+    buttonMgr->setEasterEggDetector(easterEggDetector.get());
   }
 
-  Serial.println("[DEBUG] Initializing ButtonManager...");
-  if (!buttonMgr->initialize()) {
-    Serial.print("[DEBUG] ButtonManager init warning: ");
-    Serial.println(buttonMgr->getLastError());
-    Serial.println("[WARNING] Buttons disabled — PCF8574 not responding. Check I2C wiring.");
-    // Non-fatal; system continues but buttons won't work
-  } else {
-    Serial.println("[DEBUG] ButtonManager initialized successfully");
-  }
+  // Wire easter egg state to playback controller
+  easterEggState.patternLoopIndex[0] = 0;
+  playbackCtrl->setEasterEggState(&easterEggState);
 
   if (!playbackCtrl->initialize()) {
     snprintf(lastError, sizeof(lastError), "PlaybackController init failed: %s", playbackCtrl->getLastError());
@@ -192,6 +247,32 @@ void SystemManagerImpl::update() {
   ButtonEvent event;
   while (buttonMgr && buttonMgr->dequeueEvent(event)) {
     handleButtonEvent(event);
+  }
+
+  // Check for easter egg pattern detection (runs on every tick to support time-dependent hold patterns)
+  if (buttonMgr) {
+    EasterEggPattern pattern = buttonMgr->checkEasterEggPattern();
+    if (pattern != EasterEggPattern::NONE) {
+      Serial.print("[SYSTEM] Easter Egg Pattern Detected: ");
+      Serial.println(getEasterEggPatternName(pattern));
+
+      uint8_t variantIndex = easterEggState.patternLoopIndex[(uint8_t)pattern];
+      const char* variantPath = contentMgr->getEasterEggVariantPath(pattern, variantIndex);
+      if (variantPath) {
+        if (audioPlayer->isPlaying()) {
+          audioPlayer->stop();
+        }
+        if (audioPlayer->playFile(variantPath)) {
+          wasPlayingLastFrame = true;
+          lastInteractionMs = millis();
+          playbackCtrl->handleEasterEggPattern(pattern);
+          
+          const char* basename = strrchr(variantPath, '/');
+          if (basename) basename++; else basename = variantPath;
+          displayMgr->showNowPlaying(basename);
+        }
+      }
+    }
   }
 
   // Process audio playback

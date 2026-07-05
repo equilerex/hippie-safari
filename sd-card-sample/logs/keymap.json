@@ -9,7 +9,29 @@
     "6": "SD_RECOVERED",
     "7": "CONFIG_ERROR",
     "8": "STANDBY_ENTERED",
-    "9": "STANDBY_EXITED"
+    "9": "STANDBY_EXITED",
+    "10": "PLAYBACK_SESSION",
+    "11": "EASTER_EGG_TRIGGERED",
+    "12": "EASTER_EGG_ENDED"
   },
-  "schema": "ts=unix_epoch, evt=eventType, type=typeIndex, var=variantIndex, mode=modeIndex (255=undefined)"
+  "intents": {
+    "0": "UNKNOWN",
+    "1": "ENGAGED",
+    "2": "EXPLORING",
+    "3": "REJECTED",
+    "4": "ERROR"
+  },
+  "easterEggPatterns": {
+    "1": "SECRET_BUTTON",
+    "2": "ASCENDING_SWEEP",
+    "3": "SOS_MORSE",
+    "4": "HAMMER_SINGLE",
+    "5": "TEAM_EFFORT",
+    "6": "LONG_HOLD_SUSTAINED",
+    "7": "MULTI_HOLD",
+    "8": "ALL_BUTTONS_HELD",
+    "9": "CHAOS_BURST",
+    "10": "MULTI_CLICK"
+  },
+  "schema": "ts=unix_epoch, evt=eventType, sid=sessionId, intent=userIntent, type=typeName, var=variantName, mode=modeName, ctx={presses,cycles,timeSinceLast,modeChanged,interruptMs}"
 }

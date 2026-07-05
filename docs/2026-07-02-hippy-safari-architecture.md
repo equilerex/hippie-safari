@@ -1295,10 +1295,15 @@ Content must follow this structure:
 - Integration tests for full playback flow
 - Fallback tests verify graceful behavior
 
+## Easter Eggs
+
+Pattern-triggered hidden content system. 10 button interaction patterns detected in real-time (SECRET_BUTTON, ASCENDING_SWEEP, SOS_MORSE, HAMMER_SINGLE, TEAM_EFFORT, LONG_HOLD_SUSTAINED, MULTI_HOLD, ALL_BUTTONS_HELD, CHAOS_BURST, MULTI_CLICK). On pattern match, system interrupts normal playback and plays audio variant from `/audio/easter-egg/{PATTERN_NAME}/` folders. Fully content-driven — no firmware changes needed to add patterns.
+
+See [Easter Egg Architecture](2026-07-05-easter-egg-architecture.md) for full details.
+
 ## Future Enhancements
 
 - Network time for date-based variant selection
-- Easter egg trigger detection (simultaneous button presses)
 - Real-time config file reload
 - Web interface for content management
 ```

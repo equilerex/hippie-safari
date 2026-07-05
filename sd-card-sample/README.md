@@ -83,6 +83,12 @@ Each type can have multiple modes with different time windows:
 {"startDateTime": "2026-08-15T14:00:00Z", "endDateTime": "2026-08-17T22:00:00Z", "priority": 100}
 ```
 
+**Test/Debugging Mode** (alternating odd minutes):
+```json
+{"days": ["test"], "startTime": "00:00", "endTime": "23:59", "priority": 999}
+```
+Use `"test"` or `"test_odd"` in the `days` array to match only during odd/uneven calendar minutes (e.g., 14:01, 14:03). This is useful for testing mode transitions and variant cycling in real-time.
+
 Higher priority wins if multiple modes match the current time.
 
 ## Audio Files

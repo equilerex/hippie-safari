@@ -1,29 +1,20 @@
-{"ts":1783238796,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238796,"evt":2,"type":1,"var":0,"mode":255}
-{"ts":1783238798,"evt":0,"type":0,"var":255,"mode":255}
-{"ts":1783238798,"evt":2,"type":0,"var":0,"mode":255}
-{"ts":1783238801,"evt":0,"type":2,"var":255,"mode":255}
-{"ts":1783238801,"evt":2,"type":2,"var":0,"mode":255}
-{"ts":1783238806,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238806,"evt":2,"type":1,"var":0,"mode":255}
-{"ts":1783238812,"evt":1,"type":1,"var":1,"mode":255}
-{"ts":1783238812,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238812,"evt":2,"type":1,"var":1,"mode":255}
-{"ts":1783238815,"evt":3,"type":1,"var":1,"mode":255}
-{"ts":1783238816,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238816,"evt":2,"type":1,"var":0,"mode":255}
-{"ts":1783238817,"evt":1,"type":1,"var":1,"mode":255}
-{"ts":1783238817,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238817,"evt":2,"type":1,"var":1,"mode":255}
-{"ts":1783238818,"evt":1,"type":1,"var":2,"mode":255}
-{"ts":1783238818,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238818,"evt":2,"type":1,"var":2,"mode":255}
-{"ts":1783238819,"evt":3,"type":1,"var":2,"mode":255}
-{"ts":3,"evt":5,"type":255,"var":255,"mode":255,"msg":"RTC lost power; time not set"}
-{"ts":1783238700,"evt":0,"type":1,"var":255,"mode":255}
-
-{"ts":1783238700,"evt":2,"type":1,"var":0,"mode":255}
-{"ts":1783238702,"evt":1,"type":1,"var":1,"mode":255}
-{"ts":1783238702,"evt":0,"type":1,"var":255,"mode":255}
-{"ts":1783238702,"evt":2,"type":1,"var":1,"mode":255}
-{"ts":1783238705,"evt":3,"type":1,"var":1,"mode":255}
+ 
+{"ts":2,"evt":5,"sid":0,"complete":false,"msg":"ContentManager init failed: SD.begin() failed"}
+{"ts":85,"evt":5,"sid":0,"complete":false,"msg":"RTC lost power; time not set"}
+{"ts":1783258823,"evt":9,"sid":0,"complete":false}
+{"ts":1783258823,"evt":6,"sid":0,"complete":false}
+{"ts":1783258824,"evt":2,"sid":1,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783258826,"evt":4,"sid":1,"type":"03_groups","mode":"festival","complete":false}
+{"ts":1783258826,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783258828,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/kink aftermatjh (1).wav","mode":"festival","complete":false}
+{"ts":1783258831,"evt":2,"sid":2,"type":"03_groups","var":"/audio/types/03_groups/default/rookie (1).wav","mode":"festival","complete":false}
+{"ts":1783258832,"evt":2,"sid":3,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783258833,"evt":2,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783258834,"evt":3,"sid":4,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":883,"complete":false}
+{"ts":1783258834,"evt":2,"sid":4,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783258835,"evt":3,"sid":4,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":643,"complete":false}
+{"ts":1783258835,"evt":2,"sid":5,"type":"02_plain-clothes","var":"/audio/types/02_plain-clothes/default/Keta kartographer (1).wav","mode":"default","complete":false}
+{"ts":1783258835,"evt":2,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"festival","complete":false}
+{"ts":1783258836,"evt":3,"sid":6,"type":"03_groups","var":"/audio/types/03_groups/default/bureaucracy (1).wav","mode":"weekends","actDur":884,"complete":false}
+{"ts":1783258836,"evt":2,"sid":6,"type":"EGG_7","var":"/audio/easter-egg/MULTI_HOLD/Duet.wav","mode":"easter-egg","complete":false}
+{"ts":1783258857,"evt":3,"sid":6,"type":"EGG_7","var":"Duet.wav","mode":"easter-egg","actDur":21048,"complete":true}

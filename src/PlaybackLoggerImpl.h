@@ -15,6 +15,9 @@ class PlaybackLoggerImpl : public PlaybackLogger {
 private:
   struct QueuedEvent {
     LogEntry entry;
+    char typeName[64];
+    char variantName[256];
+    char modeName[64];
     char details[128];
   };
 
@@ -81,6 +84,8 @@ public:
   void logStandbyEntered() override;
   void logStandbyExited() override;
   void logContentDiscovered(int typeCount, int totalVariants) override;
+  void logEasterEggTriggered(EasterEggPattern pattern, const char* variantName, uint32_t sessionId = 0) override;
+  void logEasterEggEnded(EasterEggPattern pattern, const char* variantName, uint32_t actualDurationMs, bool completedFully, uint32_t sessionId = 0) override;
 
   bool flushQueue() override;
   bool queueNeedsFlushing() const override;

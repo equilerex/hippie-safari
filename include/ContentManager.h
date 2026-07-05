@@ -41,6 +41,11 @@ public:
   // Retry SD mount (called periodically if SD unavailable)
   virtual bool retrySDMount() = 0;
 
+  // Easter egg content
+  virtual bool discoverEasterEggs() = 0;  // Scan /audio/easter-egg/ folders for patterns with .wav files
+  virtual std::vector<std::string> getEasterEggVariants(EasterEggPattern pattern) = 0;  // Get .wav files in pattern folder
+  virtual const char* getEasterEggVariantPath(EasterEggPattern pattern, uint8_t variantIndex) const = 0;  // Get full path to variant
+
   // Get last discovery error
   virtual const char* getLastError() const = 0;
 };

@@ -15,6 +15,7 @@
 #include "PlaybackLoggerImpl.h"
 #include "RtcManagerImpl.h"
 #include "DisplayManagerImpl.h"
+#include "EasterEggDetectorImpl.h"
 
 class SystemManagerImpl : public SystemManager {
 private:
@@ -31,6 +32,8 @@ private:
   std::unique_ptr<PlaybackControllerImpl> playbackCtrl;
   std::unique_ptr<AudioPlayerImpl> audioPlayer;
   std::unique_ptr<ButtonManagerImpl> buttonMgr;
+  std::unique_ptr<EasterEggDetectorImpl> easterEggDetector;
+  EasterEggState easterEggState = {};
 
   SystemState systemState = SystemState::INITIALIZING;
   uint32_t lastRetryMs = 0;

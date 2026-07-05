@@ -2,29 +2,36 @@
 #include <Arduino.h>
 #include <string.h>
 
-void DisplayManagerImpl::truncateFilename(char* dest, size_t maxlen, const char* src) {
-  if (!src) {
+void DisplayManagerImpl::truncateFilename(char *dest, size_t maxlen, const char *src)
+{
+  if (!src)
+  {
     dest[0] = '\0';
     return;
   }
 
   // Extract basename (after last /)
-  const char* basename = strrchr(src, '/');
-  if (basename) {
-    basename++;  // Skip the /
-  } else {
+  const char *basename = strrchr(src, '/');
+  if (basename)
+  {
+    basename++; // Skip the /
+  }
+  else
+  {
     basename = src;
   }
 
   // Strip extension (.wav, .mp3, etc.)
   size_t len = strlen(basename);
-  const char* ext = strrchr(basename, '.');
-  if (ext) {
+  const char *ext = strrchr(basename, '.');
+  if (ext)
+  {
     len = ext - basename;
   }
 
   // Truncate to maxlen
-  if (len > maxlen - 1) {
+  if (len > maxlen - 1)
+  {
     len = maxlen - 1;
   }
 
@@ -32,7 +39,8 @@ void DisplayManagerImpl::truncateFilename(char* dest, size_t maxlen, const char*
   dest[len] = '\0';
 }
 
-bool DisplayManagerImpl::initialize(TwoWire* bus) {
+bool DisplayManagerImpl::initialize(TwoWire *bus)
+{
   this->bus = bus;
 
   // Use SW_I2C with GPIO 5 (SDA) / GPIO 22 (SCL) for separate OLED bus
@@ -51,8 +59,9 @@ bool DisplayManagerImpl::initialize(TwoWire* bus) {
 
   Serial.println("[DEBUG] DisplayManager: Clearing buffer and writing boot text...");
   display->clearBuffer();
-  display->setFont(u8g2_font_6x10_tf);
-  display->drawStr(0, 10, "Hippy Safari");
+  display->setFont(u8g2_font_mystery_quest_24_tf);
+  int w = display->getStrWidth("Hippy Safari");
+  display->drawStr((128 - w) / 2, 32, "Hippy Safari");
   display->sendBuffer();
 
   Serial.println("[DEBUG] DisplayManager: Display initialized successfully");
@@ -60,77 +69,75 @@ bool DisplayManagerImpl::initialize(TwoWire* bus) {
   return true;
 }
 
-bool DisplayManagerImpl::isAvailable() const {
+bool DisplayManagerImpl::isAvailable() const
+{
   return available;
 }
 
-void DisplayManagerImpl::showNowPlaying(const char* filename) {
-  if (!available || !display) return;
+void DisplayManagerImpl::showNowPlaying(const char *filename, size_t bytesRead, size_t totalBytes)
+{
+  if (!available || !display)
+    return;
 
-  char basename[21];
+  // Mystery Quest 24 characters are wide; truncate to 12 chars to ensure it fits on screen
+  char basename[13];
   truncateFilename(basename, sizeof(basename), filename);
 
-  Serial.print("[DEBUG] OLED: showNowPlaying - ");
-  Serial.println(basename);
+  display->clearBuffer();
+  display->setFont(u8g2_font_mystery_quest_24_tf);
 
-  if (i2cMutex) xSemaphoreTake(i2cMutex, portMAX_DELAY);
-  {
-    display->clearBuffer();
-    display->setFont(u8g2_font_6x10_tf);
-    display->drawStr(0, 10, "Playing:");
-    display->drawStr(0, 25, basename);
-    display->sendBuffer();
-    // Yield to let button polling happen during I2C transaction
-    vTaskDelay(pdMS_TO_TICKS(1));
-  }
-  if (i2cMutex) xSemaphoreGive(i2cMutex);
+  // Draw header "Playing:"
+  display->drawStr(0, 24, "Playing:");
 
-  Serial.println("[DEBUG] OLED: sendBuffer() completed");
+  // Draw track name
+  display->drawStr(0, 52, basename);
+
+  display->sendBuffer();
 }
 
-void DisplayManagerImpl::showStandby() {
-  if (!available || !display) return;
+void DisplayManagerImpl::showStandby()
+{
+  if (!available || !display)
+    return;
 
   Serial.println("[DEBUG] OLED: showStandby");
 
-  if (i2cMutex) xSemaphoreTake(i2cMutex, portMAX_DELAY);
-  {
-    display->clearBuffer();
-    display->setFont(u8g2_font_6x10_tf);
-    display->drawStr(0, 10, "Standby");
-    display->sendBuffer();
-    vTaskDelay(pdMS_TO_TICKS(1));
-  }
-  if (i2cMutex) xSemaphoreGive(i2cMutex);
-
-  Serial.println("[DEBUG] OLED: sendBuffer() completed");
+  display->clearBuffer();
+  display->setFont(u8g2_font_mystery_quest_24_tf);
+  int w = display->getStrWidth("Standby");
+  display->drawStr((128 - w) / 2, 32, "Standby");
+  display->sendBuffer();
 }
 
-void DisplayManagerImpl::showDebug(const char* line1, const char* line2) {
-  if (!available || !display) return;
+void DisplayManagerImpl::showDebug(const char *line1, const char *line2)
+{
+  if (!available || !display)
+    return;
 
-  if (i2cMutex) xSemaphoreTake(i2cMutex, portMAX_DELAY);
+  display->clearBuffer();
+  display->setFont(u8g2_font_mystery_quest_24_tf);
+  if (line1)
   {
-    display->clearBuffer();
-    display->setFont(u8g2_font_6x10_tf);
-    if (line1) {
-      display->drawStr(0, 10, line1);
-    }
-    if (line2) {
-      display->drawStr(0, 25, line2);
-    }
-    display->sendBuffer();
-    vTaskDelay(pdMS_TO_TICKS(1));
+    int w = display->getStrWidth(line1);
+    display->drawStr((128 - w) / 2, 28, line1);
   }
-  if (i2cMutex) xSemaphoreGive(i2cMutex);
+  if (line2)
+  {
+    int w = display->getStrWidth(line2);
+    display->drawStr((128 - w) / 2, 56, line2);
+  }
+  display->sendBuffer();
 }
 
-void DisplayManagerImpl::clear() {
-  if (!available || !display) return;
+void DisplayManagerImpl::clear()
+{
+  if (!available || !display)
+    return;
   display->clearBuffer();
   display->sendBuffer();
 }
 
-const char* DisplayManagerImpl::getLastError() const {
+const char *DisplayManagerImpl::getLastError() const
+{
   return lastError;
 }

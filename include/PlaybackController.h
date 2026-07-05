@@ -6,6 +6,7 @@
 #include <ctime>
 #include "Config.h"
 #include "ContentTypes.h"
+#include "EasterEggDetector.h"
 
 class PlaybackController {
 public:
@@ -40,6 +41,10 @@ public:
   virtual void enterStandby() = 0;
   virtual void exitStandby() = 0;
   virtual bool isInStandby() const = 0;
+
+  // Easter egg handling
+  virtual void handleEasterEggPattern(EasterEggPattern pattern) = 0;
+  virtual void setEasterEggState(EasterEggState* eggState) = 0;
 };
 
 

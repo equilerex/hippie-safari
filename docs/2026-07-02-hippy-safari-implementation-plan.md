@@ -62,7 +62,7 @@ Integrate proven button-triggered audio playback with content-driven discovery (
    - Track completes naturally: log completion, reset index to 0, return to standby
 8. **Logging to SD:** Events logged to daily rotating file (`/logs/YYYY-MM-DD.json`); write-queued in memory to avoid rapid spam; flushed when playback inactive; stored on SD only
 9. **Serial Debug Logging:** Separate debug log stream (disabled by default); enable for development/troubleshooting; outputs internal state changes; not written to SD
-10. **Easter Eggs:** Content discovery supports `/audio/easter-egg/`; ButtonManager exposes generic events (click, hold, chord); final trigger routing remains open
+10. **Easter Eggs:** Hidden pattern-triggered content system. 10 hardcoded button patterns (SECRET_BUTTON, ASCENDING_SWEEP, SOS_MORSE, HAMMER_SINGLE, TEAM_EFFORT, LONG_HOLD_SUSTAINED, MULTI_HOLD, ALL_BUTTONS_HELD, CHAOS_BURST, MULTI_CLICK) detect via EasterEggDetector. Pattern detected → check SD for `/audio/easter-egg/{PATTERN_NAME}/` folder with `.wav` files → interrupt playback, play variant, loop on next trigger. Variant index per-pattern in RAM, resets on 5-min silence. See [Easter Egg Architecture](2026-07-05-easter-egg-architecture.md)
 11. **Library-First:** Use AudioTools (AudioBoardStream), ArduinoJson, FreeRTOS; preserve working playback baseline; avoid custom codecs/JSON/debounce unless library fails on hardware
 12. **Audio Format:** WAV only; MP3 not supported
 13. **Unavailable State:** If SD or content unavailable, enter standby with visible indicator (LED blink); periodically retry discovery; recover when available

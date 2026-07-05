@@ -6,6 +6,7 @@
 #include <functional>
 #include "Config.h"
 #include "ContentTypes.h"
+#include "EasterEggDetector.h"
 
 class ButtonManager {
 public:
@@ -29,6 +30,10 @@ public:
 
   // Get current state of a button (for debugging)
   virtual bool getButtonPressed(uint8_t typeIndex) const = 0;
+
+  // Easter egg detection
+  virtual void setEasterEggDetector(EasterEggDetector* detector) = 0;
+  virtual EasterEggPattern checkEasterEggPattern() = 0;
 
   // Get last error
   virtual const char* getLastError() const = 0;

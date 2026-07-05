@@ -3,9 +3,11 @@
 
 #include <cstdint>
 #include <cstring>
+#include <Wire.h>
 #include <PCF8574.h>
 #include "../include/ButtonManager.h"
 #include "../include/ContentManager.h"
+#include "../include/EasterEggDetector.h"
 
 class ButtonManagerImpl : public ButtonManager {
 private:
@@ -24,11 +26,15 @@ private:
 
   ContentManager* contentMgr = nullptr;
   PCF8574* pcf8574 = nullptr;
-  ButtonState buttons[NUM_BUTTON_TYPES];
+  TwoWire* i2cBus = nullptr;  // extI2C bus for raw reads
+  EasterEggDetector* easterEggDetector = nullptr;
+  ButtonState buttons[MAX_BUTTON_TYPES];
   ButtonEvent lastEvent;
   bool eventDetected = false;
   bool initialized = false;  // Prevent poll() if init failed
+  bool pcf8574Ready = false;  // Hardware actually responded
   char lastError[256] = {0};
+  uint32_t lastSecretButtonChangeMs = 0;
 
   // Helper: debounce check
   bool isDebounced(uint32_t now, uint32_t lastChangeMs);
@@ -42,8 +48,8 @@ private:
 public:
   volatile bool interruptPending = false;  // Set by ISR on GPIO 19 interrupt
 
-  ButtonManagerImpl(ContentManager* contentMgr, PCF8574* pcf8574)
-    : contentMgr(contentMgr), pcf8574(pcf8574) {
+  ButtonManagerImpl(ContentManager* contentMgr, PCF8574* pcf8574, TwoWire* i2cBus = nullptr)
+    : contentMgr(contentMgr), pcf8574(pcf8574), i2cBus(i2cBus) {
     lastEvent.typeIndex = 0xFF;
     lastEvent.pressTimeMs = 0;
     lastEvent.isPress = false;
@@ -55,6 +61,8 @@ public:
   ButtonEvent getLastEvent() const override;
   bool isTypeAvailable(uint8_t typeIndex) const override;
   bool getButtonPressed(uint8_t typeIndex) const override;
+  void setEasterEggDetector(EasterEggDetector* detector) override;
+  EasterEggPattern checkEasterEggPattern() override;
   const char* getLastError() const override;
 
   // New: dequeue button event from interrupt queue

@@ -179,6 +179,11 @@ Button presses cycle through variants within the current mode:
 
 Index is retained per type (not per mode). Switching modes within same type resets index to 0.
 
+> [!IMPORTANT]
+> **Current Implementation Limitations:**
+> 1. **No Active Mode Filtering**: The firmware implementation collects all `.wav` files across all mode subdirectories (e.g., `default/`, `weekday_morning/`) under a content type folder into a single combined type playlist (`TypeContent::variants`). The playback cycling logic loops through this entire combined list sequentially rather than restricting playback to only the files inside the currently active mode folder.
+> 2. **Stubbed Mode Selection**: The `selectModeForTime` method in `ConfigLoaderImpl` is stubbed to always return the `"default"` mode. True time-window-based scheduling of different mode folders from `config.json` is not actively processed by the playback controller.
+
 ### Runtime Behaviour
 
 Implementation details are intentionally left open.

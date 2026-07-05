@@ -29,6 +29,28 @@ void PlaybackLoggerImpl::logEvent(const LogEntry& entry) {
 
   QueuedEvent qEvent;
   qEvent.entry = entry;
+
+  if (entry.typeName) {
+    strncpy(qEvent.typeName, entry.typeName, sizeof(qEvent.typeName) - 1);
+    qEvent.typeName[sizeof(qEvent.typeName) - 1] = '\0';
+  } else {
+    qEvent.typeName[0] = '\0';
+  }
+
+  if (entry.variantName) {
+    strncpy(qEvent.variantName, entry.variantName, sizeof(qEvent.variantName) - 1);
+    qEvent.variantName[sizeof(qEvent.variantName) - 1] = '\0';
+  } else {
+    qEvent.variantName[0] = '\0';
+  }
+
+  if (entry.modeName) {
+    strncpy(qEvent.modeName, entry.modeName, sizeof(qEvent.modeName) - 1);
+    qEvent.modeName[sizeof(qEvent.modeName) - 1] = '\0';
+  } else {
+    qEvent.modeName[0] = '\0';
+  }
+
   if (entry.details) {
     strncpy(qEvent.details, entry.details, sizeof(qEvent.details) - 1);
     qEvent.details[sizeof(qEvent.details) - 1] = '\0';
@@ -257,8 +279,32 @@ bool PlaybackLoggerImpl::flushQueue() {
   while (!eventQueue.empty()) {
     QueuedEvent qEvent = eventQueue.front();
 
-    char jsonLine[256];
-    formatEventJSON(qEvent.entry, jsonLine, sizeof(jsonLine));
+    // Reconstruct LogEntry using stack-allocated struct copy
+    // pointing to persistent memory inside qEvent.
+    LogEntry entryCopy = qEvent.entry;
+    if (qEvent.typeName[0] != '\0') {
+      entryCopy.typeName = qEvent.typeName;
+    } else {
+      entryCopy.typeName = nullptr;
+    }
+    if (qEvent.variantName[0] != '\0') {
+      entryCopy.variantName = qEvent.variantName;
+    } else {
+      entryCopy.variantName = nullptr;
+    }
+    if (qEvent.modeName[0] != '\0') {
+      entryCopy.modeName = qEvent.modeName;
+    } else {
+      entryCopy.modeName = nullptr;
+    }
+    if (qEvent.details[0] != '\0') {
+      entryCopy.details = qEvent.details;
+    } else {
+      entryCopy.details = nullptr;
+    }
+
+    char jsonLine[512]; // Increased to 512 to prevent truncation
+    formatEventJSON(entryCopy, jsonLine, sizeof(jsonLine));
 
     size_t written = logFile.print(jsonLine);
     if (written == 0) {
@@ -295,7 +341,7 @@ bool PlaybackLoggerImpl::appendToLogFile(const char* logPath, const LogEntry& en
     return false;
   }
 
-  char jsonLine[256];
+  char jsonLine[512]; // Increased to 512 to prevent truncation
   formatEventJSON(entry, jsonLine, sizeof(jsonLine));
 
   size_t written = logFile.print(jsonLine);
@@ -339,7 +385,9 @@ void PlaybackLoggerImpl::writeKeymap() {
   kmFile.println("    \"7\": \"CONFIG_ERROR\",");
   kmFile.println("    \"8\": \"STANDBY_ENTERED\",");
   kmFile.println("    \"9\": \"STANDBY_EXITED\",");
-  kmFile.println("    \"10\": \"PLAYBACK_SESSION\"");
+  kmFile.println("    \"10\": \"PLAYBACK_SESSION\",");
+  kmFile.println("    \"11\": \"EASTER_EGG_TRIGGERED\",");
+  kmFile.println("    \"12\": \"EASTER_EGG_ENDED\"");
   kmFile.println("  },");
   kmFile.println("  \"intents\": {");
   kmFile.println("    \"0\": \"UNKNOWN\",");
@@ -347,6 +395,18 @@ void PlaybackLoggerImpl::writeKeymap() {
   kmFile.println("    \"2\": \"EXPLORING\",");
   kmFile.println("    \"3\": \"REJECTED\",");
   kmFile.println("    \"4\": \"ERROR\"");
+  kmFile.println("  },");
+  kmFile.println("  \"easterEggPatterns\": {");
+  kmFile.println("    \"1\": \"SECRET_BUTTON\",");
+  kmFile.println("    \"2\": \"ASCENDING_SWEEP\",");
+  kmFile.println("    \"3\": \"SOS_MORSE\",");
+  kmFile.println("    \"4\": \"HAMMER_SINGLE\",");
+  kmFile.println("    \"5\": \"TEAM_EFFORT\",");
+  kmFile.println("    \"6\": \"LONG_HOLD_SUSTAINED\",");
+  kmFile.println("    \"7\": \"MULTI_HOLD\",");
+  kmFile.println("    \"8\": \"ALL_BUTTONS_HELD\",");
+  kmFile.println("    \"9\": \"CHAOS_BURST\",");
+  kmFile.println("    \"10\": \"MULTI_CLICK\"");
   kmFile.println("  },");
   kmFile.println("  \"schema\": \"ts=unix_epoch, evt=eventType, sid=sessionId, intent=userIntent, type=typeName, var=variantName, mode=modeName, ctx={presses,cycles,timeSinceLast,modeChanged,interruptMs}\"");
   kmFile.println("}");
@@ -371,4 +431,26 @@ void PlaybackLoggerImpl::checkSessionBoundaries() {
       ++it;
     }
   }
+}
+
+void PlaybackLoggerImpl::logEasterEggTriggered(EasterEggPattern pattern, const char* variantName, uint32_t sessionId) {
+  char patternStr[32];
+  snprintf(patternStr, sizeof(patternStr), "EGG_%u", (uint8_t)pattern);
+
+  PlaybackSessionContext ctx = {0, 0, 0, false, 0};
+  LogEntry entry = {time(nullptr), EventType::PLAYBACK_STARTED, sessionId, PlaybackIntent::UNKNOWN,
+                    patternStr, variantName, "easter-egg", 0, 0, false, ctx, nullptr};
+  logEvent(entry);
+  lastInteractionTime = entry.timestamp;
+}
+
+void PlaybackLoggerImpl::logEasterEggEnded(EasterEggPattern pattern, const char* variantName, uint32_t actualDurationMs, bool completedFully, uint32_t sessionId) {
+  char patternStr[32];
+  snprintf(patternStr, sizeof(patternStr), "EGG_%u", (uint8_t)pattern);
+
+  PlaybackSessionContext ctx = {0, 0, 0, false, 0};
+  LogEntry entry = {time(nullptr), EventType::PLAYBACK_ENDED, sessionId, PlaybackIntent::UNKNOWN,
+                    patternStr, variantName, "easter-egg", 0, actualDurationMs, completedFully, ctx, nullptr};
+  logEvent(entry);
+  lastInteractionTime = entry.timestamp;
 }

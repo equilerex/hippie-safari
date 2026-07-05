@@ -12,6 +12,9 @@ private:
   ContentState state;
   char lastError[256] = {0};
 
+  // Easter egg cache: per-pattern variant lists
+  std::map<EasterEggPattern, std::vector<std::string>> cachedEasterEggVariants;
+
   // Helper: scan single type folder for mode folders
   bool scanTypeFolder(uint8_t typeIndex, File& typeFolder, TypeContent& outContent);
 
@@ -38,6 +41,9 @@ public:
   bool typeHasContent(uint8_t typeIndex) const override;
   const ContentState& getContentState() const override;
   bool retrySDMount() override;
+  bool discoverEasterEggs() override;
+  std::vector<std::string> getEasterEggVariants(EasterEggPattern pattern) override;
+  const char* getEasterEggVariantPath(EasterEggPattern pattern, uint8_t variantIndex) const override;
   const char* getLastError() const override;
 };
 

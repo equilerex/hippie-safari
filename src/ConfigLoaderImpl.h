@@ -4,9 +4,11 @@
 
 #include <ctime>
 #include "../include/ConfigLoader.h"
+#include "../include/ContentManager.h"
 
 class ConfigLoaderImpl : public ConfigLoader {
 private:
+  ContentManager* contentMgr = nullptr;
   char lastError[256] = {0};
 
   // Helper: parse time window from JSON object
@@ -21,7 +23,7 @@ private:
                           uint8_t endHour, uint8_t endMin);
 
 public:
-  ConfigLoaderImpl() = default;
+  explicit ConfigLoaderImpl(ContentManager* contentMgr = nullptr) : contentMgr(contentMgr) {}
   ~ConfigLoaderImpl() override = default;
 
   bool loadTypeConfig(uint8_t typeIndex, const char* folderPath, ModeConfig& outDefaultMode,

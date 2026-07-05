@@ -98,3 +98,46 @@
 - Recent events may not be on SD until playback stops
 - Log format: daily JSON rotation (YYYY-MM-DD), reset at midnight
 - Serial debug log (optional) for development
+
+---
+
+### 2026-07-05: Re-establish custom I2C pins and add stabilization delays
+
+**Decision:**
+- Re-run `extI2C.begin(18, 23)` after RTClib (`rtc.begin()`) and AudioBoardStream (`audioKit->begin()`) initializations.
+- Follow every `extI2C.begin()` call with a `delay(50)` to allow the I2C bus lines to stabilize.
+
+**Reason:**
+- Third-party libraries call `Wire/Wire1.begin()` internally without arguments during initialization, which resets the custom `TwoWire` instance pins back to microcontroller default hardware pins (away from GPIO 18/23).
+- Switching pin configurations via `begin()` causes electrical transitions. Because I2C uses pull-up resistors (open-drain logic), a delay is electrically required to let the SCL and SDA lines pull high and stabilize before executing reads/writes. Without this delay, the ESP32 registers a bus-busy or timeout error (Error 263).
+
+**Rejected:**
+- Modifying third-party library source code directly (unmaintainable across updates).
+- Omitting the stabilization delay (leads to consistent communication failures on boot).
+
+**Impact:**
+- Custom external I2C bus pins are guaranteed to stay routed to GPIO 18/23.
+- PCF8574 button expander and DS3231 RTC initialize reliably on boot.
+- Developers and LLMs must preserve the `begin()` and `delay(50)` calls after all peripheral initializations.
+
+---
+
+### 2026-07-05: Static OLED Updates and Mystery Quest 24 Constraint
+
+**Decision:**
+- Keep OLED track display completely static. Draw track name once at the start of playback, then do not refresh the screen.
+- Retain the `u8g2_font_mystery_quest_24_tf` font family for all branding, standby, and track titles.
+- Limit track name lengths via `truncateFilename()` to 12 characters to prevent display clipping.
+
+**Reason:**
+- **Prevent Audio Buffer Underflow (Stuttering/Lag)**: The OLED is driven on a bit-banged software I2C bus (`SW_I2C`). Sending graphics data over software I2C is CPU-blocking. Frequent/rapid updates (e.g. for dynamic equalizer animations or progress bars) block the audio copy thread, causing underflows in the ES8388 I2S DMA buffers, resulting in audio stuttering and lag.
+- **Stylistic Design Requirement**: Mystery Quest 24 font was chosen for branding, and must be preserved instead of utilizing standard sans-serif system fonts.
+
+**Rejected:**
+- Real-time progress bars or animated equalizers during active audio playback.
+- Pairing Mystery Quest with other font families (e.g. Helvetica/Arial) for body text.
+
+**Impact:**
+- Perfect, stutter-free audio playback quality.
+- Clean and consistent Mystery Quest aesthetic across all screens.
+- Developers and LLMs must not implement periodic screen updates during active playback.

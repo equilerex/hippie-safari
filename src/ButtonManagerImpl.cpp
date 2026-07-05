@@ -16,27 +16,30 @@ bool ButtonManagerImpl::initialize() {
     return false;
   }
 
-  // Initialize button ports (PCF8574) and state
-  Serial.println("[DEBUG] ButtonManager: Calling pcf8574->begin()...");
+  // Initialize button ports (PCF8574) and state using the library
+  Serial.println("[DEBUG] ButtonManager: Initializing PCF8574...");
 
-  bool pcf8574Ready = pcf8574->begin();
-  if (!pcf8574Ready) {
-    snprintf(lastError, sizeof(lastError), "PCF8574 not responding at 0x20 — buttons disabled");
+  // begin() performs connection check and writes 0xFF (configures pins as inputs)
+  this->pcf8574Ready = pcf8574->begin();
+
+  if (!this->pcf8574Ready) {
+    snprintf(lastError, sizeof(lastError), "PCF8574 not responding — buttons disabled");
     Serial.print("[DEBUG] ButtonManager: ");
     Serial.println(lastError);
-    Serial.print("[DEBUG] ButtonManager: PCF8574 lastError code: ");
-    Serial.println(pcf8574->lastError());
-    // Non-fatal: continue init, but poll will have no real input
   } else {
     Serial.println("[DEBUG] ButtonManager: PCF8574 initialized");
   }
-  if (pcf8574Ready) {
+
+  if (this->pcf8574Ready) {
+    // Read initial port states
+    uint8_t portState = pcf8574->read8();
+
     for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
       buttons[i].port = BUTTON_PINS[i];  // Port index (0-7)
       buttons[i].typeIndex = i;
       buttons[i].contentAvailable = contentMgr->typeHasContent(i);
-      // PCF8574 defaults to INPUT (HIGH); no explicit pinMode needed
-      buttons[i].lastState = pcf8574->read(buttons[i].port);
+      // Extract initial state from port byte
+      buttons[i].lastState = (portState >> buttons[i].port) & 1;
       buttons[i].lastChangeMs = millis();
       Serial.print("[DEBUG] ButtonManager: Port ");
       Serial.print(buttons[i].port);
@@ -61,16 +64,19 @@ bool ButtonManagerImpl::initialize() {
 }
 
 bool ButtonManagerImpl::poll() {
-  // Guard: don't poll if ButtonManager init failed
-  if (!initialized) {
+  // Guard: don't poll if ButtonManager init failed or PCF8574 not ready
+  if (!initialized || !pcf8574Ready) {
     return false;
   }
+
+  // Read all 8 ports at once
+  uint8_t portState = pcf8574->read8();
 
   uint32_t now = millis();
   eventDetected = false;
 
   for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
-    bool currentState = pcf8574->read(buttons[i].port);
+    bool currentState = (portState >> buttons[i].port) & 1;  // Extract bit for this port
 
     if (currentState != buttons[i].lastState) {
       // State changed - check debounce
@@ -144,13 +150,16 @@ bool ButtonManagerImpl::dequeueEvent(ButtonEvent& outEvent) {
 }
 
 void ButtonManagerImpl::onPCF8574Interrupt() {
-  // Called from ISR when INT pin 19 goes LOW
-  // Read all button states and detect presses
-  if (!initialized) return;
+  // Called from main loop when INT pin 19 goes LOW
+  // Read all button states, feed to detector, queue for playback control
+  if (!initialized || !pcf8574Ready) return;
+
+  // Read all 8 ports at once
+  uint8_t portState = pcf8574->read8();
 
   uint32_t now = millis();
   for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
-    bool currentState = pcf8574->read(buttons[i].port);
+    bool currentState = (portState >> buttons[i].port) & 1;  // Extract bit for this port
 
     if (currentState != buttons[i].lastState) {
       // State changed - check debounce
@@ -158,7 +167,16 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
         buttons[i].lastChangeMs = now;
         buttons[i].lastState = currentState;
 
-        // Falling edge (HIGH to LOW) = button press (active-low on PCF8574)
+        // Feed to easter egg detector for pattern detection
+        if (easterEggDetector) {
+          if (currentState == LOW) {
+            easterEggDetector->recordPress(i, now);
+          } else {
+            easterEggDetector->recordRelease(i, now);
+          }
+        }
+
+        // Queue for playback control (press only)
         if (currentState == LOW && buttons[i].contentAvailable) {
           ButtonEvent event;
           event.typeIndex = i;
@@ -169,6 +187,41 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
       }
     }
   }
+
+  // Also check secret button on P7 (already read from portState)
+  if (pcf8574Ready) {
+    bool secretState = (portState >> PIN_EASTER_EGG) & 1;
+    static bool lastSecretState = HIGH;
+    if (secretState != lastSecretState) {
+      if (isDebounced(now, lastSecretButtonChangeMs)) {
+        lastSecretButtonChangeMs = now;
+        lastSecretState = secretState;
+
+        // Feed to detector
+        if (easterEggDetector) {
+          if (secretState == LOW) {
+            easterEggDetector->recordPress(PIN_EASTER_EGG, now);
+          } else {
+            easterEggDetector->recordRelease(PIN_EASTER_EGG, now);
+          }
+        }
+      }
+    }
+  }
+}
+
+void ButtonManagerImpl::setEasterEggDetector(EasterEggDetector* detector) {
+  easterEggDetector = detector;
+}
+
+EasterEggPattern ButtonManagerImpl::checkEasterEggPattern() {
+  if (!easterEggDetector) {
+    return EasterEggPattern::NONE;
+  }
+
+  // Events already fed to detector via interrupt handler (onPCF8574Interrupt)
+  // No polling here — just check for detected pattern
+  return easterEggDetector->checkPattern();
 }
 
 const char* ButtonManagerImpl::getLastError() const {

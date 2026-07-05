@@ -81,7 +81,6 @@ bool ConfigLoaderImpl::loadTypeConfig(uint8_t typeIndex, const char* folderPath,
           JsonArray daysArray = windowObj["days"].as<JsonArray>();
           window.dayMask = 0;
           for (const char* dayStr : daysArray) {
-            // Map day names to bitmask (0=Monday, 1=Tuesday, ..., 6=Sunday)
             if (strcmp(dayStr, "monday") == 0) window.dayMask |= (1 << 0);
             else if (strcmp(dayStr, "tuesday") == 0) window.dayMask |= (1 << 1);
             else if (strcmp(dayStr, "wednesday") == 0) window.dayMask |= (1 << 2);
@@ -89,6 +88,7 @@ bool ConfigLoaderImpl::loadTypeConfig(uint8_t typeIndex, const char* folderPath,
             else if (strcmp(dayStr, "friday") == 0) window.dayMask |= (1 << 4);
             else if (strcmp(dayStr, "saturday") == 0) window.dayMask |= (1 << 5);
             else if (strcmp(dayStr, "sunday") == 0) window.dayMask |= (1 << 6);
+            else if (strcmp(dayStr, "test") == 0 || strcmp(dayStr, "test_odd") == 0) window.dayMask |= (1 << 7);
           }
           // Parse startTime and endTime (HH:MM format)
           const char* startStr = windowObj["startTime"] | "00:00";
@@ -118,14 +118,61 @@ ModeSelectionResult ConfigLoaderImpl::selectModeForTime(uint8_t typeIndex, time_
   ModeSelectionResult result;
   result.modeFound = false;
   result.modeIndex = 0xFF;
-
-  // TODO: Get type modes from ContentManager
-  // For now, return default mode (always available)
-  result.modeFound = true;
-  result.modeIndex = 0;  // Default mode index
   result.modeName = "default";
   result.appliedPriority = -1;
   result.reason = "default mode (no config)";
+
+  if (!contentMgr) {
+    result.modeFound = true;
+    result.modeIndex = 0;
+    return result;
+  }
+
+  const TypeContent* type = contentMgr->getType(typeIndex);
+  if (!type) {
+    result.modeFound = true;
+    result.modeIndex = 0;
+    return result;
+  }
+
+  int highestPriority = -1;
+  int selectedModeIdx = -1;
+
+  for (size_t i = 0; i < type->modes.size(); i++) {
+    const ModeConfig& mode = type->modes[i];
+    bool modeActive = false;
+    int modePriority = -1;
+    
+    for (const auto& window : mode.timeWindows) {
+      if (isTimeWindowActive(window, currentTime)) {
+        modeActive = true;
+        if (window.priority > modePriority) {
+          modePriority = window.priority;
+        }
+      }
+    }
+    
+    if (modeActive) {
+      if (modePriority > highestPriority) {
+        highestPriority = modePriority;
+        selectedModeIdx = i;
+      }
+    }
+  }
+
+  if (selectedModeIdx != -1) {
+    result.modeFound = true;
+    result.modeIndex = selectedModeIdx + 1; // index 0 is reserved for default mode
+    result.modeName = type->modes[selectedModeIdx].modeName;
+    result.appliedPriority = highestPriority;
+    result.reason = "time window matched";
+  } else {
+    result.modeFound = true;
+    result.modeIndex = 0;
+    result.modeName = "default";
+    result.appliedPriority = -1;
+    result.reason = "no custom mode active";
+  }
 
   return result;
 }
@@ -159,6 +206,12 @@ bool ConfigLoaderImpl::isTimeWindowActive(const TimeWindow& window, time_t curre
 }
 
 bool ConfigLoaderImpl::isDayMatch(const TimeWindow& window, time_t currentTime) {
+  // Check for test mode (odd minute) flag on bit 7
+  if (window.dayMask & (1 << 7)) {
+    struct tm* timeinfo = localtime(&currentTime);
+    return (timeinfo->tm_min % 2 != 0);
+  }
+
   struct tm* timeinfo = localtime(&currentTime);
   // tm_wday: 0=Sunday, 1=Monday, ..., 6=Saturday
   // window.dayMask: 0=Monday, 1=Tuesday, ..., 6=Sunday

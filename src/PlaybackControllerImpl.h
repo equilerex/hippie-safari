@@ -15,6 +15,7 @@ private:
   ContentManager* contentMgr = nullptr;
   ConfigLoader* configLoader = nullptr;
   PlaybackLogger* logger = nullptr;
+  EasterEggState* eggState = nullptr;
 
   PlaybackState currentState;
   std::vector<uint8_t> variantIndices;  // Per-type index storage
@@ -23,6 +24,8 @@ private:
   char lastError[256] = {0};
   uint32_t currentSessionId = 0;  // Active playback session
   time_t lastSessionEndTime = 0;  // Track time since last playback for session context
+  EasterEggPattern currentEasterEggPattern = EasterEggPattern::NONE;  // Active easter egg pattern
+  uint32_t easterEggStartTimeMs = 0;  // When easter egg started
 
 public:
   PlaybackControllerImpl(ContentManager* contentMgr, ConfigLoader* configLoader, PlaybackLogger* logger)
@@ -41,10 +44,14 @@ public:
   void enterStandby() override;
   void exitStandby() override;
   bool isInStandby() const override;
+  void handleEasterEggPattern(EasterEggPattern pattern) override;
+  void setEasterEggState(EasterEggState* eggState) override;
 
 private:
-  // Helper: get next variant index for type (wraps around)
-  uint8_t getNextVariantIndex(uint8_t typeIndex);
+  // Helpers: active mode variant filtering and index mapping
+  std::vector<std::string> getActiveVariants(uint8_t typeIndex, const char* modeName);
+  uint8_t mapFilteredToUnfilteredIndex(uint8_t typeIndex, const char* modeName, uint8_t filteredIndex);
+  uint8_t getNextVariantIndex(uint8_t typeIndex, const char* modeName);
 };
 
 

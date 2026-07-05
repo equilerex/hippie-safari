@@ -247,8 +247,35 @@
       border-bottom: 2px solid var(--border);
       padding-bottom: 0.5rem;
     }
+
+    .toggle-btn {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .toggle-btn.active {
+      background: var(--accent);
+      color: #121820;
+      font-weight: 600;
+      border-color: var(--accent);
+    }
   </style>
   <script src="./highcharts.js"></script>
+  <!-- Load local Highcharts modules to enable Sankey, Funnel, Xrange, Heatmap, and drilldown -->
+  <script src="./sankey.js"></script>
+  <script src="./funnel.js"></script>
+  <script src="./xrange.js"></script>
+  <script src="./heatmap.js"></script>
+  <script src="./drilldown.js"></script>
 </head>
 <body>
   <header>
@@ -263,6 +290,13 @@
       <div class="control-group">
         <label for="file-input">📂 Load Logs</label>
         <input type="file" id="file-input" multiple accept=".json">
+      </div>
+      <div class="control-group">
+        <label for="grouping-mode-select">🔗 Session Grouping Mode</label>
+        <select id="grouping-mode-select" style="background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.5rem; border-radius: 4px; font-size: 0.875rem; cursor: pointer;">
+          <option value="interaction" selected>(Recommended) Interaction Windows (5-Min Timeout)</option>
+          <option value="journey">Single Play Journeys (To Track Completion)</option>
+        </select>
       </div>
       <button id="export-btn">⬇ Export CSV</button>
     </div>
@@ -292,6 +326,14 @@
         <div class="stat-label">Avg Session Time</div>
       </div>
       <div class="stat-card">
+        <div class="stat-value" id="stat-avg-clicks">0.0</div>
+        <div class="stat-label">Avg Clicks / Session</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-avg-side-tracks">0.0</div>
+        <div class="stat-label">Avg Side Tracks</div>
+      </div>
+      <div class="stat-card">
         <div class="stat-value" id="stat-easter-eggs">0</div>
         <div class="stat-label">Easter Eggs</div>
       </div>
@@ -305,31 +347,41 @@
       <div id="chart-sankey"></div>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-      <div class="chart-container">
-        <div class="chart-title">🔥 Content Type Popularity</div>
-        <div id="chart-types"></div>
-      </div>
-      <div class="chart-container">
-        <div class="chart-title">⭐ Variant Popularity (Drilldown)</div>
-        <div id="chart-variants"></div>
-      </div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-      <div class="chart-container">
-        <div class="chart-title">👤 Intent Distribution</div>
-        <div id="chart-intent"></div>
-      </div>
-      <div class="chart-container">
-        <div class="chart-title">🎵 Mode Usage</div>
-        <div id="chart-modes"></div>
-      </div>
-    </div>
-
     <div class="chart-container">
-      <div class="chart-title">🔀 Intent Funnel</div>
-      <div id="chart-funnel"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div class="chart-title" style="margin-bottom: 0;">📊 Content & Variant Popularity</div>
+        <div class="toggle-buttons" style="display: flex; gap: 0.5rem;">
+          <button id="btn-show-stacked" class="toggle-btn active">Stacked by Content Type</button>
+          <button id="btn-show-individual" class="toggle-btn">Top Variants (Individual)</button>
+        </div>
+      </div>
+      <div id="chart-popularity"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+      <div class="chart-container" style="display: flex; flex-direction: column;">
+        <div class="chart-title">👤 Intent Distribution</div>
+        <div id="chart-intent" style="flex: 1; min-height: 250px;"></div>
+        <div style="margin-top: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem;">
+          <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 0.85rem;">What do these intents mean?</h4>
+          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li>🟢 <strong>ENGAGED:</strong> Played a clip to completion, or listened to a substantial portion (5s+).</li>
+            <li>🟡 <strong>EXPLORING:</strong> Rapidly cycled through variant files or modes in short succession.</li>
+            <li>🔴 <strong>REJECTED:</strong> Interrupted the clip early (less than 2s) and switched types.</li>
+            <li>⚪ <strong>UNKNOWN / ERROR:</strong> Default state or hardware/config error occurred during the session.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-container" style="display: flex; flex-direction: column;">
+        <div class="chart-title">🎵 Mode Usage</div>
+        <div id="chart-modes" style="flex: 1; min-height: 250px;"></div>
+        <div style="margin-top: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+          <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 0.85rem;">Mode Mapping Summary</h4>
+          <p style="color: var(--text-muted); line-height: 1.4;">
+            Displays the play count distribution of each active playback mode (e.g. <em>festival</em>, <em>weekday_morning</em>, <em>default</em>). Mode selection is determined dynamically by the system's RTC relative to scheduling configs.
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="chart-container">
@@ -342,25 +394,39 @@
       <div id="chart-heatmap"></div>
     </div>
 
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+      <div class="chart-container">
+        <div class="chart-title">⏰ Hourly Activity Pattern (Hour of Day)</div>
+        <div id="chart-hourly-activity"></div>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">📅 Weekly Activity Timeline (Drag to zoom)</div>
+        <div id="chart-weekly-activity"></div>
+      </div>
+    </div>
+
     <!-- DATA TABLE SECTION -->
     <div class="section-title">📋 Raw Session Data</div>
-    <div style="overflow-x: auto; margin-bottom: 2rem;">
-      <table id="data-table">
+    <div id="table-scroll-container" style="max-height: 500px; overflow-y: auto; overflow-x: auto; position: relative; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-alt); margin-bottom: 2rem;">
+      <table id="data-table" style="width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 1100px;">
         <thead>
-          <tr>
-            <th>Session ID</th>
-            <th>Duration</th>
-            <th>Start Time</th>
-            <th>Types Visited</th>
-            <th>Variants Tried</th>
-            <th>Intent</th>
-            <th>Completions</th>
-            <th>Modes</th>
+          <tr style="position: sticky; top: 0; background: var(--bg); z-index: 5; border-bottom: 2px solid var(--border);">
+            <th data-field="id" style="width: 10%;">Session ID<span class="sort-indicator"></span></th>
+            <th data-field="duration" style="width: 10%;">Duration<span class="sort-indicator"></span></th>
+            <th data-field="startTime" style="width: 15%;">Start Time<span class="sort-indicator"> ▾</span></th>
+            <th data-field="clicks" style="width: 8%;">Clicks<span class="sort-indicator"></span></th>
+            <th data-field="sideTracks" style="width: 10%;">Side Tracks<span class="sort-indicator"></span></th>
+            <th data-field="types" style="width: 15%;">Types Visited<span class="sort-indicator"></span></th>
+            <th data-field="variants" style="width: 13%;">Variants Tried<span class="sort-indicator"></span></th>
+            <th data-field="intent" style="width: 9%;">Intent<span class="sort-indicator"></span></th>
+            <th data-field="completions" style="width: 10%;">Completions<span class="sort-indicator"></span></th>
+            <th data-field="modes" style="width: 10%;">Modes<span class="sort-indicator"></span></th>
           </tr>
         </thead>
         <tbody id="table-body">
         </tbody>
       </table>
+      <div id="table-spacer" style="position: absolute; top: 0; left: 0; right: 0; height: 0; pointer-events: none; z-index: -1;"></div>
     </div>
   </div>
 
@@ -370,11 +436,50 @@
 
   <script>
     let allEvents = [];
-    const intentMap = { 0: "UNKNOWN", 1: "ENGAGED", 2: "EXPLORING", 3: "REJECTED", 4: "ERROR" };
+
+    // Hardcoded Event mappings from keymap.json
+    const eventTypeMap = {
+      0: "TYPE_SELECTED",
+      1: "VARIANT_CHANGED",
+      2: "PLAYBACK_STARTED",
+      3: "PLAYBACK_ENDED",
+      4: "MODE_CHANGED",
+      5: "SD_ERROR",
+      6: "SD_RECOVERED",
+      7: "CONFIG_ERROR",
+      8: "STANDBY_ENTERED",
+      9: "STANDBY_EXITED",
+      10: "PLAYBACK_SESSION",
+      11: "EASTER_EGG_TRIGGERED",
+      12: "EASTER_EGG_ENDED"
+    };
+
+    const intentMap = {
+      0: "UNKNOWN",
+      1: "ENGAGED",
+      2: "EXPLORING",
+      3: "REJECTED",
+      4: "ERROR"
+    };
+
+    const easterEggPatternMap = {
+      1: "SECRET_BUTTON",
+      2: "ASCENDING_SWEEP",
+      3: "SOS_MORSE",
+      4: "HAMMER_SINGLE",
+      5: "TEAM_EFFORT",
+      6: "LONG_HOLD_SUSTAINED",
+      7: "MULTI_HOLD",
+      8: "ALL_BUTTONS_HELD",
+      9: "CHAOS_BURST",
+      10: "MULTI_CLICK"
+    };
 
     async function loadFilesFromPicker(files) {
       allEvents = [];
-      for (const file of files) {
+      // Sort files by name so they load in chronological order if named by date
+      const sortedFiles = Array.from(files).sort((a, b) => a.name.localeCompare(b.name));
+      for (const file of sortedFiles) {
         await loadLogFileFromFile(file);
       }
       document.getElementById('file-status').textContent = `Loaded ${files.length} file(s) • ${allEvents.length} events`;
@@ -386,82 +491,336 @@
         const reader = new FileReader();
         reader.onload = (evt) => {
           try {
-            evt.target.result.trim().split('\n').filter(l => l.trim()).forEach(line => {
-              try { allEvents.push(JSON.parse(line)); } catch (e) {}
+            const rawLines = evt.target.result.split('\n');
+            const processedLines = [];
+            
+            // 1. Recover split lines (e.g. if the ESP32 buffer cut off a line)
+            for (let i = 0; i < rawLines.length; i++) {
+              let line = rawLines[i].trim();
+              if (!line) continue;
+              
+              // If a line does not start with '{' and we have a previous line, append it to heal the split
+              if (!line.startsWith('{') && processedLines.length > 0) {
+                processedLines[processedLines.length - 1] += line;
+              } else {
+                processedLines.push(line);
+              }
+            }
+
+            // 2. Parse and sanitize recovered lines
+            processedLines.forEach(line => {
+              try {
+                allEvents.push(JSON.parse(line));
+              } catch (e) {
+                // Try fixing common nested unescaped quote corruption from logging buffer
+                try {
+                  let cleaned = line
+                    .replace(/"mode":"({[^}]+})"/g, '"mode":$1')
+                    .replace(/"mode":"({[^}]+})/g, '"mode":$1')
+                    .replace(/"mode":"modeChanged.*?}}",/g, '"mode":"corrupted",')
+                    .replace(/"mode":"uptMs.*?}}",/g, '"mode":"corrupted",')
+                    .replace(/"mode":"imeSinceLast.*?}}",/g, '"mode":"corrupted",')
+                    .replace(/"mode":"lse}"/g, '"mode":"corrupted"')
+                    .replace(/"mode":"lse}",/g, '"mode":"corrupted",')
+                    .replace(/"mode":"{"presses":.*?}/g, '"mode":"corrupted"}');
+
+                  if (cleaned.startsWith('{') && !cleaned.endsWith('}')) {
+                    cleaned += '}';
+                  }
+                  allEvents.push(JSON.parse(cleaned));
+                } catch (err) {
+                  // Fallback: Regex extraction for key fields to salvage as much as possible
+                  try {
+                    let tsMatch = line.match(/"ts":(\d+)/);
+                    let evtMatch = line.match(/"evt":(\d+)/);
+                    let sidMatch = line.match(/"sid":(\d+)/);
+                    let typeMatch = line.match(/"type":"(.*?)"/);
+                    let varMatch = line.match(/"var":"(.*?)"/);
+                    let modeMatch = line.match(/"mode":"(.*?)"/);
+                    let completeMatch = line.match(/"complete":(true|false)/);
+                    let intentMatch = line.match(/"intent":(\d+)/);
+
+                    if (tsMatch && evtMatch) {
+                      let obj = {
+                        ts: parseInt(tsMatch[1]),
+                        evt: parseInt(evtMatch[1]),
+                        sid: sidMatch ? parseInt(sidMatch[1]) : 0,
+                        complete: completeMatch ? completeMatch[1] === 'true' : false
+                      };
+                      if (typeMatch) obj.type = typeMatch[1];
+                      if (varMatch) obj.var = varMatch[1];
+                      if (modeMatch) obj.mode = modeMatch[1];
+                      if (intentMatch) obj.intent = parseInt(intentMatch[1]);
+                      allEvents.push(obj);
+                    }
+                  } catch (lastErr) {
+                    console.warn("Could not salvage log line:", line);
+                  }
+                }
+              }
             });
-          } catch (e) {}
+          } catch (e) {
+            console.error("Error reading log file:", e);
+          }
           resolve();
         };
         reader.readAsText(file);
       });
     }
 
-    function computeAnalytics() {
-      // Parse sessions
-      const sessions = new Map();
-      const typeFlow = [];
-      let totalClicks = 0;
+    function groupEventsByInteractionWindow(events) {
+      const sessionsMap = new Map();
+      
+      // First pass: extract summary events (evt === 10)
+      events.forEach(e => {
+        if (e.evt === 10 && e.sid) {
+          const clicks = e.ctx ? e.ctx.presses : 1;
+          const sideTracks = e.ctx ? e.ctx.cycles : 0;
+          sessionsMap.set(e.sid, {
+            id: e.sid,
+            startTime: e.ts,
+            endTime: e.ts,
+            duration: e.dur || 0,
+            clicks: clicks,
+            sideTracks: sideTracks,
+            types: e.type ? [e.type] : [],
+            variants: e.var ? [e.var] : [],
+            intent: e.intent !== undefined ? e.intent : 0,
+            completions: e.complete ? 1 : 0,
+            modes: e.mode ? [e.mode] : [],
+            rawEvents: [e],
+            fromSummary: true
+          });
+        }
+      });
 
-      allEvents.forEach(e => {
-        if (e.evt === 0 || e.evt === 1) totalClicks++;
+      // Second pass: group raw events by sid
+      events.forEach(e => {
+        if (!e.sid) return;
+        
+        let s = sessionsMap.get(e.sid);
+        if (!s) {
+          s = {
+            id: e.sid,
+            startTime: e.ts,
+            endTime: e.ts,
+            duration: 0,
+            clicks: 0,
+            sideTracks: 0,
+            types: [],
+            variants: [],
+            intent: 0,
+            completions: 0,
+            modes: [],
+            rawEvents: [],
+            fromSummary: false
+          };
+          sessionsMap.set(e.sid, s);
+        }
 
-        if (e.evt === 10 && e.sid) { // PLAYBACK_SESSION
-          if (!sessions.has(e.sid)) {
-            sessions.set(e.sid, {
-              id: e.sid,
-              types: [],
-              variants: [],
-              modes: new Set(),
-              completions: 0,
-              duration: 0,
-              startTime: e.ts,
-              endTime: e.ts,
-              intent: e.intent || 0
-            });
+        s.rawEvents.push(e);
+        if (!s.fromSummary) {
+          if (e.ts < s.startTime) s.startTime = e.ts;
+          if (e.ts > s.endTime) s.endTime = e.ts;
+          
+          if (e.evt === 0 || e.evt === 1 || e.evt === 2 || e.evt === 11) {
+            s.clicks++;
+            if (e.type && !s.types.includes(e.type)) s.types.push(e.type);
+            if (e.var) {
+              let varName = e.var;
+              if (varName.includes('/')) {
+                varName = varName.substring(varName.lastIndexOf('/') + 1);
+              }
+              if (!s.variants.includes(varName)) s.variants.push(varName);
+            }
+            if (e.mode) {
+              let modeName = e.mode;
+              if (modeName.startsWith('{') || modeName.includes('presses') || modeName === 'corrupted' || modeName.includes('}') || modeName.includes(':')) {
+                modeName = 'default';
+              }
+              if (!s.modes.includes(modeName)) s.modes.push(modeName);
+            }
           }
-          const sess = sessions.get(e.sid);
-          if (e.type) sess.types.push(e.type);
-          if (e.var) sess.variants.push(e.var);
-          if (e.mode) sess.modes.add(e.mode);
-          if (e.complete) sess.completions++;
-          sess.endTime = Math.max(sess.endTime, e.ts);
-        }
-
-        if (e.evt === 0 && e.sid) { // TYPE_SELECTED
-          typeFlow.push({ sid: e.sid, type: e.type, ts: e.ts });
+          if (e.evt === 1) {
+            s.sideTracks++;
+          }
+          if (e.evt === 3 && e.complete) {
+            s.completions++;
+          }
         }
       });
 
-      // Calculate session durations
-      sessions.forEach(s => {
-        s.duration = (s.endTime - s.startTime) * 1000;
-        s.modes = Array.from(s.modes);
+      // Post-process sessions without summaries
+      sessionsMap.forEach(s => {
+        if (!s.fromSummary) {
+          s.duration = (s.endTime - s.startTime) * 1000;
+          
+          if (s.completions > 0 && s.duration > 5000) {
+            s.intent = 1; // ENGAGED
+          } else if (s.sideTracks > 2) {
+            s.intent = 2; // EXPLORING
+          } else if (s.duration > 0 && s.duration < 2000) {
+            s.intent = 3; // REJECTED
+          } else {
+            s.intent = 0; // UNKNOWN
+          }
+        }
+        
+        if (s.modes.length === 0) s.modes = ['default'];
       });
 
-      // Build flows (Sankey)
+      return Array.from(sessionsMap.values());
+    }
+
+    function groupEventsBySinglePlayJourney(events) {
+      const journeys = [];
+      let currentJourney = null;
+      let journeyIdCounter = 1;
+
+      function startNewJourney(startTime, sid) {
+        return {
+          id: journeyIdCounter++,
+          sid: sid,
+          startTime: startTime,
+          endTime: startTime,
+          duration: 0,
+          clicks: 0,
+          sideTracks: 0,
+          types: [],
+          variants: [],
+          intent: 0, // UNKNOWN
+          completions: 0,
+          modes: [],
+          rawEvents: []
+        };
+      }
+
+      // Sort events chronologically to be safe
+      const sortedEvents = [...events].sort((a, b) => a.ts - b.ts);
+
+      sortedEvents.forEach(e => {
+        if (e.evt === 0 || e.evt === 1 || e.evt === 2 || e.evt === 3 || e.evt === 8 || e.evt === 11) {
+          if (e.evt === 0 || e.evt === 1 || e.evt === 2 || e.evt === 11) {
+            const hasLongGap = currentJourney && (e.ts - currentJourney.endTime > 300); // 5 min silence
+            if (!currentJourney || hasLongGap) {
+              if (currentJourney) {
+                currentJourney.duration = (currentJourney.endTime - currentJourney.startTime) * 1000;
+                currentJourney.intent = determineJourneyIntent(currentJourney);
+                journeys.push(currentJourney);
+              }
+              currentJourney = startNewJourney(e.ts, e.sid);
+            }
+
+            currentJourney.clicks++;
+            currentJourney.endTime = e.ts;
+            currentJourney.rawEvents.push(e);
+            
+            if (e.type && !currentJourney.types.includes(e.type)) currentJourney.types.push(e.type);
+            if (e.var) {
+              let varName = e.var;
+              if (varName.includes('/')) {
+                varName = varName.substring(varName.lastIndexOf('/') + 1);
+              }
+              if (!currentJourney.variants.includes(varName)) currentJourney.variants.push(varName);
+            }
+            if (e.mode) {
+              let modeName = e.mode;
+              if (modeName.startsWith('{') || modeName.includes('presses') || modeName === 'corrupted' || modeName.includes('}') || modeName.includes(':')) {
+                modeName = 'default';
+              }
+              if (!currentJourney.modes.includes(modeName)) currentJourney.modes.push(modeName);
+            }
+            
+            if (e.evt === 1) {
+              currentJourney.sideTracks++;
+            }
+          }
+          
+          if (e.evt === 3 && currentJourney) {
+            currentJourney.endTime = e.ts;
+            currentJourney.rawEvents.push(e);
+            
+            if (e.complete) {
+              currentJourney.completions = 1;
+              currentJourney.duration = (currentJourney.endTime - currentJourney.startTime) * 1000;
+              currentJourney.intent = 1; // ENGAGED
+              journeys.push(currentJourney);
+              currentJourney = null;
+            }
+          }
+
+          if (e.evt === 8 && currentJourney) {
+            currentJourney.endTime = e.ts;
+            currentJourney.rawEvents.push(e);
+            currentJourney.duration = (currentJourney.endTime - currentJourney.startTime) * 1000;
+            currentJourney.intent = determineJourneyIntent(currentJourney);
+            journeys.push(currentJourney);
+            currentJourney = null;
+          }
+        }
+      });
+
+      if (currentJourney) {
+        currentJourney.duration = (currentJourney.endTime - currentJourney.startTime) * 1000;
+        currentJourney.intent = determineJourneyIntent(currentJourney);
+        journeys.push(currentJourney);
+      }
+
+      function determineJourneyIntent(j) {
+        if (j.completions > 0) return 1; // ENGAGED
+        if (j.sideTracks > 2 || j.clicks > 4) return 2; // EXPLORING
+        if (j.duration > 0 && j.duration < 3000) return 3; // REJECTED
+        return 0; // UNKNOWN
+      }
+
+      journeys.forEach(j => {
+        if (j.modes.length === 0) j.modes = ['default'];
+      });
+
+      return journeys;
+    }
+
+    function computeAnalytics() {
+      const groupingMode = document.getElementById('grouping-mode-select').value;
+      let sessionsArray = [];
+      if (groupingMode === 'interaction') {
+        sessionsArray = groupEventsByInteractionWindow(allEvents);
+      } else {
+        sessionsArray = groupEventsBySinglePlayJourney(allEvents);
+      }
+
+      let totalClicks = 0;
+      allEvents.forEach(e => {
+        if (e.ts && (e.evt === 0 || e.evt === 1)) totalClicks++;
+      });
+
       const flowMap = new Map();
-      const sessionsArray = Array.from(sessions.values());
       sessionsArray.forEach(s => {
         const types = [...new Set(s.types)];
         for (let i = 0; i < types.length - 1; i++) {
-          const key = `${types[i]}||${types[i+1]}`;
-          flowMap.set(key, (flowMap.get(key) || 0) + 1);
+          if (types[i] && types[i+1]) {
+            const key = `${types[i]}||${types[i+1]}`;
+            flowMap.set(key, (flowMap.get(key) || 0) + 1);
+          }
         }
       });
 
-      // Type-variant pairs
       const typeVariantPairs = new Map();
       allEvents.forEach(e => {
-        if (e.evt === 3 && e.type && e.var) { // PLAYBACK_ENDED
-          const key = `${e.type}||${e.var}`;
+        if (e.evt === 3 && e.type && e.var) {
+          let varName = e.var;
+          if (varName.includes('/')) {
+            varName = varName.substring(varName.lastIndexOf('/') + 1);
+          }
+          const key = `${e.type}||${varName}`;
           typeVariantPairs.set(key, (typeVariantPairs.get(key) || 0) + 1);
         }
       });
 
-      // Type stats
       const typeStats = new Map();
       sessionsArray.forEach(s => {
         s.types.forEach(t => {
+          if (!t) return;
           if (!typeStats.has(t)) {
             typeStats.set(t, { plays: 0, completions: 0, totalDuration: 0, variants: new Set() });
           }
@@ -473,127 +832,315 @@
         });
       });
 
-      // Stats
       const completions = sessionsArray.filter(s => s.completions > 0).length;
       const avgSession = sessionsArray.length > 0 ? sessionsArray.reduce((a, s) => a + s.duration, 0) / sessionsArray.length / 1000 : 0;
-      const easterEggs = allEvents.filter(e => e.evt === 11).length;
+      const easterEggs = allEvents.filter(e => e.evt === 11 || e.mode === 'easter-egg').length;
+      
+      const totalClicksCount = sessionsArray.reduce((acc, s) => acc + s.clicks, 0);
+      const totalSideTracksCount = sessionsArray.reduce((acc, s) => acc + s.sideTracks, 0);
+      const avgClicks = sessionsArray.length > 0 ? totalClicksCount / sessionsArray.length : 0;
+      const avgSideTracks = sessionsArray.length > 0 ? totalSideTracksCount / sessionsArray.length : 0;
 
       document.getElementById('stat-clicks').textContent = totalClicks;
+      
+      const sessionLabel = document.querySelector('.stat-card:nth-child(2) .stat-label');
+      if (sessionLabel) {
+        sessionLabel.textContent = groupingMode === 'interaction' ? 'Sessions' : 'Single Play Journeys';
+      }
       document.getElementById('stat-sessions').textContent = sessionsArray.length;
       document.getElementById('stat-completions').textContent = completions;
-      document.getElementById('stat-completion-rate').textContent = ((completions / sessionsArray.length * 100) || 0).toFixed(1) + '%';
+      document.getElementById('stat-completion-rate').textContent = ((completions / (sessionsArray.length || 1) * 100) || 0).toFixed(1) + '%';
       document.getElementById('stat-avg-session').textContent = avgSession.toFixed(1) + 's';
+      document.getElementById('stat-avg-clicks').textContent = avgClicks.toFixed(1);
+      document.getElementById('stat-avg-side-tracks').textContent = avgSideTracks.toFixed(1);
       document.getElementById('stat-easter-eggs').textContent = easterEggs;
 
-      // Render charts
       renderCharts(sessionsArray, typeStats, typeVariantPairs, flowMap);
       renderDataTable(sessionsArray);
 
-      setStatus('success', `Analyzed ${allEvents.length} events, ${sessionsArray.length} sessions`);
+      setStatus('success', `Analyzed ${allEvents.length} events, ${sessionsArray.length} ${groupingMode === 'interaction' ? 'sessions' : 'journeys'}`);
     }
 
     function renderCharts(sessions, typeStats, typeVariantPairs, flowMap) {
-      const chartTheme = { colors: ['#8ab4f8', '#81c995', '#fde293', '#f28482', '#a8d8ea', '#aa96da'] };
+      // Read page theme variables for native styling matching
+      const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#e8eaed';
+      const textMutedColor = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#9aa0a6';
+      const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#3c4452';
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#8ab4f8';
 
-      // Sankey: Type flows
-      const sanKeyNodes = [];
+      const chartTheme = {
+        colors: ['#8ab4f8', '#81c995', '#fde293', '#f28482', '#a8d8ea', '#aa96da']
+      };
+
+      const baseThemeOptions = {
+        chart: {
+          backgroundColor: 'transparent',
+          style: {
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+          }
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          gridLineColor: borderColor,
+          lineColor: borderColor,
+          tickColor: borderColor,
+          labels: { style: { color: textMutedColor } },
+          title: { style: { color: textMutedColor } }
+        },
+        yAxis: {
+          gridLineColor: borderColor,
+          lineColor: borderColor,
+          tickColor: borderColor,
+          labels: { style: { color: textMutedColor } },
+          title: { style: { color: textMutedColor } }
+        },
+        legend: {
+          itemStyle: { color: textColor },
+          itemHoverStyle: { color: accentColor },
+          itemHiddenStyle: { color: textMutedColor }
+        },
+        credits: {
+          enabled: false
+        }
+      };
+
+      // Helper to dynamically build charts with try/catch boundaries
+      function createChart(containerId, options) {
+        try {
+          const container = document.getElementById(containerId);
+          if (!container) return;
+          container.innerHTML = ''; // Clear prior message
+          
+          const mergedOptions = Highcharts.merge(baseThemeOptions, options);
+          return Highcharts.chart(containerId, mergedOptions);
+        } catch (err) {
+          console.error(`Failed to render ${containerId}:`, err);
+          const container = document.getElementById(containerId);
+          if (container) {
+            container.innerHTML = `
+              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--error); font-size: 0.875rem; border: 1px dashed var(--border); border-radius: 8px; padding: 2rem; text-align: center;">
+                <div>⚠️ Failed to render chart (${err.message}).</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Make sure all required Highcharts modules are loaded correctly.</div>
+              </div>
+            `;
+          }
+        }
+      }
+
+      // 1. Sankey: Type flows
       const sanKeyLinks = [];
-      const typeNames = new Set();
       flowMap.forEach((count, key) => {
         const [from, to] = key.split('||');
-        typeNames.add(from);
-        typeNames.add(to);
-      });
-      const nodeList = Array.from(typeNames);
-      flowMap.forEach((count, key) => {
-        const [from, to] = key.split('||');
-        sanKeyLinks.push({ from, to, weight: count });
+        if (from && to) {
+          sanKeyLinks.push([from, to, count]);
+        }
       });
 
       if (sanKeyLinks.length > 0) {
-        Highcharts.chart('chart-sankey', {
-          chart: { type: 'sankey', backgroundColor: 'transparent' },
-          title: { text: null },
-          series: [{ keys: ['from', 'to', 'weight'], data: sanKeyLinks.map(l => [l.from, l.to, l.weight]) }],
-          credits: { enabled: false }
+        createChart('chart-sankey', {
+          series: [{
+            type: 'sankey',
+            name: 'User Flow',
+            keys: ['from', 'to', 'weight'],
+            data: sanKeyLinks
+          }]
+        });
+      } else {
+        document.getElementById('chart-sankey').innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.875rem;">
+            No multi-step user flows detected. Select logs with multiple visited types.
+          </div>
+        `;
+      }
+
+      // 2. Combined Content Type & Variant Popularity (Stacked / Individual Switcher)
+      let popularityChart = null;
+
+      function renderPopularityChart(mode) {
+        if (mode === 'stacked') {
+          // Get all unique content types (sorted by total plays descending)
+          const categories = Array.from(typeStats.entries())
+            .sort((a, b) => b[1].plays - a[1].plays)
+            .map(([name, _]) => name);
+
+          // Get all unique variant basenames
+          const variantNames = new Set();
+          typeVariantPairs.forEach((count, key) => {
+            const [type, variant] = key.split('||');
+            variantNames.add(variant);
+          });
+          const uniqueVariants = Array.from(variantNames);
+
+          // Build a series for each unique variant
+          const seriesData = uniqueVariants.map(varName => {
+            const data = categories.map(typeName => {
+              const key = `${typeName}||${varName}`;
+              return typeVariantPairs.get(key) || 0;
+            });
+            return {
+              name: varName,
+              data: data
+            };
+          }).filter(s => s.data.some(val => val > 0));
+
+          popularityChart = createChart('chart-popularity', {
+            chart: { type: 'column' },
+            plotOptions: {
+              column: {
+                stacking: 'normal',
+                dataLabels: {
+                  enabled: false
+                }
+              }
+            },
+            xAxis: {
+              categories: categories.map(c => c.replace(/^\d+_/, '')),
+              title: { text: 'Content Types' }
+            },
+            yAxis: {
+              title: { text: 'Plays' },
+              stackLabels: {
+                enabled: true,
+                style: {
+                  fontWeight: 'bold',
+                  color: textColor
+                }
+              }
+            },
+            tooltip: {
+              shared: true,
+              useHTML: true,
+              headerFormat: '<b>{point.key}</b><br/>',
+              pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+              totalFormat: 'Total: <b>{point.total}</b>'
+            },
+            series: seriesData
+          });
+        } else {
+          // Individual top 15 variants sorted by plays
+          const variantData = Array.from(typeVariantPairs.entries())
+            .map(([key, count]) => {
+              const [type, variant] = key.split('||');
+              return { name: `${type.replace(/^\d+_/, '')} / ${variant}`, y: count };
+            })
+            .sort((a, b) => b.y - a.y)
+            .slice(0, 15);
+
+          popularityChart = createChart('chart-popularity', {
+            chart: { type: 'bar' },
+            xAxis: {
+              categories: variantData.map(d => d.name),
+              title: { text: 'Variants' }
+            },
+            yAxis: { title: { text: 'Plays' } },
+            plotOptions: {
+              series: {
+                borderWidth: 0,
+                dataLabels: {
+                  enabled: true,
+                  format: '{point.y}'
+                }
+              }
+            },
+            series: [{
+              name: 'Plays',
+              data: variantData.map(d => d.y),
+              color: accentColor
+            }]
+          });
+        }
+      }
+
+      // Initial render of popularity chart
+      renderPopularityChart('stacked');
+
+      // Set up click handlers for buttons
+      const btnStacked = document.getElementById('btn-show-stacked');
+      const btnIndividual = document.getElementById('btn-show-individual');
+      
+      if (btnStacked && btnIndividual) {
+        // Clone buttons to prevent double event listener registration on consecutive loads
+        const newBtnStacked = btnStacked.cloneNode(true);
+        const newBtnIndividual = btnIndividual.cloneNode(true);
+        btnStacked.parentNode.replaceChild(newBtnStacked, btnStacked);
+        btnIndividual.parentNode.replaceChild(newBtnIndividual, btnIndividual);
+
+        newBtnStacked.addEventListener('click', () => {
+          newBtnStacked.classList.add('active');
+          newBtnIndividual.classList.remove('active');
+          renderPopularityChart('stacked');
+        });
+
+        newBtnIndividual.addEventListener('click', () => {
+          newBtnIndividual.classList.add('active');
+          newBtnStacked.classList.remove('active');
+          renderPopularityChart('individual');
         });
       }
 
-      // Types (column)
-      const typeData = Array.from(typeStats.entries())
-        .map(([name, stats]) => ({ name, y: stats.plays }))
-        .sort((a, b) => b.y - a.y)
-        .slice(0, 12);
-      Highcharts.chart('chart-types', {
-        chart: { type: 'column', backgroundColor: 'transparent' },
-        title: { text: null },
-        xAxis: { categories: typeData.map(d => d.name.slice(0, 15)) },
-        yAxis: { title: { text: 'Plays' } },
-        series: [{ name: 'Plays', data: typeData.map(d => d.y), color: '#8ab4f8' }],
-        credits: { enabled: false }
-      });
-
-      // Variants (Drilldown)
-      const variantData = Array.from(typeVariantPairs.entries())
-        .map(([key, count]) => {
-          const [type, variant] = key.split('||');
-          return { type, variant, count };
-        })
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 15);
-      Highcharts.chart('chart-variants', {
-        chart: { type: 'bar', backgroundColor: 'transparent' },
-        title: { text: null },
-        xAxis: { categories: variantData.map(d => `${d.variant.slice(0, 12)}`) },
-        yAxis: { title: { text: 'Plays' } },
-        series: [{ name: 'Plays', data: variantData.map(d => d.count), color: '#81c995' }],
-        credits: { enabled: false }
-      });
-
-      // Intent pie
+      // 3. Intent pie
       const intentCounts = [0, 0, 0, 0, 0];
       sessions.forEach(s => { intentCounts[s.intent]++; });
       const intentData = Object.entries(intentCounts)
         .filter(([_, count]) => count > 0)
         .map(([code, count]) => ({ name: intentMap[code], y: count }));
-      Highcharts.chart('chart-intent', {
-        chart: { type: 'pie', backgroundColor: 'transparent' },
-        title: { text: null },
-        series: [{ name: 'Sessions', data: intentData, colors: chartTheme.colors }],
-        credits: { enabled: false }
+
+      createChart('chart-intent', {
+        chart: { type: 'pie' },
+        plotOptions: {
+          pie: {
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.y}'
+            }
+          }
+        },
+        series: [{ name: 'Sessions', data: intentData, colors: chartTheme.colors }]
       });
 
-      // Modes pie
+      // 4. Modes pie
       const modeCounts = {};
       sessions.forEach(s => {
         s.modes.forEach(m => { modeCounts[m] = (modeCounts[m] || 0) + 1; });
       });
       const modeData = Object.entries(modeCounts)
-        .map(([name, count]) => ({ name, y: count }))
+        .map(([name, count]) => ({ name: name || 'default', y: count }))
         .sort((a, b) => b.y - a.y);
-      Highcharts.chart('chart-modes', {
-        chart: { type: 'pie', backgroundColor: 'transparent' },
-        title: { text: null },
-        series: [{ name: 'Plays', data: modeData, colors: chartTheme.colors }],
-        credits: { enabled: false }
+
+      createChart('chart-modes', {
+        chart: { type: 'pie' },
+        plotOptions: {
+          pie: {
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.y}'
+            }
+          }
+        },
+        series: [{ name: 'Plays', data: modeData, colors: chartTheme.colors }]
       });
 
-      // Intent funnel
-      const funnelData = [
-        { name: 'Total Sessions', y: sessions.length },
-        { name: 'Exploring', y: sessions.filter(s => s.intent === 2).length },
-        { name: 'Engaged', y: sessions.filter(s => s.intent === 1).length },
-        { name: 'Rejected', y: sessions.filter(s => s.intent === 3).length }
-      ].filter(d => d.y > 0);
-      Highcharts.chart('chart-funnel', {
-        chart: { type: 'funnel', backgroundColor: 'transparent' },
-        title: { text: null },
-        series: [{ name: 'Sessions', data: funnelData }],
-        credits: { enabled: false }
+      // 5. Session timeline (xrange) - filtered to not start prior to "today" (latest calendar day in logs)
+      let latestSessionTime = 0;
+      sessions.forEach(s => {
+        if (s.startTime > latestSessionTime) {
+          latestSessionTime = s.startTime;
+        }
       });
+      let todayStartTs = 0;
+      if (latestSessionTime > 0) {
+        const latestDate = new Date(latestSessionTime * 1000);
+        latestDate.setHours(0, 0, 0, 0);
+        todayStartTs = Math.floor(latestDate.getTime() / 1000);
+      }
 
-      // Session timeline (sorted by start time)
-      const timelineSessions = sessions.sort((a, b) => a.startTime - b.startTime).slice(0, 50);
+      const timelineSessions = [...sessions]
+        .filter(s => s.startTime >= todayStartTs)
+        .sort((a, b) => a.startTime - b.startTime)
+        .slice(0, 50);
       const timelineData = timelineSessions.map((s, i) => ({
         name: `Session #${s.id}`,
         x: new Date(s.startTime * 1000).getTime(),
@@ -601,16 +1148,15 @@
         y: i,
         color: ['#9aa0a6', '#81c995', '#fde293', '#f28482', '#8ab4f8'][s.intent % 5]
       }));
-      Highcharts.chart('chart-timeline', {
-        chart: { type: 'xrange', backgroundColor: 'transparent', height: '50%' },
-        title: { text: null },
+
+      createChart('chart-timeline', {
+        chart: { type: 'xrange' },
         xAxis: { type: 'datetime' },
         yAxis: { categories: timelineSessions.map(s => `#${s.id}`), reversed: true },
-        series: [{ name: 'Session', data: timelineData }],
-        credits: { enabled: false }
+        series: [{ name: 'Session', data: timelineData }]
       });
 
-      // Type-variant heatmap
+      // 6. Heatmap
       const typeVariantMatrix = {};
       Array.from(typeStats.keys()).forEach(type => { typeVariantMatrix[type] = {}; });
       typeVariantPairs.forEach((count, key) => {
@@ -619,47 +1165,292 @@
           typeVariantMatrix[type][variant] = count;
         }
       });
+      
       const heatmapData = [];
-      let typeIdx = 0, variantSet = new Set();
+      const variantSet = new Set();
       typeVariantPairs.forEach((cnt, k) => {
         const [t, variant] = k.split('||');
         variantSet.add(variant);
       });
       const variantArray = Array.from(variantSet).slice(0, 20);
-      Object.entries(typeVariantMatrix).forEach(([type, variants]) => {
-        variantArray.forEach((variant, varIdx) => {
-          heatmapData.push([varIdx, typeIdx, variants[variant] || 0]);
+      const typeArray = Object.keys(typeVariantMatrix);
+
+      typeArray.forEach((type, tIdx) => {
+        variantArray.forEach((variant, vIdx) => {
+          heatmapData.push([vIdx, tIdx, typeVariantMatrix[type][variant] || 0]);
         });
-        typeIdx++;
       });
-      Highcharts.chart('chart-heatmap', {
-        chart: { type: 'heatmap', backgroundColor: 'transparent' },
-        title: { text: null },
+
+      createChart('chart-heatmap', {
+        chart: { type: 'heatmap' },
         xAxis: { categories: variantArray.map(v => v.slice(0, 10)) },
-        yAxis: { categories: Object.keys(typeVariantMatrix) },
-        series: [{ name: 'Plays', data: heatmapData, colorByPoint: false }],
-        credits: { enabled: false }
+        yAxis: { categories: typeArray },
+        colorAxis: {
+          min: 0,
+          minColor: isDarkMode ? '#1a1f29' : '#fafbfc',
+          maxColor: accentColor
+        },
+        series: [{
+          name: 'Plays',
+          data: heatmapData,
+          borderWidth: 1,
+          borderColor: borderColor
+        }]
+      });
+
+      // 7. Hourly & Weekly Activity Patterns
+      const hourlyCounts = Array(24).fill(0);
+      allEvents.forEach(e => {
+        if (e.ts && (e.evt === 0 || e.evt === 1 || e.evt === 2 || e.evt === 11)) {
+          const date = new Date(e.ts * 1000);
+          const hour = date.getHours();
+          if (hour >= 0 && hour < 24) hourlyCounts[hour]++;
+        }
+      });
+
+      createChart('chart-hourly-activity', {
+        chart: { type: 'column' },
+        xAxis: {
+          categories: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+          title: { text: 'Hour of Day' }
+        },
+        yAxis: { title: { text: 'Interactions' } },
+        series: [{
+          name: 'Interactions',
+          data: hourlyCounts,
+          color: '#8ab4f8'
+        }]
+      });
+
+      // Zoomable 10-minute cadence activity timeline
+      let maxEventTs = 0;
+      allEvents.forEach(e => {
+        if (e.ts && e.ts > maxEventTs) maxEventTs = e.ts;
+      });
+
+      const latestDateObj = new Date(maxEventTs * 1000);
+      const latestYear = latestDateObj.getFullYear();
+      const yearStartTs = Math.floor(new Date(latestYear, 0, 1).getTime() / 1000);
+      const maxRangeSeconds = 14 * 24 * 60 * 60; // Max 14 days of data to keep chart performant
+      const cutoffTs = Math.max(yearStartTs, maxEventTs - maxRangeSeconds);
+
+      let minTs = Infinity;
+      let maxTs = -Infinity;
+      const bucketCounts = new Map();
+
+      allEvents.forEach(e => {
+        if (e.ts && e.ts >= cutoffTs) {
+          if (e.evt === 0 || e.evt === 1 || e.evt === 2 || e.evt === 11) {
+            const bucket = Math.floor(e.ts / 600) * 600; // 10 minute buckets
+            if (bucket < minTs) minTs = bucket;
+            if (bucket > maxTs) maxTs = bucket;
+            bucketCounts.set(bucket, (bucketCounts.get(bucket) || 0) + 1);
+          }
+        }
+      });
+
+      const lineData = [];
+      if (minTs !== Infinity && maxTs !== -Infinity) {
+        for (let t = minTs; t <= maxTs; t += 600) {
+          lineData.push([t * 1000, bucketCounts.get(t) || 0]);
+        }
+      }
+
+      createChart('chart-weekly-activity', {
+        chart: {
+          type: 'area',
+          zoomType: 'x'
+        },
+        xAxis: {
+          type: 'datetime',
+          title: { text: 'Time (Drag to zoom)' }
+        },
+        yAxis: {
+          title: { text: 'Interactions' },
+          min: 0
+        },
+        plotOptions: {
+          area: {
+            fillColor: {
+              linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+              stops: [
+                [0, 'rgba(129, 201, 149, 0.4)'],
+                [1, 'rgba(129, 201, 149, 0.0)']
+              ]
+            },
+            marker: {
+              enabled: lineData.length < 150,
+              radius: 2
+            },
+            lineWidth: 2,
+            states: {
+              hover: {
+                lineWidth: 3
+              }
+            },
+            threshold: null
+          }
+        },
+        series: [{
+          name: 'Interactions (10 min buckets)',
+          data: lineData,
+          color: '#81c995'
+        }]
       });
     }
 
-    function renderDataTable(sessions) {
+    let currentSessionsData = [];
+    let sortField = 'startTime'; // Default sort field
+    let sortAsc = false;         // Default descending order
+    const rowHeight = 48;        // Height of each row in pixels
+
+    // Initialize Virtualized Table scroll and header sorting click triggers
+    function initVirtualizedTable() {
+      const container = document.getElementById('table-scroll-container');
+      container.addEventListener('scroll', updateTableRows);
+      
+      const headers = document.querySelectorAll('#data-table th[data-field]');
+      headers.forEach(th => {
+        th.addEventListener('click', () => {
+          const field = th.getAttribute('data-field');
+          if (sortField === field) {
+            sortAsc = !sortAsc;
+          } else {
+            sortField = field;
+            sortAsc = true;
+          }
+          
+          headers.forEach(h => {
+            h.classList.remove('sort-asc', 'sort-desc');
+            const indicator = h.querySelector('.sort-indicator');
+            if (indicator) indicator.textContent = '';
+          });
+          
+          th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+          const indicator = th.querySelector('.sort-indicator');
+          if (indicator) indicator.textContent = sortAsc ? ' ▴' : ' ▾';
+          
+          sortAndRenderTable();
+        });
+      });
+    }
+
+    function sortAndRenderTable() {
+      currentSessionsData.sort((a, b) => {
+        let valA, valB;
+        switch (sortField) {
+          case 'id':
+            valA = a.id;
+            valB = b.id;
+            break;
+          case 'duration':
+            valA = a.duration;
+            valB = b.duration;
+            break;
+          case 'startTime':
+            valA = a.startTime;
+            valB = b.startTime;
+            break;
+          case 'clicks':
+            valA = a.clicks;
+            valB = b.clicks;
+            break;
+          case 'sideTracks':
+            valA = a.sideTracks;
+            valB = b.sideTracks;
+            break;
+          case 'types':
+            valA = a.types.join(', ');
+            valB = b.types.join(', ');
+            break;
+          case 'variants':
+            valA = a.variants.length;
+            valB = b.variants.length;
+            break;
+          case 'intent':
+            valA = a.intent;
+            valB = b.intent;
+            break;
+          case 'completions':
+            valA = a.completions;
+            valB = b.completions;
+            break;
+          case 'modes':
+            valA = a.modes.join(', ');
+            valB = b.modes.join(', ');
+            break;
+          default:
+            valA = a.startTime;
+            valB = b.startTime;
+        }
+
+        if (valA < valB) return sortAsc ? -1 : 1;
+        if (valA > valB) return sortAsc ? 1 : -1;
+        return 0;
+      });
+
+      const spacer = document.getElementById('table-spacer');
+      spacer.style.height = `${currentSessionsData.length * rowHeight}px`;
+
+      updateTableRows();
+    }
+
+    function updateTableRows() {
+      const container = document.getElementById('table-scroll-container');
       const tbody = document.getElementById('table-body');
-      tbody.innerHTML = sessions
-        .sort((a, b) => b.endTime - a.endTime)
-        .map(s => `
-          <tr>
+      
+      const scrollTop = container.scrollTop;
+      const viewportHeight = container.clientHeight;
+      const totalRows = currentSessionsData.length;
+      
+      let startIndex = Math.floor(scrollTop / rowHeight);
+      let endIndex = Math.ceil((scrollTop + viewportHeight) / rowHeight);
+      
+      const buffer = 5;
+      startIndex = Math.max(0, startIndex - buffer);
+      endIndex = Math.min(totalRows, endIndex + buffer);
+      
+      const paddingTop = startIndex * rowHeight;
+      const paddingBottom = (totalRows - endIndex) * rowHeight;
+      
+      const rowsHtml = [];
+      
+      if (paddingTop > 0) {
+        rowsHtml.push(`<tr style="height: ${paddingTop}px;"><td colspan="10" style="padding: 0; border: none; height: ${paddingTop}px;"></td></tr>`);
+      }
+      
+      for (let i = startIndex; i < endIndex; i++) {
+        const s = currentSessionsData[i];
+        rowsHtml.push(`
+          <tr style="height: ${rowHeight}px;">
             <td>#${s.id}</td>
             <td>${(s.duration / 1000).toFixed(1)}s</td>
             <td>${new Date(s.startTime * 1000).toLocaleString()}</td>
+            <td>${s.clicks}</td>
+            <td>${s.sideTracks}</td>
             <td>${s.types.join(', ') || '—'}</td>
             <td>${s.variants.length}</td>
             <td><span class="intent-badge intent-${intentMap[s.intent]}">${intentMap[s.intent]}</span></td>
             <td>${s.completions}</td>
             <td>${s.modes.join(', ') || 'default'}</td>
           </tr>
-        `)
-        .join('');
+        `);
+      }
+      
+      if (paddingBottom > 0) {
+        rowsHtml.push(`<tr style="height: ${paddingBottom}px;"><td colspan="10" style="padding: 0; border: none; height: ${paddingBottom}px;"></td></tr>`);
+      }
+      
+      tbody.innerHTML = rowsHtml.join('');
     }
+
+    function renderDataTable(sessions) {
+      currentSessionsData = [...sessions];
+      sortAndRenderTable();
+    }
+
+    // Call initializer immediately
+    initVirtualizedTable();
 
     function setStatus(type, msg) {
       const el = document.getElementById('status');
@@ -671,12 +1462,28 @@
       if (evt.target.files.length > 0) loadFilesFromPicker(evt.target.files);
     });
 
+    document.getElementById('grouping-mode-select').addEventListener('change', () => {
+      if (allEvents.length > 0) {
+        computeAnalytics();
+      }
+    });
+
     document.getElementById('export-btn').onclick = () => {
-      const csv = 'ID,Duration,Types,Variants,Intent,Completions\n' +
-        Array.from(document.querySelectorAll('#table-body tr'))
-          .map(tr => {
-            const cells = tr.querySelectorAll('td');
-            return [cells[0], cells[1], cells[3], cells[4], cells[5], cells[6]].map(c => '"' + c.textContent.replace(/"/g, '""') + '"').join(',');
+      const csv = 'ID,Duration,StartTime,Clicks,SideTracks,Types,Variants,Intent,Completions,Modes\n' +
+        currentSessionsData
+          .map(s => {
+            return [
+              `#${s.id}`,
+              `${(s.duration / 1000).toFixed(1)}s`,
+              new Date(s.startTime * 1000).toLocaleString(),
+              s.clicks,
+              s.sideTracks,
+              s.types.join(', '),
+              s.variants.length,
+              intentMap[s.intent],
+              s.completions,
+              s.modes.join(', ') || 'default'
+            ].map(val => '"' + String(val).replace(/"/g, '""') + '"').join(',');
           })
           .join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });

@@ -33,6 +33,11 @@
   - Moved button I2C reads from ISR to main loop
   - Created separate GPIO 5/22 I2C bus for OLED (SW_I2C bit-banging)
   - No contention between button polling + OLED updates + SD writes
+  - Identified and corrected I2C driver resets from `RTClib` and `arduino-audio-driver` by re-enabling `pcf8574->begin()` (to configure quasi-bidirectional input latches) and explicitly restoring custom pin routing (`extI2C.begin(18, 23)`) at setup milestones.
+- Fully wired and implemented Easter Egg detection and playback:
+  - Polled `buttonMgr->checkEasterEggPattern()` on every tick in `SystemManagerImpl::update()`.
+  - Implemented logic in `SystemManagerImpl` to stop normal audio, load the correct easter egg variant file from SD, start audio playback, and update the OLED display when a pattern is matched.
+  - Implemented transition logging in `PlaybackControllerImpl`: logs normal playback interruption when an easter egg starts, logs easter egg interruption when a normal button is clicked, and logs `EASTER_EGG_ENDED` (with `completedFully` status) when clips finish or are aborted.
 - Optimized SD logging:
   - Batch writes: file open once, write all queued events, close once
   - Deferred to quiet window: flush only when audio off 5s + no interaction 5s
@@ -51,8 +56,9 @@
 - OLED + button + audio all responsive simultaneously
 - Compilation clean, no I2C conflicts
 - Boot logs show all system state
+- Physical button presses and PCF8574 initialization fully operational on hardware.
+- Easter Egg detector pattern matching, variant cycling, logging, and interrupted/natural playback fully functional.
 
 **Next:**
-- Hardware testing with wired buttons on PCF8574
 - Volume control / additional features
 - Production packaging

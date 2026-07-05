@@ -15,7 +15,7 @@ class AudioPlayerImpl : public IAudioPlayer {
 private:
   audio_tools::AudioBoardStream* audioKit = nullptr;
   File currentFile;
-  audio_tools::WAVDecoder wav;
+  audio_tools::WAVDecoder* wav = nullptr;  // Fresh decoder per file
   audio_tools::EncodedAudioStream* decoded = nullptr;
   audio_tools::StreamCopy* copier = nullptr;
   bool playing = false;

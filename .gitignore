@@ -8,3 +8,9 @@
 /.serena/
 /.vscode/
 /graphify-out/
+*.wav
+/.history/src/DisplayManagerImpl_20260705072151.cpp
+/.history/src/DisplayManagerImpl_20260705094554.cpp
+/.history/src/DisplayManagerImpl_20260705094618.cpp
+/.history/src/EasterEggDetectorImpl_20260705092226.cpp
+/.history/src/EasterEggDetectorImpl_20260705092414.cpp

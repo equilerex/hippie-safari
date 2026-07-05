@@ -37,6 +37,10 @@ public:
   virtual void logStandbyExited() = 0;
   virtual void logContentDiscovered(int typeCount, int totalVariants) = 0;
 
+  // Easter egg events
+  virtual void logEasterEggTriggered(EasterEggPattern pattern, const char* variantName, uint32_t sessionId = 0) = 0;
+  virtual void logEasterEggEnded(EasterEggPattern pattern, const char* variantName, uint32_t actualDurationMs, bool completedFully, uint32_t sessionId = 0) = 0;
+
   // Flush queued events to SD (call when playback inactive)
   virtual bool flushQueue() = 0;
 
