@@ -53,7 +53,6 @@ ESP32 upload:
 
 - Start by identifying the relevant files and symbols.
 - Use Serena symbolic tools before broad grep/read.
-- Use Context7 for unfamiliar or current library APIs.
 - Do not scan the whole repo unless explicitly asked.
 - Do not rewrite unrelated files.
 - Make minimal diffs.
@@ -238,7 +237,6 @@ Rules:
 - Read AGENTS.md first.
 - Read only relevant `.ai/memory/*` files.
 - Use Serena symbolic lookup before broad search.
-- Use Context7 only for unfamiliar/current library APIs.
 - Before editing, report:
   - target files
   - target symbols
@@ -312,7 +310,6 @@ Use this only for project-specific Angular conventions.
 - Prefer existing state/routing patterns.
 - Do not introduce new state libraries without approval.
 - Preserve accessibility semantics.
-- Use Context7 for version-specific Angular APIs.
 CONTENT
 
 write_if_missing ".ai/skills/react.md" <<'CONTENT'
@@ -326,7 +323,6 @@ Use this only for project-specific React conventions.
 - Do not introduce new state libraries without approval.
 - Avoid unnecessary abstraction.
 - Preserve accessibility semantics.
-- Use Context7 for version-specific React/router/build APIs.
 CONTENT
 
 write_if_missing ".ai/skills/esp32-platformio.md" <<'CONTENT'

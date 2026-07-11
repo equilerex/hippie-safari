@@ -1,5 +1,10 @@
-# GitHub Copilot Instructions
+# Agent Instructions Source
 
+This is the single master file containing instructions for all AI coding agents. Do not edit `CLAUDE.md`, `GEMINI.md`, or `.github/copilot-instructions.md` directly. Instead, modify this file and run `npm run agents:sync`.
+
+---
+
+<!-- BLOCK: COMMON -->
 # AI Project Context
 
 Do not read the whole `.ai/` folder by default. this folder contains reviewed context for coding agents.
@@ -57,7 +62,29 @@ Do not update memory for:
 - chat summaries
 - one-off experiments
 - unverified assumptions
+<!-- ENDBLOCK: COMMON -->
 
+---
+
+<!-- BLOCK: CLAUDE -->
+## LLM-Specific Customizations
+- Prefer using MCP tools (`query_graph`, `get_node`, etc.) when available rather than raw CLI commands or broad text grep searches.
+- Ensure terminal commands are proposed clearly before running.
+- Follow PlatformIO ESP32 upload/monitor instructions strictly when building or deploying firmware.
+<!-- ENDBLOCK: CLAUDE -->
+
+---
+
+<!-- BLOCK: GEMINI -->
+## LLM-Specific Customizations
+- Keep responses concise and focused on C++ type-safety and PlatformIO compilation environments.
+- Maintain ESP32 pin configuration tables in project-facts.md when proposing hardware modifications.
+<!-- ENDBLOCK: GEMINI -->
+
+---
+
+<!-- BLOCK: COPILOT -->
 ## LLM-Specific Customizations
 - Prefer writing minimal, precise inline autocomplete suggestions that match the formatting and style of existing C++ files.
 - Avoid outputting verbose explanations unless asked.
+<!-- ENDBLOCK: COPILOT -->

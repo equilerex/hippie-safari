@@ -74,3 +74,8 @@
 - Build: `pio run -e esp32-a1s-audiokit`
 - Upload: `pio run -e esp32-a1s-audiokit -t upload`
 - Monitor: `pio device monitor -e esp32-a1s-audiokit`
+- AST Graph Update: `npm run graph:update` (AST-only, run automatically on pre-commit)
+- Serena Memory Sync: `npm run serena:sync` (copies .ai facts to Serena and generates C++ class summaries, run automatically on pre-commit)
+- Documentation Mapping: `npm run graph:link` (updates C++ symbol-to-documentation mapping)
+- Semantic Enrichment (Local LLM): `npm run graph:enrich` (runs deep semantic extraction using qwen2.5-coder:7b via local Ollama on-demand)
+- Semantic Enrichment (32B model): `npm run graph:enrich:32b` (runs deep semantic extraction using qwen2.5-coder:32b via local Ollama on-demand)

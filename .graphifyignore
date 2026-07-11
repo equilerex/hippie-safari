@@ -1,0 +1,17 @@
+node_modules/
+.pio/
+.venv/
+.history/
+.git/
+.vscode/
+.idea/
+.claude/
+.serena/
+sd-card-sample/
+sd-card-sample.zip
+dist/
+build/
+.pnpm-store/
+coverage/
+*.lock
+graphify-out/

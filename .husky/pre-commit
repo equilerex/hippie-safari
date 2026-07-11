@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+# 1. Sync agent instruction files if agents-source.md changes
+if git diff --cached --name-only | grep -E "^agents-source\.md$" > /dev/null; then
+  echo "--- Syncing Agent Instructions ---"
+  npm run agents:sync
+fi
+
+# 2. Sync C++ structures and Serena memories if code files change
+EXTENSIONS=".*\.(cpp|h|ino|hpp|c)$"
+if git diff --cached --name-only | grep -E "$EXTENSIONS" > /dev/null; then
+  echo "--- ESP32 AST Graph & Serena Memory Sync ---"
+  npm run serena:sync
+  npm run graph:update
+fi

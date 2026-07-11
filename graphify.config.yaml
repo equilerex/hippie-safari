@@ -1,0 +1,12 @@
+# graphify.config.yaml
+parsers:
+    cpp:
+        include: ["src/**/*.cpp", "include/**/*.h"]
+        # Disable LLM summary generation for these files
+        enable_semantic_analysis: false
+    markdown:
+        include: ["docs/**/*.md"]
+        # Only index link structure and headers (very low token cost)
+        extract_semantics: false
+        index_headings: true
+        index_internal_links: true

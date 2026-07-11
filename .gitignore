@@ -14,3 +14,15 @@
 /.history/src/DisplayManagerImpl_20260705094618.cpp
 /.history/src/EasterEggDetectorImpl_20260705092226.cpp
 /.history/src/EasterEggDetectorImpl_20260705092414.cpp
+.env
+/node_modules/.bin/husky
+/node_modules/.bin/husky.cmd
+/node_modules/.bin/husky.ps1
+/node_modules/husky/bin.js
+/node_modules/husky/husky
+/node_modules/husky/index.d.ts
+/node_modules/husky/index.js
+/node_modules/husky/LICENSE
+/node_modules/husky/package.json
+/node_modules/husky/README.md
+/node_modules/.package-lock.json

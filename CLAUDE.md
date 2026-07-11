@@ -1,9 +1,64 @@
-## graphify
+# Claude Instructions
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+# AI Project Context
 
-Rules:
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+Do not read the whole `.ai/` folder by default. this folder contains reviewed context for coding agents.
+Load files from here only when relevant.
+
+## Memory
+
+Use `.ai/memory/` for durable, verified project facts only.
+
+- `memory/project-facts.md`
+  Stable stack, commands, architecture shape, hardware facts, board/pin assumptions.
+
+- `memory/decisions.md`
+  Durable decisions, rejected alternatives, and constraints future work must preserve.
+
+- `memory/known-failures.md`
+  Confirmed failures with symptom, cause, fix, and verification command.
+
+- `memory/progress.md`
+  Current state, next step, and blockers when useful across sessions.
+ 
+## Tooling
+
+Use Serena for codebase navigation, editing, and context:
+- Use Serena symbolic lookup (MCP tools) for finding definitions, references, and symbols before performing raw grep scans.
+- Refer to Serena's local memories folder at `.serena/memories/` (including `cpp_module_summaries.md` containing class-level functional descriptions) to understand system components.
+
+Use Graphify for codebase structure and documentation relationship indexing:
+- Use Graphify before broad searches for architecture, dependencies, or change impact; verify results in source.
+- Query the graph using `graphify query "<question>"` (CLI) or `query_graph` (MCP) to trace dependencies, symbols, and call flows.
+
+## AI Workflow Experiments
+- Refer to the [AI Workflow Experiments Guide](file:///d:/ESP32%20projects/hippie%20safari/docs/ai-workflow-experiments.md) to understand the local LLM, Graphify, and Serena architecture layers implemented in this repository.
+
+## Update rules
+
+Update `.ai/memory/` only when a durable, verified fact changes.
+
+Update memory after:
+
+- build/test command changes
+- architecture or module-boundary changes
+- public API/data-contract changes
+- dependency/tooling assumptions change
+- board/pin/module facts change
+- repeated failure gets a verified fix
+- durable decision is made
+
+Do not update memory for:
+
+- routine edits
+- temporary debugging
+- raw logs
+- speculation
+- chat summaries
+- one-off experiments
+- unverified assumptions
+
+## LLM-Specific Customizations
+- Prefer using MCP tools (`query_graph`, `get_node`, etc.) when available rather than raw CLI commands or broad text grep searches.
+- Ensure terminal commands are proposed clearly before running.
+- Follow PlatformIO ESP32 upload/monitor instructions strictly when building or deploying firmware.
