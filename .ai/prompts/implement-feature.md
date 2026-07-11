@@ -4,7 +4,7 @@ Task:
 <task>
 
 Rules:
-- Read AGENTS.md first.
+- Read GEMINI.md or CLAUDE.md first.
 - Read only relevant `.ai/memory/*` files.
 - Use Serena symbolic lookup before broad search.
 - Before editing, report:

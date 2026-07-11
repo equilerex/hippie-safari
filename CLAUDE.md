@@ -1,5 +1,3 @@
-# Claude Instructions
-
 # AI Project Context
 
 Do not read the whole `.ai/` folder by default. this folder contains reviewed context for coding agents.

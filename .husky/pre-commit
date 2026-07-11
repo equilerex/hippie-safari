@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
 
 # 1. Sync agent instruction files if agents-source.md changes
 if git diff --cached --name-only | grep -E "^agents-source\.md$" > /dev/null; then

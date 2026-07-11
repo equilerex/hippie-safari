@@ -51,11 +51,7 @@ def main():
         dest = cfg['dest']
         extra = cfg['extra']
         # Build compiled file content
-        content = ""
-        if cfg.get('title'):
-            content += cfg['title'] + "\n\n"
-        content += common_content
-        content += "\n\n"
+        content = common_content + "\n\n"
         
         if extra:
             content += extra
