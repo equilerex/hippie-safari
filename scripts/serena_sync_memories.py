@@ -259,6 +259,15 @@ def main():
         cache_path.write_text(json.dumps(cache, indent=2), encoding='utf-8')
     except Exception as e:
         print(f"Warning: Could not save cache: {e}")
+
+    # 5. Rebuild Serena symbol index
+    print("Rebuilding Serena C++ symbol index...")
+    try:
+        # Run 'serena project index' and inherit stdout/stderr to show the progress bar
+        subprocess.run(['serena', 'project', 'index'], check=True)
+        print("  Serena symbol index rebuild completed successfully.")
+    except Exception as e:
+        print(f"  Warning: Failed to rebuild Serena symbol index: {e}")
         
     print("Serena context update completed.")
 

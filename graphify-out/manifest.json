@@ -55,9 +55,9 @@
     "semantic_hash": "0662e1a77b21d670132cd5855954bfff"
   },
   "CLAUDE.md": {
-    "mtime": 1783023341.319558,
-    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
-    "semantic_hash": "8a6643a420fdad6bfb583523bc6cef16"
+    "mtime": 1783818545.0913632,
+    "ast_hash": "c20c118f8d53d76c284eca26b9248c69",
+    "semantic_hash": ""
   },
   "docs/a1s-board.md": {
     "mtime": 1783228193.2839527,
@@ -4967,77 +4967,77 @@
   "sd-card-sample/audio/types/01_intro/Friday/config.json": {
     "mtime": 1783036408.0,
     "ast_hash": "6d154ca3c7f0ce7cfa306c8f863cfc30",
-    "semantic_hash": ""
+    "semantic_hash": "6d154ca3c7f0ce7cfa306c8f863cfc30"
   },
   "sd-card-sample/audio/types/02_plain-clothes/weekday_morning/config.json": {
     "mtime": 1783036408.0,
     "ast_hash": "fa3297eea409ba5659c1fd77daf6a3f8",
-    "semantic_hash": ""
+    "semantic_hash": "fa3297eea409ba5659c1fd77daf6a3f8"
   },
   "sd-card-sample/audio/types/03_groups/festival/config.json": {
     "mtime": 1783036408.0,
     "ast_hash": "6d154ca3c7f0ce7cfa306c8f863cfc30",
-    "semantic_hash": ""
+    "semantic_hash": "6d154ca3c7f0ce7cfa306c8f863cfc30"
   },
   "sd-card-sample/audio/types/03_groups/weekends/config.json": {
     "mtime": 1783036408.0,
     "ast_hash": "0a926ed2dc1919ff3dcb7348f77a6739",
-    "semantic_hash": ""
+    "semantic_hash": "0a926ed2dc1919ff3dcb7348f77a6739"
   },
   "sd-card-sample/audio/types/04_extra/weekday_morning/config.json": {
     "mtime": 1783036408.0,
     "ast_hash": "fa3297eea409ba5659c1fd77daf6a3f8",
-    "semantic_hash": ""
+    "semantic_hash": "fa3297eea409ba5659c1fd77daf6a3f8"
   },
   "sd-card-sample/logs/2026-07-05.json": {
     "mtime": 1783273900.0,
     "ast_hash": "45f697c5ff96b1dca33aab07d0253b31",
-    "semantic_hash": ""
+    "semantic_hash": "45f697c5ff96b1dca33aab07d0253b31"
   },
   "sd-card-sample/logs/drilldown.js": {
     "mtime": 1783250058.0,
     "ast_hash": "f1b70a935d351d53285928d37d98db58",
-    "semantic_hash": ""
+    "semantic_hash": "f1b70a935d351d53285928d37d98db58"
   },
   "sd-card-sample/logs/funnel.js": {
     "mtime": 1783250058.0,
     "ast_hash": "66f59746b127e7d0483859882d669f53",
-    "semantic_hash": ""
+    "semantic_hash": "66f59746b127e7d0483859882d669f53"
   },
   "sd-card-sample/logs/heatmap.js": {
     "mtime": 1783250058.0,
     "ast_hash": "27c97b7ecb60e1b9c52a32084ae6d701",
-    "semantic_hash": ""
+    "semantic_hash": "27c97b7ecb60e1b9c52a32084ae6d701"
   },
   "sd-card-sample/logs/highcharts.js": {
     "mtime": 1783239952.0,
     "ast_hash": "775641bab175f92f0c01bc6041151cfe",
-    "semantic_hash": ""
+    "semantic_hash": "775641bab175f92f0c01bc6041151cfe"
   },
   "sd-card-sample/logs/keymap.json": {
     "mtime": 315525604.0,
     "ast_hash": "e5bf14d18d50df044758dc931d5122ad",
-    "semantic_hash": ""
+    "semantic_hash": "e5bf14d18d50df044758dc931d5122ad"
   },
   "sd-card-sample/logs/sankey.js": {
     "mtime": 1783250054.0,
     "ast_hash": "930e5032c1d331ecf7da7c006a457b12",
-    "semantic_hash": ""
+    "semantic_hash": "930e5032c1d331ecf7da7c006a457b12"
   },
   "sd-card-sample/logs/xrange.js": {
     "mtime": 1783250058.0,
     "ast_hash": "69d1f10e5b77831f7b50d70e3eb530c0",
-    "semantic_hash": ""
+    "semantic_hash": "69d1f10e5b77831f7b50d70e3eb530c0"
   },
   "sd-card-sample/safari-conf.json": {
     "mtime": 1783273744.570187,
     "ast_hash": "e63c45635147ff380cd6b2145b9db36f",
-    "semantic_hash": ""
+    "semantic_hash": "e63c45635147ff380cd6b2145b9db36f"
   },
   "setup-ai-repo.sh": {
-    "mtime": 1783208222.9765763,
-    "ast_hash": "0d1e744b7357db80d846c87021601a9e",
-    "semantic_hash": "0d1e744b7357db80d846c87021601a9e"
+    "mtime": 1783812562.757751,
+    "ast_hash": "124c8ed664461c6a8a50aef64fd4cc81",
+    "semantic_hash": "124c8ed664461c6a8a50aef64fd4cc81"
   },
   "src/AudioPlayerImpl.cpp": {
     "mtime": 1783271396.9961722,
@@ -5157,31 +5157,31 @@
   ".ai/README.md": {
     "mtime": 1783208191.3570738,
     "ast_hash": "364399db3ccd27f3becb6252ddad3ace",
-    "semantic_hash": ""
+    "semantic_hash": "364399db3ccd27f3becb6252ddad3ace"
   },
   ".ai/easter-egg-implementation-plan.md": {
     "mtime": 1783233918.2215748,
     "ast_hash": "89d14c17b15cd0ba30aa8fd9865df8f1",
-    "semantic_hash": ""
+    "semantic_hash": "89d14c17b15cd0ba30aa8fd9865df8f1"
   },
   ".ai/memory/decisions.md": {
     "mtime": 1783249604.081821,
     "ast_hash": "2304cc026252d543566cae8e93bb9ff9",
-    "semantic_hash": ""
+    "semantic_hash": "2304cc026252d543566cae8e93bb9ff9"
   },
   ".ai/memory/known-failures.md": {
     "mtime": 1783247603.0902784,
     "ast_hash": "7f6ce3ee11c14f4e8c8ad46d56d9573d",
-    "semantic_hash": ""
+    "semantic_hash": "7f6ce3ee11c14f4e8c8ad46d56d9573d"
   },
   ".ai/memory/progress.md": {
     "mtime": 1783247618.2771244,
     "ast_hash": "24d8918baf18048974d3cf3f16c6a246",
-    "semantic_hash": ""
+    "semantic_hash": "24d8918baf18048974d3cf3f16c6a246"
   },
   ".ai/memory/project-facts.md": {
-    "mtime": 1783209673.72968,
-    "ast_hash": "30f6747aa43fb882b983dd4dc6e89fb1",
+    "mtime": 1783809316.4067712,
+    "ast_hash": "8138ae01d4b31cfa0315fbf5be980d32",
     "semantic_hash": ""
   },
   ".ai/prompts/debug-bug.md": {
@@ -5192,17 +5192,17 @@
   ".ai/prompts/esp32-hardware-change.md": {
     "mtime": 1783208191.8635626,
     "ast_hash": "adeef9ba5eae52d06202bcaea49340cc",
-    "semantic_hash": ""
+    "semantic_hash": "adeef9ba5eae52d06202bcaea49340cc"
   },
   ".ai/prompts/implement-feature.md": {
-    "mtime": 1783208191.6719828,
-    "ast_hash": "70d722c3c60221c11542698247f95419",
+    "mtime": 1783812462.7883184,
+    "ast_hash": "2e6ca72ca0bc834079cb74b4a0b1a42a",
     "semantic_hash": ""
   },
   ".ai/prompts/review-diff.md": {
     "mtime": 1783208191.7994957,
     "ast_hash": "ab13ce5e07bfc78f63bffc89b38c1197",
-    "semantic_hash": ""
+    "semantic_hash": "ab13ce5e07bfc78f63bffc89b38c1197"
   },
   ".ai/skills/esp32-platformio.md": {
     "mtime": 1783208192.0566065,
@@ -5210,8 +5210,8 @@
     "semantic_hash": ""
   },
   ".github/copilot-instructions.md": {
-    "mtime": 1783208191.2875447,
-    "ast_hash": "fc1b714c3c75bb53159429b4a6a4eed7",
+    "mtime": 1783818545.0925741,
+    "ast_hash": "92af6c353ad612bd0d1d718731f3d0df",
     "semantic_hash": ""
   },
   ".pio/libdeps/esp32-a1s-audiokit/Adafruit BusIO/.github/ISSUE_TEMPLATE.md": {
@@ -8299,20 +8299,15 @@
     "ast_hash": "5eedeaaf44d92ee8baafa4e8c02edb27",
     "semantic_hash": ""
   },
-  "AGENTS.md": {
-    "mtime": 1783226264.1604996,
-    "ast_hash": "9e5621a2cb4530a90eb6f823f08416d9",
-    "semantic_hash": ""
-  },
   "GEMINI.md": {
-    "mtime": 1783208191.1760194,
-    "ast_hash": "8a768fe390ba6e38d4d338141c4010b1",
+    "mtime": 1783818545.0920458,
+    "ast_hash": "8596b9697c17618defe62877ef227db7",
     "semantic_hash": ""
   },
   "README.md": {
     "mtime": 1783273820.3130085,
     "ast_hash": "bc09e37c68aa2ff6b452ecc3033fc6e6",
-    "semantic_hash": ""
+    "semantic_hash": "bc09e37c68aa2ff6b452ecc3033fc6e6"
   },
   "docs/2026-07-02-hippy-safari-architecture.md": {
     "mtime": 1783236467.7255428,
@@ -8955,19 +8950,19 @@
     "semantic_hash": "2ee3cc8cf01cbde3215fe7e594f23a3f"
   },
   "package.json": {
-    "mtime": 1783808066.249091,
-    "ast_hash": "fd3b64442494580d0d99213038fc90fe",
-    "semantic_hash": "fd3b64442494580d0d99213038fc90fe"
+    "mtime": 1783813163.7191913,
+    "ast_hash": "b6e42c2f14b5d18f710eb48136509a6c",
+    "semantic_hash": "b6e42c2f14b5d18f710eb48136509a6c"
   },
   "graphify.config.yaml": {
-    "mtime": 1783803884.9522789,
-    "ast_hash": "ef0a0335020d07064d33e084cd7f651c",
+    "mtime": 1783817962.5435112,
+    "ast_hash": "66ff78b868febe67c789b24959a6ab1c",
     "semantic_hash": ""
   },
   "requirements.txt": {
     "mtime": 1783804807.9447017,
     "ast_hash": "080e2dfe745b9352f67623862f93b634",
-    "semantic_hash": ""
+    "semantic_hash": "080e2dfe745b9352f67623862f93b634"
   },
   "scripts/link_docs_to_code.py": {
     "mtime": 1783805836.0787375,
@@ -8975,18 +8970,48 @@
     "semantic_hash": "80ac1e500905fe04bafeaf1f42591980"
   },
   ".agents/rules/graphify.md": {
-    "mtime": 1783805781.3362105,
-    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "mtime": 1783808893.9433415,
+    "ast_hash": "c61ec0dd5755c98d3baace4d9837ee76",
     "semantic_hash": ""
   },
   ".agents/workflows/graphify.md": {
     "mtime": 1783805781.3372107,
     "ast_hash": "637776aa6f7496d069afe7520c845c8a",
-    "semantic_hash": ""
+    "semantic_hash": "637776aa6f7496d069afe7520c845c8a"
   },
   "scripts/graph_enrich_interactive.py": {
-    "mtime": 1783807972.7659628,
-    "ast_hash": "a35a37680d13162ec247e9e802e83908",
-    "semantic_hash": "a35a37680d13162ec247e9e802e83908"
+    "mtime": 1783808217.2749145,
+    "ast_hash": "de3da0baacaae0600eec9f450b80dfec",
+    "semantic_hash": "de3da0baacaae0600eec9f450b80dfec"
+  },
+  "scripts/serena_sync_memories.py": {
+    "mtime": 1783809729.2877162,
+    "ast_hash": "c1197db49e2ebcd8500cb036f0efd0e6",
+    "semantic_hash": "c1197db49e2ebcd8500cb036f0efd0e6"
+  },
+  "scripts/sync_agent_docs.py": {
+    "mtime": 1783812103.1969337,
+    "ast_hash": "8fe7f5d6fa0ba209cfad1fa641b78293",
+    "semantic_hash": "8fe7f5d6fa0ba209cfad1fa641b78293"
+  },
+  "agents-source.md": {
+    "mtime": 1783811915.357846,
+    "ast_hash": "ebffa25d270f8ebaf5c2870d7a612eb4",
+    "semantic_hash": ""
+  },
+  "docs/ai-workflow-experiments.md": {
+    "mtime": 1783810253.604496,
+    "ast_hash": "9b858d01cf0b024750091366a799f5a2",
+    "semantic_hash": ""
+  },
+  "docs/telemetryAndAnalytics.md": {
+    "mtime": 1783816593.3662643,
+    "ast_hash": "1e3377e3757c5559b227317b488b8697",
+    "semantic_hash": ""
+  },
+  "docs/todo.md": {
+    "mtime": 1783815855.6109295,
+    "ast_hash": "e4a5e8fb90fa67f1bc3ca0de24c63ee1",
+    "semantic_hash": ""
   }
 }
