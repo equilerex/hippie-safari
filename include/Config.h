@@ -33,19 +33,37 @@ constexpr uint8_t PIN_SD_MISO = 2;
 constexpr uint8_t PIN_SD_MOSI = 15;
 constexpr uint8_t PIN_SD_SCK = 14;
 
-// Amplifier shutdown
+// Amplifier enable
 constexpr uint8_t PIN_AMP_ENABLE = 21;
-constexpr bool AMP_ENABLED_STATE = LOW;
+constexpr bool AMP_ENABLED_STATE = HIGH;
 
-// User buttons — PCF8574 GPIO expander (addr 0x20)
-// PCF8574 provides 8 ports (P0-P7), active-low (button pulls to GND)
+// User buttons — 3 identical PCF8574 GPIO expanders on the external I2C bus,
+// distinguished by A0-A2 address jumpers. Each provides 8 ports (P0-P7),
+// active-low (button pulls to GND). All three chips' open-drain INT pins are
+// wired together onto the same GPIO19 line (see attachInterrupt in
+// SystemManagerImpl.cpp) — any chip's changed input pulls the shared line low.
+constexpr uint8_t PCF8574_ADDRESSES[] = {0x20, 0x24, 0x26};
+constexpr uint8_t NUM_PCF8574_CHIPS = 3;
+constexpr uint8_t PCF8574_PORTS = 8;
+
+// Hidden easter egg button — physically chip 0 (addr 0x20), port P7
+constexpr uint8_t EASTER_EGG_CHIP = 0;
+constexpr uint8_t EASTER_EGG_PORT = 7;
+
+// Logical button-type capacity: every port across all chips except the one
+// physically reserved for the secret button above.
 // NUM_BUTTON_TYPES determined at runtime from content discovery
-constexpr uint8_t MAX_BUTTON_TYPES = 7;       // P0-P6 (P7 reserved for easter egg)
-extern uint8_t NUM_BUTTON_TYPES;              // Set at runtime after content discovery
-extern uint8_t BUTTON_PINS[MAX_BUTTON_TYPES]; // Populated at runtime with ports for each type
+constexpr uint8_t MAX_BUTTON_TYPES = (NUM_PCF8574_CHIPS * PCF8574_PORTS) - 1;  // 23
+extern uint8_t NUM_BUTTON_TYPES;                    // Set at runtime after content discovery
+extern uint8_t BUTTON_CHIP_INDEX[MAX_BUTTON_TYPES]; // Which PCF8574 chip (0..NUM_PCF8574_CHIPS-1) for type i
+extern uint8_t BUTTON_PORT_INDEX[MAX_BUTTON_TYPES]; // Which port (0-7) on that chip for type i
 
-// Hidden easter egg button — also on PCF8574
-constexpr uint8_t PIN_EASTER_EGG = 7; // PCF8574 port P7
+// Logical button index fed to EasterEggDetector for the secret button.
+// Deliberately outside the 0..MAX_BUTTON_TYPES-1 range used by real content
+// buttons so it can never collide with (or be mistaken for) a real button's
+// index — MAX_BUTTON_TYPES now spans multiple chips, so a small sentinel like
+// the old value of 7 would otherwise land on a legitimate button.
+constexpr uint8_t PIN_EASTER_EGG = 0xFF;
 
 // ============================================================================
 // EASTER EGG PATTERNS

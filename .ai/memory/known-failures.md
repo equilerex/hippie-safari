@@ -1,5 +1,24 @@
 # Known Failures
 
+## 0. Buttons beyond the 3rd silently dead + secret-button could corrupt stack memory
+
+### Symptom
+- With more than 3 content folders on the SD card, boot log always showed `Types discovered: 3` regardless of how many folders actually existed, and physical buttons wired past the first 3 PCF8574 ports produced no `[BTN-EVT]` log lines at all — not even debounce noise. Reported as "some buttons do not work at all."
+- Separately, pressing the hidden secret button (P7) while 2+ other buttons were held could corrupt adjacent stack memory in rare cases — reported as "some buttons crash the whole system."
+
+### Cause
+1. `NUM_BUTTON_TYPES` (`src/SystemManagerImpl.cpp`) was hardcoded to `3` and never reassigned, despite its own comment claiming "Set at runtime after content discovery." `ContentManagerImpl::discoverContent()` uses that same variable as its scan cap, so folders beyond the 3rd were never even scanned, and `ButtonManagerImpl::initialize()` only ever set up `buttons[0..2]`.
+2. `EasterEggDetectorImpl::hasInterferingEvent(const bool* exceptButtons, ...)` indexed `exceptButtons[event.buttonIndex]` with no bounds check. The secret button's logical index (`PIN_EASTER_EGG`, formerly `7`) is deliberately `>= numButtons` (that's how `isValidButton()` distinguishes it from a real content button), so any secret-button event scanned by `detectMultiHold()`'s call into this function read one byte past the end of a stack-allocated `bool[MAX_BUTTON_TYPES]` array — undefined behavior, worse once `MAX_BUTTON_TYPES` grew for multi-chip support (see 2026-07-23 decision on multi-chip PCF8574 button expansion in `decisions.md`).
+
+### Fix
+1. Default `NUM_BUTTON_TYPES = MAX_BUTTON_TYPES` before content discovery runs, then narrow it to `contentMgr->getTypeCount()` immediately after discovery completes and before `ButtonManagerImpl::initialize()` runs (`SystemManagerImpl.cpp`).
+2. Add `if (event.buttonIndex >= numButtons) continue;` in `hasInterferingEvent(const bool*, ...)` before indexing `exceptButtons[]` (`EasterEggDetectorImpl.cpp`).
+
+### Verification
+Build, flash, and watch the serial console. Boot log should show `[BOOT] Content scan: N types` matching the actual number of folders under `/audio/types` (up to `MAX_BUTTON_TYPES`), and `Types discovered: N` at the end of init — not stuck at 3. Confirmed live on hardware via COM3 with 10 folders present, reporting `Content scan: 10 types` and `Types discovered: 10` after the fix (previously `3`).
+
+---
+
 ## 1. External I2C Bus Timeout (Error 263 / ESP_ERR_TIMEOUT)
 
 ### Symptom

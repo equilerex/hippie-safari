@@ -48,10 +48,20 @@
 #### Connected Devices
 | Address | Device | Purpose |
 |---------|--------|---------|
-| 0x20 | PCF8574 | Button expansion |
-| 0x3C | SSD1306 0.96" OLED | Display |
+| 0x20 | PCF8574 #1 | Button expansion (chip 0) |
+| 0x24 | PCF8574 #2 | Button expansion (chip 1) |
+| 0x26 | PCF8574 #3 | Button expansion (chip 2) |
 | 0x50 | AT24C32 EEPROM | (on DS3231 module) |
 | 0x68 | DS3231 RTC | Real-time clock |
+
+### OLED SW_I2C (Bit-Banged, Separate Bus) - Reserved
+| Signal | GPIO |
+|--------|------|
+| SDA | 5 |
+| SCL | 22 |
+
+- Device: U8G2 `SH1106` driver, 128×64, addr 0x3C
+- Not on the external I2C bus (GPIO18/23) — its own bit-banged bus
 
 ### SD Card (SPI) - Reserved
 | Signal | GPIO |
@@ -62,12 +72,14 @@
 | SCK | 14 |
 
 ### Buttons
-- GPIO 5: Available (direct on board)
+- GPIO 5, 22: Reserved (OLED SW_I2C bus, not available as buttons)
 - GPIO 18, 23: Reserved (external I2C bus)
-- Additional buttons: PCF8574 GPIO expander (0x20)
+- GPIO 19: Reserved (shared PCF8574 interrupt line — all 3 chips' open-drain INT pins are wired together onto this one GPIO; firmware reads all 3 chips on any falling edge, not just one)
+- All user buttons: 3x PCF8574 GPIO expanders (0x20 / 0x24 / 0x26), 23 usable ports total (chip 0 gives P0-P6, chips 1-2 give P0-P7 each; chip 0's P7 is reserved for the hidden easter-egg button)
+- `NUM_BUTTON_TYPES`/`BUTTON_CHIP_INDEX`/`BUTTON_PORT_INDEX` (Config.h) are set at runtime from SD content discovery, capped at `MAX_BUTTON_TYPES` = 23
 
 ### Amplifier
-- GPIO 21: Amp enable (LOW = enabled)
+- GPIO 21: Amp enable (HIGH = enabled)
 
 ## Commands verified
 

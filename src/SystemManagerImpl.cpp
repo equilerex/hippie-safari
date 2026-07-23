@@ -7,8 +7,26 @@
 #include "../include/Config.h"
 
 // Instantiate extern variables from Config.h
-uint8_t NUM_BUTTON_TYPES = 3;  // Set at runtime after content discovery
-uint8_t BUTTON_PINS[MAX_BUTTON_TYPES] = {0, 1, 2};  // Default; set at runtime
+uint8_t NUM_BUTTON_TYPES = MAX_BUTTON_TYPES;  // Full range until content discovery narrows it below
+uint8_t BUTTON_CHIP_INDEX[MAX_BUTTON_TYPES];
+uint8_t BUTTON_PORT_INDEX[MAX_BUTTON_TYPES];
+
+// Builds the identity chip/port mapping once at static-init time: every port
+// across all 3 PCF8574 chips, in chip-then-port order, skipping the one port
+// physically reserved for the secret button (EASTER_EGG_CHIP/EASTER_EGG_PORT).
+static bool buildButtonPinMap(uint8_t (&chipOut)[MAX_BUTTON_TYPES], uint8_t (&portOut)[MAX_BUTTON_TYPES]) {
+  uint8_t idx = 0;
+  for (uint8_t c = 0; c < NUM_PCF8574_CHIPS && idx < MAX_BUTTON_TYPES; c++) {
+    for (uint8_t p = 0; p < PCF8574_PORTS && idx < MAX_BUTTON_TYPES; p++) {
+      if (c == EASTER_EGG_CHIP && p == EASTER_EGG_PORT) continue;
+      chipOut[idx] = c;
+      portOut[idx] = p;
+      idx++;
+    }
+  }
+  return true;
+}
+static bool g_buttonPinMapBuilt = buildButtonPinMap(BUTTON_CHIP_INDEX, BUTTON_PORT_INDEX);
 
 // I2C Scanner Helper for systematic debugging (and stabilization delay)
 static void scanI2CBus(TwoWire& wire, const char* label) {
@@ -105,10 +123,14 @@ bool SystemManagerImpl::initializeSubsystems() {
   // Skip I2C scan - it corrupts PCF8574 state before button manager init
   // TODO: Move scan to after button init if debug output needed
 
-  // Construct PCF8574 after bus is ready, passing extI2C explicitly
-  Serial.println("[DEBUG] Constructing PCF8574 on extI2C...");
-  pcf8574.reset(new PCF8574(0x20, &extI2C));  // PCF8574 at I2C addr 0x20 on extI2C bus
-  buttonMgr.reset(new ButtonManagerImpl(contentMgr.get(), pcf8574.get(), &extI2C));
+  // Construct all PCF8574 chips after bus is ready, passing extI2C explicitly
+  Serial.println("[DEBUG] Constructing PCF8574 chips on extI2C...");
+  PCF8574* chipPtrs[NUM_PCF8574_CHIPS];
+  for (uint8_t c = 0; c < NUM_PCF8574_CHIPS; c++) {
+    pcf8574[c].reset(new PCF8574(PCF8574_ADDRESSES[c], &extI2C));
+    chipPtrs[c] = pcf8574[c].get();
+  }
+  buttonMgr.reset(new ButtonManagerImpl(contentMgr.get(), chipPtrs, &extI2C));
 
   // Attach interrupt handler to PCF8574 INT pin (GPIO 19)
   Serial.println("[DEBUG] Attaching PCF8574 INT handler to GPIO 19...");
@@ -172,6 +194,13 @@ bool SystemManagerImpl::initializeSubsystems() {
 
   // Log content discovery results
   uint8_t typeCount = contentMgr->getTypeCount();
+
+  // Narrow button count down to what was actually discovered (discoverContent()
+  // itself was capped at MAX_BUTTON_TYPES above, so typeCount is already <= 7).
+  // Without this, NUM_BUTTON_TYPES stayed at its stale default forever, so any
+  // button beyond that count silently produced no events despite having content.
+  NUM_BUTTON_TYPES = typeCount;
+
   Serial.print("[BOOT] Content scan: ");
   Serial.print(typeCount);
   Serial.println(" types");
@@ -324,7 +353,11 @@ void SystemManagerImpl::processAudioAndMaintenance() {
     Serial.println("[AUDIO] Stopped");
     displayMgr->showStandby();
   }
-  wasPlayingLastFrame = isPlaying;
+  // Re-query rather than reuse the pre-process() `isPlaying` local: process()
+  // can call stop() internally when a clip finishes, so that local is stale
+  // and would otherwise re-arm wasPlayingLastFrame, firing a spurious
+  // "[AUDIO] Stopped" + showStandby() on the very next tick.
+  wasPlayingLastFrame = audioPlayer->isPlaying();
 
   // Check if recovery is needed
   if (systemState == SystemState::STANDBY || systemState == SystemState::RECOVERING) {

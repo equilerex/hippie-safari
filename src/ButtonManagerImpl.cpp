@@ -3,6 +3,12 @@
 #include "ButtonManagerImpl.h"
 #include "../include/Config.h"
 
+void ButtonManagerImpl::readAllChips(uint8_t (&portState)[NUM_PCF8574_CHIPS]) const {
+  for (uint8_t c = 0; c < NUM_PCF8574_CHIPS; c++) {
+    portState[c] = chipReady[c] ? pcf8574[c]->read8() : 0xFF;  // Default to unpressed (active-low)
+  }
+}
+
 bool ButtonManagerImpl::initialize() {
   if (!contentMgr) {
     snprintf(lastError, sizeof(lastError), "ContentManager not set");
@@ -10,52 +16,47 @@ bool ButtonManagerImpl::initialize() {
     return false;
   }
 
-  if (!pcf8574) {
-    snprintf(lastError, sizeof(lastError), "PCF8574 not set");
-    Serial.println("[DEBUG] ButtonManager: PCF8574 not set");
-    return false;
+  // Initialize each PCF8574 chip (begin() performs a connection check and
+  // writes 0xFF, configuring pins as inputs)
+  bool anyChipReady = false;
+  for (uint8_t c = 0; c < NUM_PCF8574_CHIPS; c++) {
+    if (!pcf8574[c]) {
+      Serial.printf("[DEBUG] ButtonManager: PCF8574 chip %u not set\n", c);
+      chipReady[c] = false;
+      continue;
+    }
+    Serial.printf("[DEBUG] ButtonManager: Initializing PCF8574 chip %u (0x%02X)...\n", c, PCF8574_ADDRESSES[c]);
+    chipReady[c] = pcf8574[c]->begin();
+    if (!chipReady[c]) {
+      Serial.printf("[DEBUG] ButtonManager: PCF8574 chip %u not responding\n", c);
+    } else {
+      Serial.printf("[DEBUG] ButtonManager: PCF8574 chip %u initialized\n", c);
+      anyChipReady = true;
+    }
   }
 
-  // Initialize button ports (PCF8574) and state using the library
-  Serial.println("[DEBUG] ButtonManager: Initializing PCF8574...");
-
-  // begin() performs connection check and writes 0xFF (configures pins as inputs)
-  this->pcf8574Ready = pcf8574->begin();
-
-  if (!this->pcf8574Ready) {
-    snprintf(lastError, sizeof(lastError), "PCF8574 not responding — buttons disabled");
+  this->pcf8574Ready = anyChipReady;
+  if (!anyChipReady) {
+    snprintf(lastError, sizeof(lastError), "No PCF8574 chips responding — buttons disabled");
     Serial.print("[DEBUG] ButtonManager: ");
     Serial.println(lastError);
-  } else {
-    Serial.println("[DEBUG] ButtonManager: PCF8574 initialized");
   }
 
-  if (this->pcf8574Ready) {
-    // Read initial port states
-    uint8_t portState = pcf8574->read8();
+  uint8_t portState[NUM_PCF8574_CHIPS];
+  readAllChips(portState);
 
-    for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
-      buttons[i].port = BUTTON_PINS[i];  // Port index (0-7)
-      buttons[i].typeIndex = i;
-      buttons[i].contentAvailable = contentMgr->typeHasContent(i);
-      // Extract initial state from port byte
-      buttons[i].lastState = (portState >> buttons[i].port) & 1;
-      buttons[i].lastChangeMs = millis();
-      buttons[i].pressStartMs = millis();
-      Serial.print("[DEBUG] ButtonManager: Port ");
-      Serial.print(buttons[i].port);
-      Serial.print(" initialized, initial state: ");
-      Serial.println(buttons[i].lastState);
-    }
-  } else {
-    // PCF8574 not ready: initialize button states but don't read from hardware
-    for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
-      buttons[i].port = BUTTON_PINS[i];
-      buttons[i].typeIndex = i;
-      buttons[i].contentAvailable = contentMgr->typeHasContent(i);
-      buttons[i].lastState = HIGH;  // Default to unpressed
-      buttons[i].lastChangeMs = millis();
-    }
+  for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
+    buttons[i].chipIndex = BUTTON_CHIP_INDEX[i];
+    buttons[i].port = BUTTON_PORT_INDEX[i];
+    buttons[i].typeIndex = i;
+    buttons[i].contentAvailable = contentMgr->typeHasContent(i) && chipReady[buttons[i].chipIndex];
+    // Extract initial state from this button's chip's port byte (defaults to
+    // unpressed/HIGH via readAllChips() if that particular chip isn't ready)
+    buttons[i].lastState = (portState[buttons[i].chipIndex] >> buttons[i].port) & 1;
+    buttons[i].lastChangeMs = millis();
+    buttons[i].pressStartMs = millis();
+    Serial.printf("[DEBUG] ButtonManager: Chip %u Port %u initialized, initial state: %u\n",
+                  buttons[i].chipIndex, buttons[i].port, buttons[i].lastState);
   }
 
   eventDetected = false;
@@ -65,19 +66,20 @@ bool ButtonManagerImpl::initialize() {
 }
 
 bool ButtonManagerImpl::poll() {
-  // Guard: don't poll if ButtonManager init failed or PCF8574 not ready
+  // Guard: don't poll if ButtonManager init failed or no chip is ready
   if (!initialized || !pcf8574Ready) {
     return false;
   }
 
-  // Read all 8 ports at once
-  uint8_t portState = pcf8574->read8();
+  uint8_t portState[NUM_PCF8574_CHIPS];
+  readAllChips(portState);
 
   uint32_t now = millis();
   eventDetected = false;
 
   for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
-    bool currentState = (portState >> buttons[i].port) & 1;  // Extract bit for this port
+    if (!chipReady[buttons[i].chipIndex]) continue;
+    bool currentState = (portState[buttons[i].chipIndex] >> buttons[i].port) & 1;
 
     if (currentState != buttons[i].lastState) {
       // State changed - check debounce
@@ -156,16 +158,19 @@ bool ButtonManagerImpl::dequeueEvent(ButtonEvent& outEvent) {
 }
 
 void ButtonManagerImpl::onPCF8574Interrupt() {
-  // Called from main loop when INT pin 19 goes LOW
-  // Read all button states, feed to detector, queue for playback control
+  // Called from main loop when INT pin 19 goes LOW. All chips' open-drain
+  // INT lines are wired together, so any one of them can have pulled the
+  // shared line low — read every ready chip and figure out which bit(s)
+  // changed, rather than assuming it was a particular chip.
   if (!initialized || !pcf8574Ready) return;
 
-  // Read all 8 ports at once
-  uint8_t portState = pcf8574->read8();
+  uint8_t portState[NUM_PCF8574_CHIPS];
+  readAllChips(portState);
 
   uint32_t now = millis();
   for (uint8_t i = 0; i < NUM_BUTTON_TYPES; i++) {
-    bool currentState = (portState >> buttons[i].port) & 1;  // Extract bit for this port
+    if (!chipReady[buttons[i].chipIndex]) continue;
+    bool currentState = (portState[buttons[i].chipIndex] >> buttons[i].port) & 1;
 
     if (currentState != buttons[i].lastState) {
       // State changed - check debounce
@@ -208,9 +213,11 @@ void ButtonManagerImpl::onPCF8574Interrupt() {
     }
   }
 
-  // Also check secret button on P7 (already read from portState)
-  if (pcf8574Ready) {
-    bool secretState = (portState >> PIN_EASTER_EGG) & 1;
+  // Also check secret button on chip 0 / P7 (already read from portState).
+  // Note: PIN_EASTER_EGG here is the logical index fed to the detector, not
+  // a bit position — the physical bit comes from EASTER_EGG_CHIP/EASTER_EGG_PORT.
+  if (chipReady[EASTER_EGG_CHIP]) {
+    bool secretState = (portState[EASTER_EGG_CHIP] >> EASTER_EGG_PORT) & 1;
     static bool lastSecretState = HIGH;
     if (secretState != lastSecretState) {
       if (isDebounced(now, lastSecretButtonChangeMs)) {

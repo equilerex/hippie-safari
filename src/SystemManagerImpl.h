@@ -7,6 +7,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
 #include "../include/SystemManager.h"
+#include "../include/Config.h"
 #include "ContentManagerImpl.h"
 #include "ConfigLoaderImpl.h"
 #include "PlaybackControllerImpl.h"
@@ -23,7 +24,7 @@ private:
   // External I2C bus (RTC + PCF8574 buttons on GPIO18/23)
   TwoWire extI2C{1};
   // Note: OLED uses SW_I2C (bit-banging) on GPIO5/22, doesn't need TwoWire object
-  std::unique_ptr<PCF8574> pcf8574;
+  std::unique_ptr<PCF8574> pcf8574[NUM_PCF8574_CHIPS];
 
   std::unique_ptr<ContentManagerImpl> contentMgr;
   std::unique_ptr<ConfigLoaderImpl> configLoader;

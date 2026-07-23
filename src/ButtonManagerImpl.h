@@ -12,7 +12,8 @@
 class ButtonManagerImpl : public ButtonManager {
 private:
   struct ButtonState {
-    uint8_t port;  // PCF8574 port index (0-7), was ESP32 GPIO
+    uint8_t chipIndex;  // which PCF8574 chip (0..NUM_PCF8574_CHIPS-1)
+    uint8_t port;  // PCF8574 port index (0-7) on that chip
     uint8_t typeIndex;
     bool lastState;
     uint32_t lastChangeMs;
@@ -26,14 +27,15 @@ private:
   size_t queueTail = 0;
 
   ContentManager* contentMgr = nullptr;
-  PCF8574* pcf8574 = nullptr;
+  PCF8574* pcf8574[NUM_PCF8574_CHIPS] = {nullptr};
+  bool chipReady[NUM_PCF8574_CHIPS] = {false};  // Each chip's hardware responded
   TwoWire* i2cBus = nullptr;  // extI2C bus for raw reads
   EasterEggDetector* easterEggDetector = nullptr;
   ButtonState buttons[MAX_BUTTON_TYPES];
   ButtonEvent lastEvent;
   bool eventDetected = false;
   bool initialized = false;  // Prevent poll() if init failed
-  bool pcf8574Ready = false;  // Hardware actually responded
+  bool pcf8574Ready = false;  // At least one chip responded
   char lastError[256] = {0};
   uint32_t lastSecretButtonChangeMs = 0;
   uint32_t easterEggLockoutEndMs = 0;  // Lockout normal clicks during easter egg audio
@@ -50,11 +52,17 @@ private:
   // Check if queued event available
   bool hasQueuedEvent() const;
 
+  // Read all ready chips' 8-bit port states in one pass (one I2C txn each)
+  void readAllChips(uint8_t (&portState)[NUM_PCF8574_CHIPS]) const;
+
 public:
   volatile bool interruptPending = false;  // Set by ISR on GPIO 19 interrupt
 
-  ButtonManagerImpl(ContentManager* contentMgr, PCF8574* pcf8574, TwoWire* i2cBus = nullptr)
-    : contentMgr(contentMgr), pcf8574(pcf8574), i2cBus(i2cBus) {
+  ButtonManagerImpl(ContentManager* contentMgr, PCF8574* chips[NUM_PCF8574_CHIPS], TwoWire* i2cBus = nullptr)
+    : contentMgr(contentMgr), i2cBus(i2cBus) {
+    for (uint8_t c = 0; c < NUM_PCF8574_CHIPS; c++) {
+      this->pcf8574[c] = chips[c];
+    }
     lastEvent.typeIndex = 0xFF;
     lastEvent.pressTimeMs = 0;
     lastEvent.isPress = false;

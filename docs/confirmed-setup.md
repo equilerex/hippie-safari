@@ -181,7 +181,7 @@ Confirmed amp pin:
 Confirmed working state:
 
 ```cpp
-#define AMP_ENABLED_STATE LOW
+#define AMP_ENABLED_STATE HIGH
 ```
 
 ---
@@ -226,7 +226,7 @@ AudioBoardStream kit(AudioKitEs8388V1);
 #define BTN_4 23
 
 #define AMP_ENABLE 21
-#define AMP_ENABLED_STATE LOW
+#define AMP_ENABLED_STATE HIGH
 
 File audioFile;
 WAVDecoder wav;

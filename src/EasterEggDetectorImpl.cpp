@@ -87,6 +87,14 @@ bool EasterEggDetectorImpl::hasInterferingEvent(const bool *exceptButtons, uint3
     uint8_t idx = (eventHead + MAX_EVENT_HISTORY - eventCount + i) % MAX_EVENT_HISTORY;
     const ButtonEvent &event = eventHistory[idx];
 
+    // event.buttonIndex can be PIN_EASTER_EGG (the secret button's sentinel,
+    // outside 0..numButtons-1) — exceptButtons is only sized/valid for real
+    // content buttons, so anything else must be skipped rather than indexed.
+    if (event.buttonIndex >= numButtons)
+    {
+      continue;
+    }
+
     if (!exceptButtons[event.buttonIndex] && event.timeMs > sinceMs && event.timeMs <= now)
     {
       return true;
